@@ -167,11 +167,22 @@ export default function Page() {
       </div>
 
       {/* BAG */}
-      <div style={{ display: "flex" }}>
-        <div style={{ position: "relative", width: 420, height: 420 }}>
+      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+        <div
+          style={{
+            position: "relative",
+            height: 480,
+            aspectRatio: "992.13 / 992.13",
+          }}
+        >
           <img
             src={FRONT_TEXTURE_SRC}
-            style={{ position: "absolute", inset: 0 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+            }}
           />
           <FrontSVG
             colors={colors}
@@ -181,10 +192,21 @@ export default function Page() {
           />
         </div>
 
-        <div style={{ position: "relative", width: 420, height: 420 }}>
+        <div
+          style={{
+            position: "relative",
+            height: 480,
+            aspectRatio: "622.13 / 881.02",
+          }}
+        >
           <img
             src={BACK_TEXTURE_SRC}
-            style={{ position: "absolute", inset: 0 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+            }}
           />
           <BackSVG colors={colors} setSelectedPart={setSelectedPart} />
         </div>
