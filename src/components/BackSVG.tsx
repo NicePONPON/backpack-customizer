@@ -2,33 +2,42 @@
 
 import { useEffect, useRef } from "react";
 
+const GROUP_PREFIXES: Array<[string, string]> = [
+  ["Front_Side", "FRONT_BACK_SIDE"],
+  ["Back_Side", "FRONT_BACK_SIDE"],
+  ["Front_Main_Bottom", "FRONT_MAIN_BOTTOM"],
+  ["Front_Main_Top", "FRONT_MAIN_TOP"],
+  ["Back_Main", "BACK_MAIN"],
+  ["Back_Strap", "BACK_STRAP"],
+  ["Band", "BAND"],
+  ["Bottom", "BOTTOM"],
+  ["SidePanel", "SIDE_PANEL"],
+  ["Side_", "SIDE"],
+];
+
+const normalizeId = (id: string) => id.replace(/_x5F_/g, "_");
+
+const matchPrefix = (id: string): string | null => {
+  if (!id) return null;
+  for (const [prefix, group] of GROUP_PREFIXES) {
+    if (id.startsWith(prefix)) return group;
+  }
+  return null;
+};
+
+const resolveGroup = (el: Element): string | null => {
+  let cur: Element | null = el;
+  while (cur && cur.tagName.toLowerCase() !== "svg") {
+    const id = normalizeId(cur.getAttribute("id") || "");
+    const group = matchPrefix(id);
+    if (group) return group;
+    cur = cur.parentElement;
+  }
+  return null;
+};
+
 export default function BackSVG({ colors, setSelectedPart }: any) {
   const ref = useRef<HTMLDivElement>(null);
-
-  // ✅ 與 FrontSVG 完全一致（關鍵）
-  const getGroup = (id: string) => {
-    if (!id) return null;
-
-    // 🔴 合併 Front / Back Side
-    if (id.startsWith("Front_Side")) return "FRONT_BACK_SIDE";
-    if (id.startsWith("Back_Side")) return "FRONT_BACK_SIDE";
-
-    if (id.startsWith("Front_Main_Bottom")) return "FRONT_MAIN_BOTTOM";
-    if (id.startsWith("Front_Main_Top")) return "FRONT_MAIN_TOP";
-
-    if (id.startsWith("Back_Main")) return "BACK_MAIN";
-    if (id.startsWith("Back_Strap")) return "BACK_STRAP";
-
-    if (id.startsWith("Band")) return "BAND";
-
-    if (id.startsWith("Bottom")) return "BOTTOM";
-
-    if (id.startsWith("SidePanel")) return "SIDE_PANEL";
-
-    if (id.startsWith("Side_")) return "SIDE";
-
-    return null;
-  };
 
   useEffect(() => {
     fetch("/LaptopBackpack_16_Back.svg")
@@ -41,7 +50,6 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
         const svg = ref.current.querySelector("svg");
         if (!svg) return;
 
-        // ✅ 對齊（避免跑版）
         svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
         svg.style.width = "100%";
         svg.style.height = "100%";
@@ -52,11 +60,8 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
         const paths = svg.querySelectorAll("path");
 
         paths.forEach((path: any) => {
-          const id = path.closest("g")?.id || path.getAttribute("id") || "";
+          const group = resolveGroup(path);
 
-          const group = getGroup(id);
-
-          // 👉 讓透明區也能點擊（超關鍵）
           if (
             !path.getAttribute("fill") ||
             path.getAttribute("fill") === "none"
@@ -67,13 +72,11 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
           path.style.pointerEvents = "all";
           path.style.cursor = "pointer";
 
-          // 👉 套色
           if (group && colors[group]) {
             path.setAttribute("fill", colors[group]);
             path.setAttribute("fill-opacity", "0.85");
           }
 
-          // 👉 點擊
           path.onclick = () => {
             if (group) setSelectedPart(group);
           };

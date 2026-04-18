@@ -2,6 +2,43 @@
 
 import { useEffect, useRef } from "react";
 
+const GROUP_PREFIXES: Array<[string, string]> = [
+  ["Front_Side", "FRONT_BACK_SIDE"],
+  ["Back_Side", "FRONT_BACK_SIDE"],
+  ["Front_Main_Bottom", "FRONT_MAIN_BOTTOM"],
+  ["Front_Main_Top", "FRONT_MAIN_TOP"],
+  ["Back_Main", "BACK_MAIN"],
+  ["Back_Strap", "BACK_STRAP"],
+  ["Band", "BAND"],
+  ["Bottom", "BOTTOM"],
+  ["SidePanel", "SIDE_PANEL"],
+  ["Side_", "SIDE"],
+];
+
+// Illustrator exports sometimes encode underscores inside ids as `_x5F_`.
+const normalizeId = (id: string) => id.replace(/_x5F_/g, "_");
+
+const matchPrefix = (id: string): string | null => {
+  if (!id) return null;
+  for (const [prefix, group] of GROUP_PREFIXES) {
+    if (id.startsWith(prefix)) return group;
+  }
+  return null;
+};
+
+// Walk ancestors because the meaningful id may be several <g> levels up
+// (Illustrator can wrap paths in uuid-named groups that match nothing).
+const resolveGroup = (el: Element): string | null => {
+  let cur: Element | null = el;
+  while (cur && cur.tagName.toLowerCase() !== "svg") {
+    const id = normalizeId(cur.getAttribute("id") || "");
+    const group = matchPrefix(id);
+    if (group) return group;
+    cur = cur.parentElement;
+  }
+  return null;
+};
+
 export default function FrontSVG({
   colors,
   setSelectedPart,
@@ -10,31 +47,6 @@ export default function FrontSVG({
   embroideryColor = "#F5F5F5",
 }: any) {
   const ref = useRef<HTMLDivElement>(null);
-
-  // ✅ 保留原始邏輯 + 只改 Side 合併
-  const getGroup = (id: string) => {
-    if (!id) return null;
-
-    // 🔴 這是你指定要合併的
-    if (id.startsWith("Front_Side")) return "FRONT_BACK_SIDE";
-    if (id.startsWith("Back_Side")) return "FRONT_BACK_SIDE";
-
-    if (id.startsWith("Front_Main_Bottom")) return "FRONT_MAIN_BOTTOM";
-    if (id.startsWith("Front_Main_Top")) return "FRONT_MAIN_TOP";
-
-    if (id.startsWith("Back_Main")) return "BACK_MAIN";
-    if (id.startsWith("Back_Strap")) return "BACK_STRAP";
-
-    if (id.startsWith("Band")) return "BAND";
-
-    if (id.startsWith("Bottom")) return "BOTTOM";
-
-    if (id.startsWith("SidePanel")) return "SIDE_PANEL";
-
-    if (id.startsWith("Side_")) return "SIDE";
-
-    return null;
-  };
 
   useEffect(() => {
     fetch("/LaptopBackpack_16_Front.svg")
@@ -47,7 +59,6 @@ export default function FrontSVG({
         const svg = ref.current.querySelector("svg");
         if (!svg) return;
 
-        // ✅ 對齊
         svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
         svg.style.width = "100%";
         svg.style.height = "100%";
@@ -58,11 +69,8 @@ export default function FrontSVG({
         const paths = svg.querySelectorAll("path");
 
         paths.forEach((path: any) => {
-          const id = path.closest("g")?.id || path.getAttribute("id") || "";
+          const group = resolveGroup(path);
 
-          const group = getGroup(id);
-
-          // 👉 透明可點擊（超重要）
           if (
             !path.getAttribute("fill") ||
             path.getAttribute("fill") === "none"
@@ -73,13 +81,11 @@ export default function FrontSVG({
           path.style.pointerEvents = "all";
           path.style.cursor = "pointer";
 
-          // 👉 上色
           if (group && colors[group]) {
             path.setAttribute("fill", colors[group]);
             path.setAttribute("fill-opacity", "0.85");
           }
 
-          // 👉 點擊
           path.onclick = () => {
             if (group) setSelectedPart(group);
           };
@@ -87,7 +93,6 @@ export default function FrontSVG({
       });
   }, [colors]);
 
-  // 👉 刺繡位置
   const embroideryY = embroideryPosition === "top" ? 380 : 760;
 
   return (
@@ -101,13 +106,15 @@ export default function FrontSVG({
         }}
       />
 
-      {/* ✨ 刺繡層 */}
       {embroideryText && (
         <svg
           viewBox="0 0 992.13 992.13"
+          preserveAspectRatio="xMidYMid meet"
           style={{
             position: "absolute",
             inset: 0,
+            width: "100%",
+            height: "100%",
             zIndex: 3,
             pointerEvents: "none",
           }}
