@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { Calibration } from "@/lib/overlayCalibration";
 
 type Props = {
@@ -17,6 +18,13 @@ export default function PngOverlayLayer({
   calibration,
   debug = false,
 }: Props) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    setFailed(false);
+  }, [pngSrc]);
+
+  if (failed) return null;
+
   const cx = viewBoxW / 2;
   const cy = viewBoxH / 2;
   const { translateX, translateY, scaleX, scaleY, rotation } = calibration;
@@ -57,6 +65,7 @@ export default function PngOverlayLayer({
         height={viewBoxH}
         transform={transform}
         preserveAspectRatio="xMidYMid meet"
+        onError={() => setFailed(true)}
       />
     </svg>
   );
