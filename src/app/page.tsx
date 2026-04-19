@@ -18,6 +18,12 @@ const LOGO_SRC = "/logo/logo.png";
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
 
+const BASE_CONTAINER_WIDTH = 420;
+const SIZE_SCALE: Record<"14" | "16", number> = {
+  "14": 14 / 16,
+  "16": 1,
+};
+
 const COLOR_GROUPS = [
   {
     title: "Core Dark",
@@ -198,7 +204,7 @@ export default function Page() {
         <div
           style={{
             position: "relative",
-            width: 420,
+            width: BASE_CONTAINER_WIDTH * SIZE_SCALE[size],
             aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
         >
@@ -220,7 +226,7 @@ export default function Page() {
         <div
           style={{
             position: "relative",
-            width: 420,
+            width: BASE_CONTAINER_WIDTH * SIZE_SCALE[size],
             aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
