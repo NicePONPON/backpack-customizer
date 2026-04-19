@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
 import PngOverlayLayer from "@/components/PngOverlayLayer";
+import CalibrationPanel from "@/components/CalibrationPanel";
 import {
   FRONT_CALIBRATION,
   BACK_CALIBRATION,
@@ -104,8 +105,22 @@ export default function Page() {
     "top" | "bottom"
   >("top");
 
-  const [frontCalibration] = useState<Calibration>(FRONT_CALIBRATION);
-  const [backCalibration] = useState<Calibration>(BACK_CALIBRATION);
+  const [frontCalibration, setFrontCalibration] =
+    useState<Calibration>(FRONT_CALIBRATION);
+  const [backCalibration, setBackCalibration] =
+    useState<Calibration>(BACK_CALIBRATION);
+  const [calibrationTarget, setCalibrationTarget] = useState<
+    "front" | "back" | null
+  >(null);
+  const [debugOverlay, setDebugOverlay] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get("calibrate");
+    if (target === "front" || target === "back") {
+      setCalibrationTarget(target);
+    }
+  }, []);
 
   const handleColorClick = (color: string) => {
     if (!selectedPart) return;
@@ -198,6 +213,7 @@ export default function Page() {
             viewBoxH={FRONT_VIEWBOX.h}
             pngSrc={FRONT_TEXTURE_SRC}
             calibration={frontCalibration}
+            debug={calibrationTarget === "front" && debugOverlay}
           />
         </div>
 
@@ -214,6 +230,7 @@ export default function Page() {
             viewBoxH={BACK_VIEWBOX.h}
             pngSrc={BACK_TEXTURE_SRC}
             calibration={backCalibration}
+            debug={calibrationTarget === "back" && debugOverlay}
           />
         </div>
       </div>
@@ -271,6 +288,22 @@ export default function Page() {
           ))}
         </tbody>
       </table>
+
+      {calibrationTarget && (
+        <CalibrationPanel
+          target={calibrationTarget}
+          calibration={
+            calibrationTarget === "front" ? frontCalibration : backCalibration
+          }
+          onChange={
+            calibrationTarget === "front"
+              ? setFrontCalibration
+              : setBackCalibration
+          }
+          debug={debugOverlay}
+          onDebugChange={setDebugOverlay}
+        />
+      )}
     </main>
   );
 }
