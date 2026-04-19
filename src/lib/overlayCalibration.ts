@@ -26,16 +26,20 @@ export const FRONT_CALIBRATION: Calibration = {
 // on-screen position as the calibrated Back PNG. Independent of PNG-vs-SVG
 // alignment; tune only if you want to move the whole Back view.
 export const BACK_SVG_TRANSFORM: Calibration = {
-  translateX: 5,
+  translateX: -4,
   translateY: -116,
-  scaleX: 1.08,
-  scaleY: 0.72,
+  scaleX: 0.64,
+  scaleY: 0.635,
   rotation: 0,
 };
 
-// Initialized to BACK_SVG_TRANSFORM so PNG and SVG start co-located. Tune
-// via ?calibrate=back to fine-tune PNG relative to the fixed SVG.
-export const BACK_CALIBRATION: Calibration = { ...BACK_SVG_TRANSFORM };
+export const BACK_CALIBRATION: Calibration = {
+  translateX: 0,
+  translateY: -116,
+  scaleX: 1.03,
+  scaleY: 0.72,
+  rotation: 0,
+};
 
 export function buildCalibrationTransform(
   cal: Calibration,
