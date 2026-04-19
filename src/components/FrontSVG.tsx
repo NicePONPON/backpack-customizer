@@ -83,7 +83,7 @@ export default function FrontSVG({
 
           if (group && colors[group]) {
             path.setAttribute("fill", colors[group]);
-            path.setAttribute("fill-opacity", "0.85");
+            path.setAttribute("fill-opacity", "1");
           }
 
           path.onclick = () => {
@@ -115,7 +115,7 @@ export default function FrontSVG({
             inset: 0,
             width: "100%",
             height: "100%",
-            zIndex: 3,
+            zIndex: 4,
             pointerEvents: "none",
           }}
         >

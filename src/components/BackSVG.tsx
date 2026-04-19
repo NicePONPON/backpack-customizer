@@ -74,7 +74,7 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
 
           if (group && colors[group]) {
             path.setAttribute("fill", colors[group]);
-            path.setAttribute("fill-opacity", "0.85");
+            path.setAttribute("fill-opacity", "1");
           }
 
           path.onclick = () => {
