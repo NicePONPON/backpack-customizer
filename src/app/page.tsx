@@ -3,10 +3,19 @@
 import { useState } from "react";
 import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
+import PngOverlayLayer from "@/components/PngOverlayLayer";
+import {
+  FRONT_CALIBRATION,
+  BACK_CALIBRATION,
+  type Calibration,
+} from "@/lib/overlayCalibration";
 
 const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
 const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
 const LOGO_SRC = "/logo/logo.png";
+
+const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
+const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
 
 const COLOR_GROUPS = [
   {
@@ -95,6 +104,9 @@ export default function Page() {
     "top" | "bottom"
   >("top");
 
+  const [frontCalibration] = useState<Calibration>(FRONT_CALIBRATION);
+  const [backCalibration] = useState<Calibration>(BACK_CALIBRATION);
+
   const handleColorClick = (color: string) => {
     if (!selectedPart) return;
     setColors((prev) => ({
@@ -167,48 +179,42 @@ export default function Page() {
       </div>
 
       {/* BAG */}
-      <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+      <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
         <div
           style={{
             position: "relative",
-            height: 480,
-            aspectRatio: "992.13 / 992.13",
+            width: 420,
+            aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
         >
-          <img
-            src={FRONT_TEXTURE_SRC}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-            }}
-          />
           <FrontSVG
             colors={colors}
             setSelectedPart={setSelectedPart}
             embroideryText={embroideryText}
             embroideryPosition={embroideryPosition}
           />
+          <PngOverlayLayer
+            viewBoxW={FRONT_VIEWBOX.w}
+            viewBoxH={FRONT_VIEWBOX.h}
+            pngSrc={FRONT_TEXTURE_SRC}
+            calibration={frontCalibration}
+          />
         </div>
 
         <div
           style={{
             position: "relative",
-            height: 480,
-            aspectRatio: "622.13 / 881.02",
+            width: 420,
+            aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
-          <img
-            src={BACK_TEXTURE_SRC}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-            }}
-          />
           <BackSVG colors={colors} setSelectedPart={setSelectedPart} />
+          <PngOverlayLayer
+            viewBoxW={BACK_VIEWBOX.w}
+            viewBoxH={BACK_VIEWBOX.h}
+            pngSrc={BACK_TEXTURE_SRC}
+            calibration={backCalibration}
+          />
         </div>
       </div>
 
