@@ -14,7 +14,13 @@ export const IDENTITY_CALIBRATION: Calibration = {
   rotation: 0,
 };
 
-export const FRONT_CALIBRATION: Calibration = { ...IDENTITY_CALIBRATION };
+export const FRONT_CALIBRATION: Calibration = {
+  translateX: 15,
+  translateY: 4,
+  scaleX: 1.03,
+  scaleY: 1.03,
+  rotation: 0,
+};
 export const BACK_CALIBRATION: Calibration = { ...IDENTITY_CALIBRATION };
 
 export type ViewKey = "front" | "back";
