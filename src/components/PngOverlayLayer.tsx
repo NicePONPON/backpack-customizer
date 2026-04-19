@@ -64,7 +64,7 @@ export default function PngOverlayLayer({
         width={viewBoxW}
         height={viewBoxH}
         transform={transform}
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="none"
         onError={() => setFailed(true)}
       />
     </svg>
