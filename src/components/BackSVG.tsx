@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import {
+  BACK_SVG_TRANSFORM,
+  buildCalibrationTransform,
+} from "@/lib/overlayCalibration";
 
 const GROUP_PREFIXES: Array<[string, string]> = [
   ["Front_Side", "FRONT_BACK_SIDE"],
@@ -56,6 +60,20 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
         svg.style.position = "absolute";
         svg.style.top = "0";
         svg.style.left = "0";
+
+        const vb = svg.viewBox.baseVal;
+        const wrapper = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "g",
+        );
+        wrapper.setAttribute(
+          "transform",
+          buildCalibrationTransform(BACK_SVG_TRANSFORM, vb.width, vb.height),
+        );
+        while (svg.firstChild) {
+          wrapper.appendChild(svg.firstChild);
+        }
+        svg.appendChild(wrapper);
 
         const paths = svg.querySelectorAll("path");
 
