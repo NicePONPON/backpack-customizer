@@ -5,6 +5,10 @@ import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
 import PngOverlayLayer from "@/components/PngOverlayLayer";
 import CalibrationPanel from "@/components/CalibrationPanel";
+import EmbroideryControls, {
+  type EmbroideryColor,
+  type EmbroideryPosition,
+} from "@/components/EmbroideryControls";
 import {
   FRONT_CALIBRATION,
   BACK_CALIBRATION,
@@ -106,10 +110,15 @@ export default function Page() {
   const [colors, setColors] = useState<Record<string, string>>({});
   const [size, setSize] = useState<"14" | "16">("14");
 
-  const [embroideryText, setEmbroideryText] = useState("");
-  const [embroideryPosition, setEmbroideryPosition] = useState<
-    "top" | "bottom"
-  >("top");
+  const [embroideryLines, setEmbroideryLines] = useState<[string, string]>([
+    "",
+    "",
+  ]);
+  const [embroideryLineCount, setEmbroideryLineCount] = useState<1 | 2>(1);
+  const [embroideryColor, setEmbroideryColor] =
+    useState<EmbroideryColor>("#000000");
+  const [embroideryPosition, setEmbroideryPosition] =
+    useState<EmbroideryPosition>("top");
 
   const [frontCalibration, setFrontCalibration] =
     useState<Calibration>(FRONT_CALIBRATION);
@@ -211,7 +220,9 @@ export default function Page() {
           <FrontSVG
             colors={colors}
             setSelectedPart={setSelectedPart}
-            embroideryText={embroideryText}
+            embroideryLines={embroideryLines}
+            embroideryLineCount={embroideryLineCount}
+            embroideryColor={embroideryColor}
             embroideryPosition={embroideryPosition}
           />
           <PngOverlayLayer
@@ -282,6 +293,17 @@ export default function Page() {
           </div>
         ))}
       </div>
+
+      <EmbroideryControls
+        lines={embroideryLines}
+        lineCount={embroideryLineCount}
+        color={embroideryColor}
+        position={embroideryPosition}
+        onLinesChange={setEmbroideryLines}
+        onLineCountChange={setEmbroideryLineCount}
+        onColorChange={setEmbroideryColor}
+        onPositionChange={setEmbroideryPosition}
+      />
 
       {/* SUMMARY */}
       <table style={{ color: "#fff", width: 500 }}>

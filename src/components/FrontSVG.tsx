@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const GROUP_PREFIXES: Array<[string, string]> = [
   ["Front_Side", "FRONT_BACK_SIDE"],
@@ -39,14 +39,40 @@ const resolveGroup = (el: Element): string | null => {
   return null;
 };
 
+// 50%-darker same-hue shadow for the embroidery halo.
+function darken(hex: string, ratio: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  const r = Math.round(((n >> 16) & 0xff) * (1 - ratio));
+  const g = Math.round(((n >> 8) & 0xff) * (1 - ratio));
+  const b = Math.round((n & 0xff) * (1 - ratio));
+  return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+}
+
+type Box = { x: number; y: number; width: number; height: number };
+
+type Props = {
+  colors: Record<string, string>;
+  setSelectedPart: (part: string) => void;
+  embroideryLines: [string, string];
+  embroideryLineCount: 1 | 2;
+  embroideryColor: string;
+  embroideryPosition: "top" | "bottom";
+};
+
+const BASE_FONT_SIZE = 48;
+const LINE_GAP = BASE_FONT_SIZE * 1.2;
+
 export default function FrontSVG({
   colors,
   setSelectedPart,
-  embroideryText,
+  embroideryLines,
+  embroideryLineCount,
+  embroideryColor,
   embroideryPosition,
-  embroideryColor = "#F5F5F5",
-}: any) {
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const [topBox, setTopBox] = useState<Box | null>(null);
+  const [bottomBox, setBottomBox] = useState<Box | null>(null);
 
   useEffect(() => {
     fetch("/LaptopBackpack_16_Front.svg")
@@ -92,10 +118,69 @@ export default function FrontSVG({
             if (group) setSelectedPart(group);
           };
         });
+
+        const top = svg.querySelector(
+          "#Front_x5F_Main_x5F_Top1, #Front_Main_Top1"
+        ) as SVGGraphicsElement | null;
+        const bottom = svg.querySelector(
+          "#Front_x5F_Main_x5F_Bottom1, #Front_Main_Bottom1"
+        ) as SVGGraphicsElement | null;
+        if (top) {
+          const b = top.getBBox();
+          setTopBox({ x: b.x, y: b.y, width: b.width, height: b.height });
+        }
+        if (bottom) {
+          const b = bottom.getBBox();
+          setBottomBox({ x: b.x, y: b.y, width: b.width, height: b.height });
+        }
       });
   }, [colors]);
 
-  const embroideryY = embroideryPosition === "top" ? 380 : 760;
+  const box = embroideryPosition === "top" ? topBox : bottomBox;
+  const visibleLines =
+    embroideryLineCount === 1
+      ? [embroideryLines[0]]
+      : [embroideryLines[0], embroideryLines[1]];
+  const hasText = visibleLines.some((l) => l.trim().length > 0);
+
+  const shadowColor = darken(embroideryColor, 0.5);
+
+  let rendered: React.ReactNode = null;
+  if (box && hasText) {
+    const centerX = box.x + box.width / 2;
+    const maxTextWidth = box.width / 2;
+    const anchorY =
+      embroideryPosition === "top"
+        ? box.y + box.height / 2
+        : box.y + box.height * 0.85;
+
+    rendered = visibleLines.map((line, i) => {
+      if (!line.trim()) return null;
+      const lineY =
+        embroideryLineCount === 1
+          ? anchorY
+          : anchorY + (i === 0 ? -LINE_GAP / 2 : LINE_GAP / 2);
+      const commonProps = {
+        textAnchor: "middle" as const,
+        dominantBaseline: "middle" as const,
+        fontSize: BASE_FONT_SIZE,
+        fontWeight: 700,
+        fontFamily: "Arial",
+        textLength: maxTextWidth,
+        lengthAdjust: "spacingAndGlyphs" as const,
+      };
+      return (
+        <g key={i}>
+          <text x={centerX + 2} y={lineY + 2} fill={shadowColor} {...commonProps}>
+            {line}
+          </text>
+          <text x={centerX} y={lineY} fill={embroideryColor} {...commonProps}>
+            {line}
+          </text>
+        </g>
+      );
+    });
+  }
 
   return (
     <>
@@ -108,7 +193,7 @@ export default function FrontSVG({
         }}
       />
 
-      {embroideryText && (
+      {rendered && (
         <svg
           viewBox="0 0 992.13 992.13"
           preserveAspectRatio="xMidYMid meet"
@@ -121,21 +206,7 @@ export default function FrontSVG({
             pointerEvents: "none",
           }}
         >
-          <text
-            x="50%"
-            y={embroideryY}
-            textAnchor="middle"
-            fontSize="34"
-            fontWeight="700"
-            fill={embroideryColor}
-            style={{
-              fontFamily: "Arial",
-              letterSpacing: "1px",
-              textShadow: "0 2px 4px rgba(0,0,0,0.6)",
-            }}
-          >
-            {embroideryText}
-          </text>
+          {rendered}
         </svg>
       )}
     </>
