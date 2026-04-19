@@ -59,6 +59,8 @@ export default function FrontSVG({
         const svg = ref.current.querySelector("svg");
         if (!svg) return;
 
+        svg.querySelector("#Front_x5F_Logo, #Front_Logo")?.remove();
+
         svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
         svg.style.width = "100%";
         svg.style.height = "100%";
