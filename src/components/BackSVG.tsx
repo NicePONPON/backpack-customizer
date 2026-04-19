@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import {
-  BACK_SVG_TRANSFORM,
   buildCalibrationTransform,
+  type Calibration,
 } from "@/lib/overlayCalibration";
 
 const GROUP_PREFIXES: Array<[string, string]> = [
@@ -40,18 +40,31 @@ const resolveGroup = (el: Element): string | null => {
   return null;
 };
 
-export default function BackSVG({ colors, setSelectedPart }: any) {
-  const ref = useRef<HTMLDivElement>(null);
+type Props = {
+  colors: Record<string, string>;
+  setSelectedPart: (part: string) => void;
+  svgTransform: Calibration;
+};
 
+export default function BackSVG({
+  colors,
+  setSelectedPart,
+  svgTransform,
+}: Props) {
+  const ref = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const wrapperRef = useRef<SVGGElement | null>(null);
+  const pathsRef = useRef<NodeListOf<SVGPathElement> | null>(null);
+
+  // One-time: fetch SVG, wrap content in a <g>, bind clicks.
   useEffect(() => {
+    let cancelled = false;
     fetch("/LaptopBackpack_16_Back.svg")
       .then((res) => res.text())
       .then((data) => {
-        if (!ref.current) return;
-
+        if (cancelled || !ref.current) return;
         ref.current.innerHTML = data;
-
-        const svg = ref.current.querySelector("svg");
+        const svg = ref.current.querySelector("svg") as SVGSVGElement | null;
         if (!svg) return;
 
         svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
@@ -61,46 +74,53 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
         svg.style.top = "0";
         svg.style.left = "0";
 
-        const vb = svg.viewBox.baseVal;
         const wrapper = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "g",
         );
-        wrapper.setAttribute(
-          "transform",
-          buildCalibrationTransform(BACK_SVG_TRANSFORM, vb.width, vb.height),
-        );
-        while (svg.firstChild) {
-          wrapper.appendChild(svg.firstChild);
-        }
+        while (svg.firstChild) wrapper.appendChild(svg.firstChild);
         svg.appendChild(wrapper);
 
-        const paths = svg.querySelectorAll("path");
-
-        paths.forEach((path: any) => {
+        const paths = svg.querySelectorAll<SVGPathElement>("path");
+        paths.forEach((path) => {
           const group = resolveGroup(path);
-
           if (
             !path.getAttribute("fill") ||
             path.getAttribute("fill") === "none"
           ) {
             path.setAttribute("fill", "rgba(0,0,0,0.01)");
           }
-
           path.style.pointerEvents = "all";
           path.style.cursor = "pointer";
-
-          if (group && colors[group]) {
-            path.setAttribute("fill", colors[group]);
-            path.setAttribute("fill-opacity", "1");
-          }
-
           path.onclick = () => {
             if (group) setSelectedPart(group);
           };
         });
+
+        svgRef.current = svg;
+        wrapperRef.current = wrapper;
+        pathsRef.current = paths;
+
+        applyColors(paths, colors);
+        applyTransform(svg, wrapper, svgTransform);
       });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Update fills on color change.
+  useEffect(() => {
+    if (pathsRef.current) applyColors(pathsRef.current, colors);
   }, [colors]);
+
+  // Update wrapper transform on slider change.
+  useEffect(() => {
+    if (svgRef.current && wrapperRef.current) {
+      applyTransform(svgRef.current, wrapperRef.current, svgTransform);
+    }
+  }, [svgTransform]);
 
   return (
     <div
@@ -111,5 +131,30 @@ export default function BackSVG({ colors, setSelectedPart }: any) {
         zIndex: 2,
       }}
     />
+  );
+}
+
+function applyColors(
+  paths: NodeListOf<SVGPathElement>,
+  colors: Record<string, string>,
+) {
+  paths.forEach((path) => {
+    const group = resolveGroup(path);
+    if (group && colors[group]) {
+      path.setAttribute("fill", colors[group]);
+      path.setAttribute("fill-opacity", "1");
+    }
+  });
+}
+
+function applyTransform(
+  svg: SVGSVGElement,
+  wrapper: SVGGElement,
+  cal: Calibration,
+) {
+  const vb = svg.viewBox.baseVal;
+  wrapper.setAttribute(
+    "transform",
+    buildCalibrationTransform(cal, vb.width, vb.height),
   );
 }

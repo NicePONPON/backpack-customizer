@@ -12,6 +12,7 @@ import EmbroideryControls, {
 import {
   FRONT_CALIBRATION,
   BACK_CALIBRATION,
+  BACK_SVG_TRANSFORM,
   type Calibration,
 } from "@/lib/overlayCalibration";
 
@@ -124,6 +125,8 @@ export default function Page() {
     useState<Calibration>(FRONT_CALIBRATION);
   const [backCalibration, setBackCalibration] =
     useState<Calibration>(BACK_CALIBRATION);
+  const [backSvgTransform, setBackSvgTransform] =
+    useState<Calibration>(BACK_SVG_TRANSFORM);
   const [calibrationTarget, setCalibrationTarget] = useState<
     "front" | "back" | null
   >(null);
@@ -241,7 +244,11 @@ export default function Page() {
             aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
-          <BackSVG colors={colors} setSelectedPart={setSelectedPart} />
+          <BackSVG
+            colors={colors}
+            setSelectedPart={setSelectedPart}
+            svgTransform={backSvgTransform}
+          />
           <PngOverlayLayer
             viewBoxW={BACK_VIEWBOX.w}
             viewBoxH={BACK_VIEWBOX.h}
@@ -327,6 +334,12 @@ export default function Page() {
             calibrationTarget === "front"
               ? setFrontCalibration
               : setBackCalibration
+          }
+          svgCalibration={
+            calibrationTarget === "back" ? backSvgTransform : undefined
+          }
+          onSvgChange={
+            calibrationTarget === "back" ? setBackSvgTransform : undefined
           }
           debug={debugOverlay}
           onDebugChange={setDebugOverlay}
