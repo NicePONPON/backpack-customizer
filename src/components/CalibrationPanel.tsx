@@ -13,8 +13,8 @@ type Props = {
 type Field = keyof Calibration;
 
 const RANGES: Record<Field, { min: number; max: number; step: number }> = {
-  translateX: { min: -500, max: 500, step: 1 },
-  translateY: { min: -500, max: 500, step: 1 },
+  translateX: { min: -1000, max: 1000, step: 1 },
+  translateY: { min: -1000, max: 1000, step: 1 },
   scaleX: { min: 0.5, max: 2, step: 0.01 },
   scaleY: { min: 0.5, max: 2, step: 0.01 },
   rotation: { min: -45, max: 45, step: 0.1 },
@@ -41,7 +41,11 @@ export default function CalibrationPanel({
 
   const copyJson = async () => {
     const json = JSON.stringify(calibration, null, 2);
-    await navigator.clipboard.writeText(json);
+    try {
+      await navigator.clipboard.writeText(json);
+    } catch {
+      console.log("[CalibrationPanel] Clipboard blocked, JSON below:\n" + json);
+    }
   };
 
   return (
