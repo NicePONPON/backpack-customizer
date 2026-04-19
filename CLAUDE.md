@@ -27,7 +27,7 @@ The two SVG assets under `public/LaptopBackpack_16_Front.svg` and `public/Laptop
 2. Walk every `<path>`, derive a **logical group key** from the nearest ancestor `<g>` with a meaningful `id`, and attach `onclick` + apply `fill` if `colors[group]` is set.
 3. Re-run the whole effect whenever `colors` changes.
 
-The `colors` state in `page.tsx` is keyed by the **logical group** (e.g. `BACK_MAIN`, `BAND`, `FRONT_BACK_SIDE`), not the raw SVG id. Many raw ids collapse into one group — e.g. `Back_Main_1` through `Back_Main_7` all map to `BACK_MAIN`, and both `Front_Side*` and `Back_Side*` deliberately merge into `FRONT_BACK_SIDE` so side panels stay consistent across views. The mapping lives in `getGroup()` inside each SVG component and **must be kept identical between `FrontSVG` and `BackSVG`** (there is also a `SVGRenderer.tsx` with a parallel but diverged taxonomy — it is not currently wired into `page.tsx`).
+The `colors` state in `page.tsx` is keyed by the **logical group** (e.g. `BACK_MAIN`, `BAND`, `FRONT_BACK_SIDE`), not the raw SVG id. Many raw ids collapse into one group — e.g. `Back_Main_1` through `Back_Main_7` all map to `BACK_MAIN`, and both `Front_Side*` and `Back_Side*` deliberately merge into `FRONT_BACK_SIDE` so side panels stay consistent across views. The mapping lives in `getGroup()` inside each SVG component and **must be kept identical between `FrontSVG` and `BackSVG`**.
 
 ### SVG quirks to know before editing
 
