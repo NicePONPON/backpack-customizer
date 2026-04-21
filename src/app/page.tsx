@@ -1,20 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
 import PngOverlayLayer from "@/components/PngOverlayLayer";
 import CalibrationPanel from "@/components/CalibrationPanel";
+import ZipperCalibrationPanel from "@/components/ZipperCalibrationPanel";
 import EmbroideryControls, {
   type EmbroideryColor,
+  type EmbroideryFont,
   type EmbroideryPosition,
+  type EmbroideryLineSize,
 } from "@/components/EmbroideryControls";
+import ZipperPullControls, {
+  ZIPPER_COLORS,
+} from "@/components/ZipperPullControls";
 import {
   FRONT_CALIBRATION,
   BACK_CALIBRATION,
   BACK_SVG_TRANSFORM,
+  ZIPPER_CALIBRATION,
   type Calibration,
+  type ZipperCalibration,
 } from "@/lib/overlayCalibration";
+import { COLOR_GROUPS } from "@/lib/bagReference";
+import { encodeDesign, decodeDesign } from "@/lib/invoiceSerialization";
 
 const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
 const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
@@ -28,83 +39,6 @@ const SIZE_SCALE: Record<"14" | "16", number> = {
   "14": 14 / 16,
   "16": 1,
 };
-
-const COLOR_GROUPS = [
-  {
-    title: "Core Dark",
-    colors: [
-      { name: "Charcoal Abyss", value: "#14181A" },
-      { name: "Midnight Navy", value: "#384355" },
-      { name: "Eclipse Blue", value: "#1C264C" },
-      { name: "Nocturne Blue", value: "#28345D" },
-      { name: "Regal Tide", value: "#3757AA" },
-      { name: "Iced Horizon", value: "#9DB5DA" },
-    ],
-  },
-  {
-    title: "Nature Greens",
-    colors: [
-      { name: "Pine Smoke", value: "#3F5759" },
-      { name: "Moss Dusk", value: "#436D62" },
-      { name: "Tideglass Blues", value: "#6B9DA7" },
-      { name: "Aqua Grove", value: "#5AAEAD" },
-      { name: "Mint Dust", value: "#BBD8C6" },
-      { name: "Glacial Mint", value: "#F1FFF6" },
-    ],
-  },
-  {
-    title: "Light Greens & Yellow",
-    colors: [
-      { name: "Olive Cream", value: "#D6D9AF" },
-      { name: "Lemon Fern", value: "#D7E470" },
-      { name: "Butter Glow", value: "#F0E196" },
-      { name: "Lime Dew", value: "#E9F7A4" },
-      { name: "Vanilla Flare", value: "#FEFCC1" },
-      { name: "Ivory Dune", value: "#FFF6DF" },
-    ],
-  },
-  {
-    title: "Earth & Brown",
-    colors: [
-      { name: "Cocoa Drift", value: "#846855" },
-      { name: "Rust Ember", value: "#A96341" },
-      { name: "Honey Clay", value: "#DDB683" },
-      { name: "Faded Almond", value: "#C3B39C" },
-      { name: "Golden Wheat", value: "#E6CFA6" },
-      { name: "Stone Oat", value: "#DED6BF" },
-    ],
-  },
-  {
-    title: "Warm / Red",
-    colors: [
-      { name: "Cinnamon Clay", value: "#95494C" },
-      { name: "Wine Ember", value: "#91343D" },
-      { name: "Chili Flame", value: "#D84243" },
-      { name: "Apricot Dust", value: "#F1AB7F" },
-      { name: "Desert Blush", value: "#EF9896" },
-      { name: "Bare Petal", value: "#FEE4DD" },
-    ],
-  },
-  {
-    title: "Soft / Neutral",
-    colors: [
-      { name: "Lavender Mist", value: "#C2BAC7" },
-      { name: "Winter Azure", value: "#BCCFE3" },
-      { name: "Rose Blush", value: "#E7CEC8" },
-      { name: "Feather Rose", value: "#EFE0E5" },
-      { name: "Biscuit Beige", value: "#E9CCAD" },
-      { name: "Sunlit Cotton", value: "#FEFAE5" },
-    ],
-  },
-  {
-    title: "Gray Scale",
-    colors: [
-      { name: "Ash Steel", value: "#727576" },
-      { name: "Frost Gray", value: "#F3F6F5" },
-      { name: "Blushed Snow", value: "#FFFDFE" },
-    ],
-  },
-];
 
 export default function Page() {
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
@@ -120,6 +54,16 @@ export default function Page() {
     useState<EmbroideryColor>("#000000");
   const [embroideryPosition, setEmbroideryPosition] =
     useState<EmbroideryPosition>("top");
+  const [embroideryFont, setEmbroideryFont] =
+    useState<EmbroideryFont>("sans-serif");
+  const [embroideryLineSizes, setEmbroideryLineSizes] = useState<
+    [EmbroideryLineSize, EmbroideryLineSize]
+  >(["medium", "medium"]);
+
+  const [zipperUpgrade, setZipperUpgrade] = useState<boolean>(false);
+  const [zipperColor, setZipperColor] = useState<string>(
+    ZIPPER_COLORS[0].value
+  );
 
   const [frontCalibration, setFrontCalibration] =
     useState<Calibration>(FRONT_CALIBRATION);
@@ -128,15 +72,33 @@ export default function Page() {
   const [backSvgTransform, setBackSvgTransform] =
     useState<Calibration>(BACK_SVG_TRANSFORM);
   const [calibrationTarget, setCalibrationTarget] = useState<
-    "front" | "back" | null
+    "front" | "back" | "zipper" | null
   >(null);
   const [debugOverlay, setDebugOverlay] = useState(false);
+
+  const [zipperCalibration, setZipperCalibration] =
+    useState<ZipperCalibration>(ZIPPER_CALIBRATION);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const target = params.get("calibrate");
-    if (target === "front" || target === "back") {
+    if (target === "front" || target === "back" || target === "zipper") {
       setCalibrationTarget(target);
+    }
+
+    // Restore design state if returning from the invoice page.
+    const incoming = decodeDesign(params.get("d"));
+    if (incoming) {
+      setSize(incoming.size);
+      setColors(incoming.colors);
+      setEmbroideryLines(incoming.embroideryLines);
+      setEmbroideryLineCount(incoming.embroideryLineCount);
+      setEmbroideryColor(incoming.embroideryColor);
+      setEmbroideryPosition(incoming.embroideryPosition);
+      setEmbroideryFont(incoming.embroideryFont);
+      setEmbroideryLineSizes(incoming.embroideryLineSizes);
+      setZipperUpgrade(incoming.zipperUpgrade);
+      setZipperColor(incoming.zipperColor);
     }
   }, []);
 
@@ -148,39 +110,27 @@ export default function Page() {
     }));
   };
 
-  // ✅ 顯示名稱（已支援新 group）
-  const getDisplayName = (part: string | null) => {
-    if (!part) return "None";
-
-    if (part === "FRONT_BACK_SIDE") return "Side Part";
-
-    if (part.startsWith("Back_Main")) return "Back Central Part";
-    if (part.startsWith("Back_Strap")) return "Strap";
-    if (part.startsWith("Band")) return "Band";
-    if (part.startsWith("Back_Side")) return "Back Side Part";
-    if (part.startsWith("Bottom")) return "Bottom";
-    if (part.startsWith("SidePanel")) return "Side Panel";
-    if (part.startsWith("Side_")) return "Side Part";
-    if (part.startsWith("Front_Main_Bottom")) return "Front Bottom Part";
-    if (part.startsWith("Front_Main_Top")) return "Front Top Part";
-    if (part.startsWith("Front_Side")) return "Front Side Part";
-
-    return part;
-  };
-
-  const getColorName = (hex: string) => {
-    for (const group of COLOR_GROUPS) {
-      const found = group.colors.find((c) => c.value === hex);
-      if (found) return found.name;
-    }
-    return hex;
-  };
+  const invoiceHref = `/invoice?d=${encodeURIComponent(
+    encodeDesign({
+      size,
+      colors,
+      embroideryLines,
+      embroideryLineCount,
+      embroideryColor,
+      embroideryPosition,
+      embroideryFont,
+      embroideryLineSizes,
+      zipperUpgrade,
+      zipperColor,
+    }),
+  )}`;
 
   return (
     <main
       style={{
         minHeight: "100vh",
         background: "linear-gradient(#555555, #222222)",
+        backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -190,6 +140,45 @@ export default function Page() {
     >
       <img src={LOGO_SRC} style={{ height: 80 }} />
 
+      {/* INTRO */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 720,
+          textAlign: "center",
+          marginTop: -8,
+        }}
+      >
+        <h1
+          style={{
+            color: "#fff",
+            fontSize: 34,
+            fontWeight: 700,
+            letterSpacing: 0.5,
+            lineHeight: 1.15,
+            margin: 0,
+            background:
+              "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Design your everyday carry
+        </h1>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.65)",
+            fontSize: 15,
+            fontWeight: 400,
+            letterSpacing: 0.3,
+            margin: "10px 0 0",
+          }}
+        >
+          Customize size, color, and attachement in real time
+        </p>
+      </div>
+
       {/* SIZE */}
       <div style={{ display: "flex", gap: 10 }}>
         {(["14", "16"] as const).map((s) => (
@@ -197,12 +186,12 @@ export default function Page() {
             key={s}
             onClick={() => setSize(s)}
             style={{
-              padding: "8px 22px",
+              padding: "6px 18px",
               borderRadius: 999,
               background: size === s ? "#fff" : "transparent",
               color: size === s ? "#111" : "#fff",
-              fontWeight: 700,
-              border: "none",
+              fontWeight: 600,
+              border: "1px solid #fff",
               cursor: "pointer",
             }}
           >
@@ -212,93 +201,163 @@ export default function Page() {
       </div>
 
       {/* BAG */}
-      <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 10,
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <div
           style={{
             position: "relative",
-            width: BASE_CONTAINER_WIDTH * SIZE_SCALE[size],
+            width: "100%",
+            maxWidth: BASE_CONTAINER_WIDTH,
             aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
         >
-          <FrontSVG
-            colors={colors}
-            setSelectedPart={setSelectedPart}
-            embroideryLines={embroideryLines}
-            embroideryLineCount={embroideryLineCount}
-            embroideryColor={embroideryColor}
-            embroideryPosition={embroideryPosition}
-          />
-          <PngOverlayLayer
-            viewBoxW={FRONT_VIEWBOX.w}
-            viewBoxH={FRONT_VIEWBOX.h}
-            pngSrc={FRONT_TEXTURE_SRC}
-            calibration={frontCalibration}
-            debug={calibrationTarget === "front" && debugOverlay}
-          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              transform: `scale(${SIZE_SCALE[size]})`,
+              transformOrigin: "center center",
+            }}
+          >
+            <FrontSVG
+              colors={colors}
+              setSelectedPart={setSelectedPart}
+              embroideryLines={embroideryLines}
+              embroideryLineCount={embroideryLineCount}
+              embroideryColor={embroideryColor}
+              embroideryPosition={embroideryPosition}
+              embroideryFont={embroideryFont}
+              embroideryLineSizes={embroideryLineSizes}
+              zipperUpgrade={zipperUpgrade}
+              zipperColor={zipperColor}
+              zipperCalibration={zipperCalibration}
+            />
+            <PngOverlayLayer
+              viewBoxW={FRONT_VIEWBOX.w}
+              viewBoxH={FRONT_VIEWBOX.h}
+              pngSrc={FRONT_TEXTURE_SRC}
+              calibration={frontCalibration}
+              debug={calibrationTarget === "front" && debugOverlay}
+            />
+          </div>
         </div>
 
         <div
           style={{
             position: "relative",
-            width: BASE_CONTAINER_WIDTH * SIZE_SCALE[size],
+            width: "100%",
+            maxWidth: BASE_CONTAINER_WIDTH,
             aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
-          <BackSVG
-            colors={colors}
-            setSelectedPart={setSelectedPart}
-            svgTransform={backSvgTransform}
-          />
-          <PngOverlayLayer
-            viewBoxW={BACK_VIEWBOX.w}
-            viewBoxH={BACK_VIEWBOX.h}
-            pngSrc={BACK_TEXTURE_SRC}
-            calibration={backCalibration}
-            debug={calibrationTarget === "back" && debugOverlay}
-          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              transform: `scale(${SIZE_SCALE[size]})`,
+              transformOrigin: "center center",
+            }}
+          >
+            <BackSVG
+              colors={colors}
+              setSelectedPart={setSelectedPart}
+              svgTransform={backSvgTransform}
+            />
+            <PngOverlayLayer
+              viewBoxW={BACK_VIEWBOX.w}
+              viewBoxH={BACK_VIEWBOX.h}
+              pngSrc={BACK_TEXTURE_SRC}
+              calibration={backCalibration}
+              debug={calibrationTarget === "back" && debugOverlay}
+            />
+          </div>
         </div>
       </div>
 
       {/* COLOR */}
-      <div style={{ width: "100%", maxWidth: 900 }}>
-        {COLOR_GROUPS.map((group) => (
-          <div key={group.title} style={{ marginBottom: 24 }}>
-            <div
-              style={{ color: "#fff", textAlign: "center", marginBottom: 10 }}
-            >
-              {group.title}
-            </div>
+      <div style={{ width: "100%", maxWidth: 720, marginTop: -140 }}>
+        <h2
+          style={{
+            color: "#fff",
+            textAlign: "center",
+            fontSize: 22,
+            fontWeight: 700,
+            letterSpacing: 2,
+            margin: "8px 0 20px",
+          }}
+        >
+          FABRIC COLOR SELECTION
+        </h2>
 
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {COLOR_GROUPS.map((group) => (
             <div
+              key={group.title}
               style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(6, 1fr)",
-                gap: 14,
+                background:
+                  "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
+                border: "1px solid rgba(255,255,255,0.14)",
+                borderRadius: 20,
+                padding: "16px 20px 20px",
+                backdropFilter: "blur(20px) saturate(180%)",
+                WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                boxShadow:
+                  "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
               }}
             >
-              {group.colors.map((color) => (
-                <div
-                  key={color.value}
-                  onClick={() => handleColorClick(color.value)}
-                  style={{ textAlign: "center", cursor: "pointer" }}
-                >
+              <div
+                style={{
+                  color: "#fff",
+                  textAlign: "center",
+                  marginBottom: 12,
+                  fontWeight: 600,
+                  letterSpacing: 0.5,
+                }}
+              >
+                {group.title}
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(6, 1fr)",
+                  gap: 14,
+                }}
+              >
+                {group.colors.map((color) => (
                   <div
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: "50%",
-                      background: color.value,
-                      margin: "0 auto",
-                    }}
-                  />
-                  <div style={{ fontSize: 12, color: "#e4e4e4" }}>
-                    {color.name}
+                    key={color.value}
+                    onClick={() => handleColorClick(color.value)}
+                    style={{ textAlign: "center", cursor: "pointer" }}
+                  >
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: "50%",
+                        background: color.value,
+                        margin: "0 auto",
+                      }}
+                    />
+                    <div
+                      style={{ fontSize: 12, color: "#e4e4e4", marginTop: 6 }}
+                    >
+                      {color.name}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <EmbroideryControls
@@ -306,25 +365,52 @@ export default function Page() {
         lineCount={embroideryLineCount}
         color={embroideryColor}
         position={embroideryPosition}
+        font={embroideryFont}
+        lineSizes={embroideryLineSizes}
         onLinesChange={setEmbroideryLines}
         onLineCountChange={setEmbroideryLineCount}
         onColorChange={setEmbroideryColor}
         onPositionChange={setEmbroideryPosition}
+        onFontChange={setEmbroideryFont}
+        onLineSizesChange={setEmbroideryLineSizes}
       />
 
-      {/* SUMMARY */}
-      <table style={{ color: "#fff", width: 500 }}>
-        <tbody>
-          {Object.entries(colors).map(([part, color]) => (
-            <tr key={part}>
-              <td>{getDisplayName(part)}</td>
-              <td>{getColorName(color)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ZipperPullControls
+        enabled={zipperUpgrade}
+        color={zipperColor}
+        onEnabledChange={setZipperUpgrade}
+        onColorChange={setZipperColor}
+      />
 
-      {calibrationTarget && (
+      {/* REVIEW / QUOTE */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 720,
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 12,
+        }}
+      >
+        <Link
+          href={invoiceHref}
+          style={{
+            padding: "14px 34px",
+            borderRadius: 999,
+            background: "#fff",
+            color: "#111",
+            fontWeight: 700,
+            fontSize: 15,
+            letterSpacing: 0.5,
+            textDecoration: "none",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+          }}
+        >
+          Review your design →
+        </Link>
+      </div>
+
+      {(calibrationTarget === "front" || calibrationTarget === "back") && (
         <CalibrationPanel
           target={calibrationTarget}
           calibration={
@@ -345,6 +431,32 @@ export default function Page() {
           onDebugChange={setDebugOverlay}
         />
       )}
+
+      {calibrationTarget === "zipper" && (
+        <ZipperCalibrationPanel
+          calibration={zipperCalibration}
+          onChange={setZipperCalibration}
+        />
+      )}
+
+      {/* FOOTER */}
+      <footer
+        style={{
+          width: "100%",
+          maxWidth: 720,
+          textAlign: "center",
+          marginTop: 16,
+          color: "rgba(255,255,255,0.45)",
+          fontSize: 12,
+          lineHeight: 1.6,
+          letterSpacing: 0.3,
+        }}
+      >
+        <div>
+          © 2026 Computex Systems Investments (PTY) LTD. All rights reserved.
+        </div>
+        <div>Designed and engineered for modern everyday carry.</div>
+      </footer>
     </main>
   );
 }

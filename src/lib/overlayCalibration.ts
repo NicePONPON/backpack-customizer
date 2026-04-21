@@ -36,8 +36,8 @@ export const BACK_SVG_TRANSFORM: Calibration = {
 export const BACK_CALIBRATION: Calibration = {
   translateX: 0,
   translateY: -116,
-  scaleX: 1.03,
-  scaleY: 0.72,
+  scaleX: 1.025,
+  scaleY: 0.715,
   rotation: 0,
 };
 
@@ -58,3 +58,21 @@ export function buildCalibrationTransform(
 }
 
 export type ViewKey = "front" | "back";
+
+export type ZipperCalibration = {
+  leftX: number;
+  leftY: number;
+  leftRotation: number;
+  rightX: number;
+  rightY: number;
+  rightRotation: number;
+};
+
+export const ZIPPER_CALIBRATION: ZipperCalibration = {
+  leftX: -43,
+  leftY: 65,
+  leftRotation: -165,
+  rightX: 33,
+  rightY: 65,
+  rightRotation: 165,
+};

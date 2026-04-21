@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { ZipperCalibration } from "@/lib/overlayCalibration";
 
 const GROUP_PREFIXES: Array<[string, string]> = [
   ["Front_Side", "FRONT_BACK_SIDE"],
@@ -50,6 +51,8 @@ function darken(hex: string, ratio: number): string {
 
 type Box = { x: number; y: number; width: number; height: number };
 
+type LineSize = "small" | "medium" | "large";
+
 type Props = {
   colors: Record<string, string>;
   setSelectedPart: (part: string) => void;
@@ -57,10 +60,29 @@ type Props = {
   embroideryLineCount: 1 | 2;
   embroideryColor: string;
   embroideryPosition: "top" | "bottom";
+  embroideryFont: "serif" | "sans-serif";
+  embroideryLineSizes: [LineSize, LineSize];
+  zipperUpgrade: boolean;
+  zipperColor: string;
+  zipperCalibration: ZipperCalibration;
 };
 
-const BASE_FONT_SIZE = 48;
-const LINE_GAP = BASE_FONT_SIZE * 1.2;
+const SIZE_PX: Record<LineSize, number> = {
+  small: 32,
+  medium: 48,
+  large: 72,
+};
+
+const FONT_FAMILY: Record<"serif" | "sans-serif", string> = {
+  serif: "Georgia, 'Times New Roman', serif",
+  "sans-serif": "Arial, Helvetica, sans-serif",
+};
+
+const STROKE_WIDTH = 3;
+
+const ZIPPER_PNG_SRC = "/texture/Zipper-Overlay.png";
+const ZIPPER_PULL_WIDTH = 208;
+const ZIPPER_PULL_HEIGHT = 416;
 
 export default function FrontSVG({
   colors,
@@ -69,6 +91,11 @@ export default function FrontSVG({
   embroideryLineCount,
   embroideryColor,
   embroideryPosition,
+  embroideryFont,
+  embroideryLineSizes,
+  zipperUpgrade,
+  zipperColor,
+  zipperCalibration,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [topBox, setTopBox] = useState<Box | null>(null);
@@ -154,33 +181,75 @@ export default function FrontSVG({
         ? box.y + box.height / 2
         : box.y + box.height * 0.85;
 
+    const fontSizes = visibleLines.map((_, i) => SIZE_PX[embroideryLineSizes[i]]);
+    const totalHeight = fontSizes.reduce((s, fs) => s + fs * 1.2, 0);
+    let cursorY = anchorY - totalHeight / 2;
+
     rendered = visibleLines.map((line, i) => {
-      if (!line.trim()) return null;
+      const fs = fontSizes[i];
+      const lineHeight = fs * 1.2;
       const lineY =
-        embroideryLineCount === 1
-          ? anchorY
-          : anchorY + (i === 0 ? -LINE_GAP / 2 : LINE_GAP / 2);
-      const commonProps = {
-        textAnchor: "middle" as const,
-        dominantBaseline: "middle" as const,
-        fontSize: BASE_FONT_SIZE,
-        fontWeight: 700,
-        fontFamily: "Arial",
-        textLength: maxTextWidth,
-        lengthAdjust: "spacingAndGlyphs" as const,
-      };
+        embroideryLineCount === 1 ? anchorY : cursorY + lineHeight / 2;
+      cursorY += lineHeight;
+
+      if (!line.trim()) return null;
+
+      const estimatedWidth = line.length * fs * 0.55;
+      const needsFit = estimatedWidth > maxTextWidth;
+
       return (
-        <g key={i}>
-          <text x={centerX + 2} y={lineY + 2} fill={shadowColor} {...commonProps}>
-            {line}
-          </text>
-          <text x={centerX} y={lineY} fill={embroideryColor} {...commonProps}>
-            {line}
-          </text>
-        </g>
+        <text
+          key={i}
+          x={centerX}
+          y={lineY}
+          fill={embroideryColor}
+          stroke={shadowColor}
+          strokeWidth={STROKE_WIDTH}
+          strokeLinejoin="round"
+          paintOrder="stroke"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize={fs}
+          fontWeight={700}
+          fontFamily={FONT_FAMILY[embroideryFont]}
+          textLength={needsFit ? maxTextWidth : undefined}
+          lengthAdjust={needsFit ? "spacingAndGlyphs" : undefined}
+        >
+          {line}
+        </text>
       );
     });
   }
+
+  const pullPositions =
+    zipperUpgrade && topBox
+      ? (() => {
+          const anchorX = topBox.x + topBox.width / 2;
+          const anchorY = topBox.y;
+          const {
+            leftX,
+            leftY,
+            leftRotation,
+            rightX,
+            rightY,
+            rightRotation,
+          } = zipperCalibration;
+          return [
+            {
+              key: "left" as const,
+              x: anchorX + leftX - ZIPPER_PULL_WIDTH / 2,
+              y: anchorY + leftY - ZIPPER_PULL_HEIGHT / 2,
+              rotation: leftRotation,
+            },
+            {
+              key: "right" as const,
+              x: anchorX + rightX - ZIPPER_PULL_WIDTH / 2,
+              y: anchorY + rightY - ZIPPER_PULL_HEIGHT / 2,
+              rotation: rightRotation,
+            },
+          ];
+        })()
+      : null;
 
   return (
     <>
@@ -193,7 +262,7 @@ export default function FrontSVG({
         }}
       />
 
-      {rendered && (
+      {(rendered || pullPositions) && (
         <svg
           viewBox="0 0 992.13 992.13"
           preserveAspectRatio="xMidYMid meet"
@@ -206,6 +275,61 @@ export default function FrontSVG({
             pointerEvents: "none",
           }}
         >
+          {pullPositions && (
+            <defs>
+              {pullPositions.map((p) => (
+                <mask
+                  key={p.key}
+                  id={`zipperPullMask_${p.key}`}
+                  maskUnits="userSpaceOnUse"
+                  x={p.x}
+                  y={p.y}
+                  width={ZIPPER_PULL_WIDTH}
+                  height={ZIPPER_PULL_HEIGHT}
+                >
+                  <image
+                    href={ZIPPER_PNG_SRC}
+                    x={p.x}
+                    y={p.y}
+                    width={ZIPPER_PULL_WIDTH}
+                    height={ZIPPER_PULL_HEIGHT}
+                    preserveAspectRatio="xMidYMid meet"
+                  />
+                </mask>
+              ))}
+            </defs>
+          )}
+
+          {pullPositions &&
+            pullPositions.map((p) => {
+              const cx = p.x + ZIPPER_PULL_WIDTH / 2;
+              const cy = p.y + ZIPPER_PULL_HEIGHT / 2;
+              return (
+                <g
+                  key={p.key}
+                  transform={`rotate(${p.rotation} ${cx} ${cy})`}
+                >
+                  <rect
+                    x={p.x}
+                    y={p.y}
+                    width={ZIPPER_PULL_WIDTH}
+                    height={ZIPPER_PULL_HEIGHT}
+                    fill={zipperColor}
+                    mask={`url(#zipperPullMask_${p.key})`}
+                  />
+                  <image
+                    href={ZIPPER_PNG_SRC}
+                    x={p.x}
+                    y={p.y}
+                    width={ZIPPER_PULL_WIDTH}
+                    height={ZIPPER_PULL_HEIGHT}
+                    preserveAspectRatio="xMidYMid meet"
+                    style={{ mixBlendMode: "multiply" }}
+                  />
+                </g>
+              );
+            })}
+
           {rendered}
         </svg>
       )}

@@ -9,6 +9,7 @@ type Props = {
   pngSrc: string;
   calibration: Calibration;
   debug?: boolean;
+  preserveAspectRatio?: string;
 };
 
 export default function PngOverlayLayer({
@@ -17,6 +18,7 @@ export default function PngOverlayLayer({
   pngSrc,
   calibration,
   debug = false,
+  preserveAspectRatio = "xMidYMid meet",
 }: Props) {
   const [failed, setFailed] = useState(false);
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function PngOverlayLayer({
   return (
     <svg
       viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
-      preserveAspectRatio="xMidYMid meet"
+      preserveAspectRatio={preserveAspectRatio}
       style={{
         position: "absolute",
         inset: 0,
