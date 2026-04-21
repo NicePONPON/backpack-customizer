@@ -67,6 +67,7 @@ const miniPillStyle = (active: boolean): React.CSSProperties => ({
 
 const inputStyle: React.CSSProperties = {
   flex: 1,
+  minWidth: 0,
   padding: "8px 12px",
   borderRadius: 8,
   border: "1px solid #888",
@@ -141,7 +142,7 @@ export default function EmbroideryControls({
         onChange={(e) => setLine(index, e.target.value)}
         placeholder={`Line ${index + 1}`}
       />
-      <div style={{ display: "flex", gap: 4 }}>
+      <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
         {SIZE_KEYS.map((s) => (
           <button
             key={s}

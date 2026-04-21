@@ -329,14 +329,18 @@ export default function Page() {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(6, 1fr)",
-                  gap: 14,
+                  gap: 10,
                 }}
               >
                 {group.colors.map((color) => (
                   <div
                     key={color.value}
                     onClick={() => handleColorClick(color.value)}
-                    style={{ textAlign: "center", cursor: "pointer" }}
+                    style={{
+                      textAlign: "center",
+                      cursor: "pointer",
+                      minWidth: 0,
+                    }}
                   >
                     <div
                       style={{
@@ -348,7 +352,14 @@ export default function Page() {
                       }}
                     />
                     <div
-                      style={{ fontSize: 12, color: "#e4e4e4", marginTop: 6 }}
+                      style={{
+                        fontSize: 11,
+                        lineHeight: 1.25,
+                        color: "#e4e4e4",
+                        marginTop: 6,
+                        wordBreak: "break-word",
+                        overflowWrap: "anywhere",
+                      }}
                     >
                       {color.name}
                     </div>
