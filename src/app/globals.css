@@ -24,3 +24,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes paint-flash {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.55); }
+}
+.paint-flash {
+  animation: paint-flash 2s ease-in-out 3;
+}

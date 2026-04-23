@@ -65,6 +65,8 @@ type Props = {
   zipperUpgrade: boolean;
   zipperColor: string;
   zipperCalibration: ZipperCalibration;
+  flashGroup?: string | null;
+  flashNonce?: number;
 };
 
 const SIZE_PX: Record<LineSize, number> = {
@@ -96,16 +98,26 @@ export default function FrontSVG({
   zipperUpgrade,
   zipperColor,
   zipperCalibration,
+  flashGroup,
+  flashNonce,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const pathsRef = useRef<NodeListOf<SVGPathElement> | null>(null);
+  const colorsRef = useRef(colors);
   const [topBox, setTopBox] = useState<Box | null>(null);
   const [bottomBox, setBottomBox] = useState<Box | null>(null);
 
   useEffect(() => {
+    colorsRef.current = colors;
+  }, [colors]);
+
+  // One-time: fetch SVG, inject, bind clicks, measure bbox.
+  useEffect(() => {
+    let cancelled = false;
     fetch("/LaptopBackpack_16_Front.svg")
       .then((res) => res.text())
       .then((data) => {
-        if (!ref.current) return;
+        if (cancelled || !ref.current) return;
 
         ref.current.innerHTML = data;
 
@@ -121,9 +133,9 @@ export default function FrontSVG({
         svg.style.top = "0";
         svg.style.left = "0";
 
-        const paths = svg.querySelectorAll("path");
+        const paths = svg.querySelectorAll<SVGPathElement>("path");
 
-        paths.forEach((path: any) => {
+        paths.forEach((path) => {
           const group = resolveGroup(path);
 
           if (
@@ -136,15 +148,13 @@ export default function FrontSVG({
           path.style.pointerEvents = "all";
           path.style.cursor = "pointer";
 
-          if (group && colors[group]) {
-            path.setAttribute("fill", colors[group]);
-            path.setAttribute("fill-opacity", "1");
-          }
-
           path.onclick = () => {
             if (group) setSelectedPart(group);
           };
         });
+
+        pathsRef.current = paths;
+        applyColors(paths, colorsRef.current);
 
         const top = svg.querySelector(
           "#Front_x5F_Main_x5F_Top1, #Front_Main_Top1"
@@ -161,7 +171,32 @@ export default function FrontSVG({
           setBottomBox({ x: b.x, y: b.y, width: b.width, height: b.height });
         }
       });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Apply fills on color change.
+  useEffect(() => {
+    if (pathsRef.current) applyColors(pathsRef.current, colors);
   }, [colors]);
+
+  // Shine the paths belonging to the just-painted group. flashNonce is
+  // included so clicking the same group repeatedly restarts the animation.
+  useEffect(() => {
+    const paths = pathsRef.current;
+    if (!paths) return;
+    paths.forEach((p) => {
+      const g = resolveGroup(p);
+      p.classList.remove("paint-flash");
+      if (g && g === flashGroup) {
+        // Force reflow so the animation restarts on re-trigger.
+        void (p as unknown as HTMLElement).getBoundingClientRect();
+        p.classList.add("paint-flash");
+      }
+    });
+  }, [flashGroup, flashNonce]);
 
   const box = embroideryPosition === "top" ? topBox : bottomBox;
   const visibleLines =
@@ -335,4 +370,17 @@ export default function FrontSVG({
       )}
     </>
   );
+}
+
+function applyColors(
+  paths: NodeListOf<SVGPathElement>,
+  colors: Record<string, string>,
+) {
+  paths.forEach((path) => {
+    const group = resolveGroup(path);
+    if (group && colors[group]) {
+      path.setAttribute("fill", colors[group]);
+      path.setAttribute("fill-opacity", "1");
+    }
+  });
 }

@@ -44,12 +44,16 @@ type Props = {
   colors: Record<string, string>;
   setSelectedPart: (part: string) => void;
   svgTransform: Calibration;
+  flashGroup?: string | null;
+  flashNonce?: number;
 };
 
 export default function BackSVG({
   colors,
   setSelectedPart,
   svgTransform,
+  flashGroup,
+  flashNonce,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -121,6 +125,21 @@ export default function BackSVG({
       applyTransform(svgRef.current, wrapperRef.current, svgTransform);
     }
   }, [svgTransform]);
+
+  // Shine the paths belonging to the just-painted group. flashNonce is
+  // included so clicking the same group repeatedly restarts the animation.
+  useEffect(() => {
+    const paths = pathsRef.current;
+    if (!paths) return;
+    paths.forEach((p) => {
+      const g = resolveGroup(p);
+      p.classList.remove("paint-flash");
+      if (g && g === flashGroup) {
+        void (p as unknown as HTMLElement).getBoundingClientRect();
+        p.classList.add("paint-flash");
+      }
+    });
+  }, [flashGroup, flashNonce]);
 
   return (
     <div

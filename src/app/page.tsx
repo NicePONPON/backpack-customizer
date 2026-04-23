@@ -40,10 +40,15 @@ const SIZE_SCALE: Record<"14" | "16", number> = {
   "16": 1,
 };
 
+const FIRST_CLICK_DEFAULT_PART = "FRONT_MAIN_BOTTOM";
+const FLASH_DURATION_MS = 6000;
+
 export default function Page() {
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
   const [colors, setColors] = useState<Record<string, string>>({});
   const [size, setSize] = useState<"14" | "16">("14");
+  const [flashGroup, setFlashGroup] = useState<string | null>(null);
+  const [flashNonce, setFlashNonce] = useState(0);
 
   const [embroideryLines, setEmbroideryLines] = useState<[string, string]>([
     "",
@@ -103,12 +108,20 @@ export default function Page() {
   }, []);
 
   const handleColorClick = (color: string) => {
-    if (!selectedPart) return;
-    setColors((prev) => ({
-      ...prev,
-      [selectedPart]: color,
-    }));
+    // First-click nudge: if the user hasn't picked a part yet, aim the color
+    // at the front lower panel so the tool visibly responds on their first try.
+    const target = selectedPart ?? FIRST_CLICK_DEFAULT_PART;
+    if (!selectedPart) setSelectedPart(target);
+    setColors((prev) => ({ ...prev, [target]: color }));
+    setFlashGroup(target);
+    setFlashNonce((n) => n + 1);
   };
+
+  useEffect(() => {
+    if (!flashGroup) return;
+    const t = setTimeout(() => setFlashGroup(null), FLASH_DURATION_MS);
+    return () => clearTimeout(t);
+  }, [flashGroup, flashNonce]);
 
   const invoiceHref = `/invoice?d=${encodeURIComponent(
     encodeDesign({
@@ -239,6 +252,8 @@ export default function Page() {
               zipperUpgrade={zipperUpgrade}
               zipperColor={zipperColor}
               zipperCalibration={zipperCalibration}
+              flashGroup={flashGroup}
+              flashNonce={flashNonce}
             />
             <PngOverlayLayer
               viewBoxW={FRONT_VIEWBOX.w}
@@ -270,6 +285,8 @@ export default function Page() {
               colors={colors}
               setSelectedPart={setSelectedPart}
               svgTransform={backSvgTransform}
+              flashGroup={flashGroup}
+              flashNonce={flashNonce}
             />
             <PngOverlayLayer
               viewBoxW={BACK_VIEWBOX.w}
