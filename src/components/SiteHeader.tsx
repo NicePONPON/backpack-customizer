@@ -28,10 +28,21 @@ export default function SiteHeader({ invert = false }: Props) {
         position: "sticky",
         top: 0,
         zIndex: 50,
-        width: "100%",
+        // Break out of any parent padding so the bar spans edge-to-edge of
+        // the viewport. Without this trick, when the header is nested inside
+        // a <main> with horizontal padding (true on the invoice and landing
+        // pages), the page background bleeds in on the sides on mobile.
+        marginLeft: "calc(50% - 50vw)",
+        marginRight: "calc(50% - 50vw)",
+        width: "100vw",
         display: "flex",
         justifyContent: "center",
-        padding: "12px 16px",
+        // Vertical padding respects the iOS notch / dynamic island.
+        // Horizontal padding respects landscape safe-areas on notched phones.
+        paddingTop: "max(14px, env(safe-area-inset-top))",
+        paddingBottom: 14,
+        paddingLeft: "max(20px, env(safe-area-inset-left))",
+        paddingRight: "max(20px, env(safe-area-inset-right))",
         background: backdrop,
         backdropFilter: "blur(16px) saturate(160%)",
         WebkitBackdropFilter: "blur(16px) saturate(160%)",
