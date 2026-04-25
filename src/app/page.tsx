@@ -1,490 +1,276 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import FrontSVG from "@/components/FrontSVG";
-import BackSVG from "@/components/BackSVG";
-import PngOverlayLayer from "@/components/PngOverlayLayer";
-import CalibrationPanel from "@/components/CalibrationPanel";
-import ZipperCalibrationPanel from "@/components/ZipperCalibrationPanel";
-import EmbroideryControls, {
-  type EmbroideryColor,
-  type EmbroideryFont,
-  type EmbroideryPosition,
-  type EmbroideryLineSize,
-} from "@/components/EmbroideryControls";
-import ZipperPullControls, {
-  ZIPPER_COLORS,
-} from "@/components/ZipperPullControls";
-import {
-  FRONT_CALIBRATION,
-  BACK_CALIBRATION,
-  BACK_SVG_TRANSFORM,
-  ZIPPER_CALIBRATION,
-  type Calibration,
-  type ZipperCalibration,
-} from "@/lib/overlayCalibration";
-import { COLOR_GROUPS } from "@/lib/bagReference";
-import { encodeDesign, decodeDesign } from "@/lib/invoiceSerialization";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import HeroBagVisual from "@/components/HeroBagVisual";
 
-const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
-const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
-const LOGO_SRC = "/logo/logo.png";
+const PILLARS: Array<{ title: string; copy: string }> = [
+  {
+    title: "Durability",
+    copy: "Reinforced seams and weather-resistant fabric, built to outlast your commute.",
+  },
+  {
+    title: "Design",
+    copy: "Considered details, clean silhouettes — a bag that earns its place every day.",
+  },
+  {
+    title: "Quality",
+    copy: "Tested materials and careful assembly. Every panel held to the same standard.",
+  },
+];
 
-const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
-const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
-
-const BASE_CONTAINER_WIDTH = 420;
-const SIZE_SCALE: Record<"14" | "16", number> = {
-  "14": 14 / 16,
-  "16": 1,
+const pageBg: React.CSSProperties = {
+  minHeight: "100vh",
+  background: "linear-gradient(#555555, #222222)",
+  backgroundAttachment: "fixed",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "0 24px 48px",
+  gap: 48,
+  color: "#fff",
 };
 
-const FIRST_CLICK_DEFAULT_PART = "FRONT_MAIN_BOTTOM";
-const FLASH_DURATION_MS = 6000;
+const sectionStyle: React.CSSProperties = {
+  width: "100%",
+  maxWidth: 960,
+};
 
-export default function Page() {
-  const [selectedPart, setSelectedPart] = useState<string | null>(null);
-  const [colors, setColors] = useState<Record<string, string>>({});
-  const [size, setSize] = useState<"14" | "16">("14");
-  const [flashGroup, setFlashGroup] = useState<string | null>(null);
-  const [flashNonce, setFlashNonce] = useState(0);
+const cardBaseStyle: React.CSSProperties = {
+  background:
+    "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
+  border: "1px solid rgba(255,255,255,0.14)",
+  borderRadius: 20,
+  backdropFilter: "blur(20px) saturate(180%)",
+  WebkitBackdropFilter: "blur(20px) saturate(180%)",
+  boxShadow:
+    "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
+};
 
-  const [embroideryLines, setEmbroideryLines] = useState<[string, string]>([
-    "",
-    "",
-  ]);
-  const [embroideryLineCount, setEmbroideryLineCount] = useState<1 | 2>(1);
-  const [embroideryColor, setEmbroideryColor] =
-    useState<EmbroideryColor>("#000000");
-  const [embroideryPosition, setEmbroideryPosition] =
-    useState<EmbroideryPosition>("top");
-  const [embroideryFont, setEmbroideryFont] =
-    useState<EmbroideryFont>("sans-serif");
-  const [embroideryLineSizes, setEmbroideryLineSizes] = useState<
-    [EmbroideryLineSize, EmbroideryLineSize]
-  >(["medium", "medium"]);
+const sectionHeaderStyle: React.CSSProperties = {
+  textAlign: "center",
+  fontSize: 22,
+  fontWeight: 700,
+  letterSpacing: 2,
+  margin: "0 0 24px",
+  color: "#fff",
+};
 
-  const [zipperUpgrade, setZipperUpgrade] = useState<boolean>(false);
-  const [zipperColor, setZipperColor] = useState<string>(
-    ZIPPER_COLORS[0].value
-  );
-
-  const [frontCalibration, setFrontCalibration] =
-    useState<Calibration>(FRONT_CALIBRATION);
-  const [backCalibration, setBackCalibration] =
-    useState<Calibration>(BACK_CALIBRATION);
-  const [backSvgTransform, setBackSvgTransform] =
-    useState<Calibration>(BACK_SVG_TRANSFORM);
-  const [calibrationTarget, setCalibrationTarget] = useState<
-    "front" | "back" | "zipper" | null
-  >(null);
-  const [debugOverlay, setDebugOverlay] = useState(false);
-
-  const [zipperCalibration, setZipperCalibration] =
-    useState<ZipperCalibration>(ZIPPER_CALIBRATION);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const target = params.get("calibrate");
-    if (target === "front" || target === "back" || target === "zipper") {
-      setCalibrationTarget(target);
-    }
-
-    // Restore design state if returning from the invoice page.
-    const incoming = decodeDesign(params.get("d"));
-    if (incoming) {
-      setSize(incoming.size);
-      setColors(incoming.colors);
-      setEmbroideryLines(incoming.embroideryLines);
-      setEmbroideryLineCount(incoming.embroideryLineCount);
-      setEmbroideryColor(incoming.embroideryColor);
-      setEmbroideryPosition(incoming.embroideryPosition);
-      setEmbroideryFont(incoming.embroideryFont);
-      setEmbroideryLineSizes(incoming.embroideryLineSizes);
-      setZipperUpgrade(incoming.zipperUpgrade);
-      setZipperColor(incoming.zipperColor);
-    }
-  }, []);
-
-  const handleColorClick = (color: string) => {
-    // First-click nudge: if the user hasn't picked a part yet, aim the color
-    // at the front lower panel so the tool visibly responds on their first try.
-    const target = selectedPart ?? FIRST_CLICK_DEFAULT_PART;
-    if (!selectedPart) setSelectedPart(target);
-    setColors((prev) => ({ ...prev, [target]: color }));
-    setFlashGroup(target);
-    setFlashNonce((n) => n + 1);
-  };
-
-  useEffect(() => {
-    if (!flashGroup) return;
-    const t = setTimeout(() => setFlashGroup(null), FLASH_DURATION_MS);
-    return () => clearTimeout(t);
-  }, [flashGroup, flashNonce]);
-
-  const invoiceHref = `/invoice?d=${encodeURIComponent(
-    encodeDesign({
-      size,
-      colors,
-      embroideryLines,
-      embroideryLineCount,
-      embroideryColor,
-      embroideryPosition,
-      embroideryFont,
-      embroideryLineSizes,
-      zipperUpgrade,
-      zipperColor,
-    }),
-  )}`;
-
+export default function HomePage() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(#555555, #222222)",
-        backgroundAttachment: "fixed",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "32px 24px 48px",
-        gap: 28,
-      }}
-    >
-      <img src={LOGO_SRC} style={{ height: 80 }} />
+    <main style={pageBg}>
+      <SiteHeader />
 
-      {/* INTRO */}
-      <div
+      {/* HERO */}
+      <section
         style={{
-          width: "100%",
-          maxWidth: 720,
+          ...sectionStyle,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           textAlign: "center",
+          gap: 8,
           marginTop: -8,
         }}
       >
         <h1
           style={{
-            color: "#fff",
-            fontSize: 34,
+            fontSize: 44,
             fontWeight: 700,
             letterSpacing: 0.5,
-            lineHeight: 1.15,
+            lineHeight: 1.1,
             margin: 0,
-            background:
-              "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+            background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
           }}
         >
-          Design your everyday carry
+          Built for the way you carry.
         </h1>
         <p
           style={{
-            color: "rgba(255,255,255,0.65)",
-            fontSize: 15,
+            color: "rgba(255,255,255,0.7)",
+            fontSize: 16,
             fontWeight: 400,
             letterSpacing: 0.3,
-            margin: "10px 0 0",
+            margin: "8px 0 0",
+            maxWidth: 560,
           }}
         >
-          Customize size, color, and attachement in real time
+          Modern everyday backpacks engineered for durability, designed without
+          compromise.
         </p>
-      </div>
-
-      {/* SIZE */}
-      <div style={{ display: "flex", gap: 10 }}>
-        {(["14", "16"] as const).map((s) => (
-          <button
-            key={s}
-            onClick={() => setSize(s)}
-            style={{
-              padding: "6px 18px",
-              borderRadius: 999,
-              background: size === s ? "#fff" : "transparent",
-              color: size === s ? "#111" : "#fff",
-              fontWeight: 600,
-              border: "1px solid #fff",
-              cursor: "pointer",
-            }}
-          >
-            {s} inch
-          </button>
-        ))}
-      </div>
-
-      {/* BAG */}
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            maxWidth: BASE_CONTAINER_WIDTH,
-            aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              transform: `scale(${SIZE_SCALE[size]})`,
-              transformOrigin: "center center",
-            }}
-          >
-            <FrontSVG
-              colors={colors}
-              setSelectedPart={setSelectedPart}
-              embroideryLines={embroideryLines}
-              embroideryLineCount={embroideryLineCount}
-              embroideryColor={embroideryColor}
-              embroideryPosition={embroideryPosition}
-              embroideryFont={embroideryFont}
-              embroideryLineSizes={embroideryLineSizes}
-              zipperUpgrade={zipperUpgrade}
-              zipperColor={zipperColor}
-              zipperCalibration={zipperCalibration}
-              flashGroup={flashGroup}
-              flashNonce={flashNonce}
-            />
-            <PngOverlayLayer
-              viewBoxW={FRONT_VIEWBOX.w}
-              viewBoxH={FRONT_VIEWBOX.h}
-              pngSrc={FRONT_TEXTURE_SRC}
-              calibration={frontCalibration}
-              debug={calibrationTarget === "front" && debugOverlay}
-            />
-          </div>
-        </div>
 
         <div
           style={{
-            position: "relative",
             width: "100%",
-            maxWidth: BASE_CONTAINER_WIDTH,
-            aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
+            maxWidth: 480,
+            aspectRatio: "1 / 1",
+            marginTop: 16,
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              transform: `scale(${SIZE_SCALE[size]})`,
-              transformOrigin: "center center",
-            }}
-          >
-            <BackSVG
-              colors={colors}
-              setSelectedPart={setSelectedPart}
-              svgTransform={backSvgTransform}
-              flashGroup={flashGroup}
-              flashNonce={flashNonce}
-            />
-            <PngOverlayLayer
-              viewBoxW={BACK_VIEWBOX.w}
-              viewBoxH={BACK_VIEWBOX.h}
-              pngSrc={BACK_TEXTURE_SRC}
-              calibration={backCalibration}
-              debug={calibrationTarget === "back" && debugOverlay}
-            />
-          </div>
+          <HeroBagVisual />
         </div>
-      </div>
+      </section>
 
-      {/* COLOR */}
-      <div style={{ width: "100%", maxWidth: 720, marginTop: -140 }}>
-        <h2
+      {/* VALUE PILLARS */}
+      <section style={sectionStyle}>
+        <h2 style={sectionHeaderStyle}>WHY THIS BAG</h2>
+        <div
           style={{
-            color: "#fff",
-            textAlign: "center",
-            fontSize: 22,
-            fontWeight: 700,
-            letterSpacing: 2,
-            margin: "8px 0 20px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: 16,
           }}
         >
-          FABRIC COLOR SELECTION
-        </h2>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {COLOR_GROUPS.map((group) => (
+          {PILLARS.map((p) => (
             <div
-              key={group.title}
+              key={p.title}
               style={{
-                background:
-                  "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
-                border: "1px solid rgba(255,255,255,0.14)",
-                borderRadius: 20,
-                padding: "16px 20px 20px",
-                backdropFilter: "blur(20px) saturate(180%)",
-                WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                boxShadow:
-                  "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
+                ...cardBaseStyle,
+                padding: "20px 22px 22px",
               }}
             >
               <div
                 style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  letterSpacing: 1.5,
                   color: "#fff",
-                  textAlign: "center",
-                  marginBottom: 12,
-                  fontWeight: 600,
-                  letterSpacing: 0.5,
+                  textTransform: "uppercase",
+                  marginBottom: 8,
                 }}
               >
-                {group.title}
+                {p.title}
               </div>
-
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(6, 1fr)",
-                  gap: 10,
+                  color: "rgba(255,255,255,0.7)",
+                  fontSize: 14,
+                  lineHeight: 1.55,
                 }}
               >
-                {group.colors.map((color) => (
-                  <div
-                    key={color.value}
-                    onClick={() => handleColorClick(color.value)}
-                    style={{
-                      textAlign: "center",
-                      cursor: "pointer",
-                      minWidth: 0,
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: "50%",
-                        background: color.value,
-                        margin: "0 auto",
-                      }}
-                    />
-                    <div
-                      style={{
-                        fontSize: 11,
-                        lineHeight: 1.25,
-                        color: "#e4e4e4",
-                        marginTop: 6,
-                        wordBreak: "break-word",
-                        overflowWrap: "anywhere",
-                      }}
-                    >
-                      {color.name}
-                    </div>
-                  </div>
-                ))}
+                {p.copy}
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <EmbroideryControls
-        lines={embroideryLines}
-        lineCount={embroideryLineCount}
-        color={embroideryColor}
-        position={embroideryPosition}
-        font={embroideryFont}
-        lineSizes={embroideryLineSizes}
-        onLinesChange={setEmbroideryLines}
-        onLineCountChange={setEmbroideryLineCount}
-        onColorChange={setEmbroideryColor}
-        onPositionChange={setEmbroideryPosition}
-        onFontChange={setEmbroideryFont}
-        onLineSizesChange={setEmbroideryLineSizes}
-      />
-
-      <ZipperPullControls
-        enabled={zipperUpgrade}
-        color={zipperColor}
-        onEnabledChange={setZipperUpgrade}
-        onColorChange={setZipperColor}
-      />
-
-      {/* REVIEW / QUOTE */}
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 720,
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 12,
-        }}
-      >
-        <Link
-          href={invoiceHref}
+      {/* WHO ARE YOU? */}
+      <section style={sectionStyle}>
+        <h2 style={sectionHeaderStyle}>WHO ARE YOU?</h2>
+        <p
           style={{
-            padding: "14px 34px",
-            borderRadius: 999,
-            background: "#fff",
-            color: "#111",
-            fontWeight: 700,
+            textAlign: "center",
+            color: "rgba(255,255,255,0.65)",
             fontSize: 15,
-            letterSpacing: 0.5,
-            textDecoration: "none",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+            margin: "-12px 0 24px",
           }}
         >
-          Review your design →
-        </Link>
-      </div>
+          Pick the path that fits — we&rsquo;ll route you to the right place.
+        </p>
 
-      {(calibrationTarget === "front" || calibrationTarget === "back") && (
-        <CalibrationPanel
-          target={calibrationTarget}
-          calibration={
-            calibrationTarget === "front" ? frontCalibration : backCalibration
-          }
-          onChange={
-            calibrationTarget === "front"
-              ? setFrontCalibration
-              : setBackCalibration
-          }
-          svgCalibration={
-            calibrationTarget === "back" ? backSvgTransform : undefined
-          }
-          onSvgChange={
-            calibrationTarget === "back" ? setBackSvgTransform : undefined
-          }
-          debug={debugOverlay}
-          onDebugChange={setDebugOverlay}
-        />
-      )}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 16,
+          }}
+        >
+          <SegmenterCard
+            href="/customize"
+            label="Business / school / organization"
+            title="Bulk customization & quotation"
+            description="Configure colors, embroidery, and zipper hardware. Generate a printable quotation for orders of 200+ units."
+            cta="Customize in bulk →"
+          />
+          <SegmenterCard
+            href="/shop"
+            label="Individual customer"
+            title="Find your local store"
+            description="Pick your region and we&rsquo;ll route you to the local distributor or retail platform that ships to you."
+            cta="Shop your region →"
+          />
+        </div>
+      </section>
 
-      {calibrationTarget === "zipper" && (
-        <ZipperCalibrationPanel
-          calibration={zipperCalibration}
-          onChange={setZipperCalibration}
-        />
-      )}
+      <SiteFooter />
+    </main>
+  );
+}
 
-      {/* FOOTER */}
-      <footer
+function SegmenterCard({
+  href,
+  label,
+  title,
+  description,
+  cta,
+}: {
+  href: string;
+  label: string;
+  title: string;
+  description: string;
+  cta: string;
+}) {
+  return (
+    <Link
+      href={href}
+      style={{
+        ...cardBaseStyle,
+        padding: "24px 26px 26px",
+        textDecoration: "none",
+        color: "inherit",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        minHeight: 220,
+      }}
+    >
+      <div
         style={{
-          width: "100%",
-          maxWidth: 720,
-          textAlign: "center",
-          marginTop: 16,
-          color: "rgba(255,255,255,0.45)",
-          fontSize: 12,
-          lineHeight: 1.6,
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: 1.5,
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.55)",
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontSize: 22,
+          fontWeight: 700,
+          color: "#fff",
+          letterSpacing: 0.3,
+          lineHeight: 1.2,
+        }}
+      >
+        {title}
+      </div>
+      <div
+        style={{
+          color: "rgba(255,255,255,0.7)",
+          fontSize: 14,
+          lineHeight: 1.55,
+          flex: 1,
+        }}
+      >
+        {description}
+      </div>
+      <div
+        style={{
+          marginTop: 8,
+          fontWeight: 700,
+          color: "#fff",
           letterSpacing: 0.3,
         }}
       >
-        <div>
-          © 2026 Computex Systems Investments (PTY) LTD. All rights reserved.
-        </div>
-        <div>Designed and engineered for modern everyday carry.</div>
-      </footer>
-    </main>
+        {cta}
+      </div>
+    </Link>
   );
 }

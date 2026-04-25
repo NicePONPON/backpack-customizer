@@ -31,6 +31,29 @@ export const VOLUME_TIERS: VolumeTier[] = [
 
 export type CurrencyCode = "SZL" | "TWD" | "ZAR" | "USD";
 
+export type CompanyInfo = {
+  name: string;
+  tagline: string;
+  country: string;
+};
+
+export const COMPANY_LOCAL: CompanyInfo = {
+  name: "Computex Systems Investments (PTY) LTD",
+  tagline: "Modern everyday carry",
+  country: "Eswatini",
+};
+
+export const COMPANY_INTL: CompanyInfo = {
+  name: "Anpeng International Trading (PTY) LTD",
+  tagline: "Modern everyday carry",
+  country: "Taiwan",
+};
+
+// SZL is the local entity; everything else routes through the Taiwan parent.
+export function companyForCurrency(code: CurrencyCode): CompanyInfo {
+  return code === "SZL" ? COMPANY_LOCAL : COMPANY_INTL;
+}
+
 export type CurrencyMeta = {
   code: CurrencyCode;
   label: string;

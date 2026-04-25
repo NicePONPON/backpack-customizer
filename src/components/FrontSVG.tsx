@@ -40,15 +40,6 @@ const resolveGroup = (el: Element): string | null => {
   return null;
 };
 
-// 50%-darker same-hue shadow for the embroidery halo.
-function darken(hex: string, ratio: number): string {
-  const n = parseInt(hex.slice(1), 16);
-  const r = Math.round(((n >> 16) & 0xff) * (1 - ratio));
-  const g = Math.round(((n >> 8) & 0xff) * (1 - ratio));
-  const b = Math.round((n & 0xff) * (1 - ratio));
-  return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
-}
-
 type Box = { x: number; y: number; width: number; height: number };
 
 type LineSize = "small" | "medium" | "large";
@@ -79,8 +70,6 @@ const FONT_FAMILY: Record<"serif" | "sans-serif", string> = {
   serif: "Georgia, 'Times New Roman', serif",
   "sans-serif": "Arial, Helvetica, sans-serif",
 };
-
-const STROKE_WIDTH = 3;
 
 const ZIPPER_PNG_SRC = "/texture/Zipper-Overlay.png";
 const ZIPPER_PULL_WIDTH = 208;
@@ -205,8 +194,6 @@ export default function FrontSVG({
       : [embroideryLines[0], embroideryLines[1]];
   const hasText = visibleLines.some((l) => l.trim().length > 0);
 
-  const shadowColor = darken(embroideryColor, 0.5);
-
   let rendered: React.ReactNode = null;
   if (box && hasText) {
     const centerX = box.x + box.width / 2;
@@ -238,10 +225,6 @@ export default function FrontSVG({
           x={centerX}
           y={lineY}
           fill={embroideryColor}
-          stroke={shadowColor}
-          strokeWidth={STROKE_WIDTH}
-          strokeLinejoin="round"
-          paintOrder="stroke"
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize={fs}

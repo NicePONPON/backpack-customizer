@@ -1,9 +1,12 @@
 "use client";
 
+import CountryCodePicker from "@/components/CountryCodePicker";
+
 export type BillTo = {
   name: string;
   company: string;
   email: string;
+  phoneCountry: string;
   phone: string;
   address: string;
   country: string;
@@ -13,6 +16,7 @@ export const EMPTY_BILL_TO: BillTo = {
   name: "",
   company: "",
   email: "",
+  phoneCountry: "SZ",
   phone: "",
   address: "",
   country: "",
@@ -81,12 +85,20 @@ export default function BillToForm({ value, onChange }: Props) {
       </label>
       <label style={labelStyle}>
         Mobile phone
-        <input
-          type="tel"
-          style={inputStyle}
-          value={value.phone}
-          onChange={(e) => set("phone")(e.target.value)}
-        />
+        <div style={{ display: "flex", gap: 6 }}>
+          <CountryCodePicker
+            value={value.phoneCountry}
+            onChange={(code) =>
+              onChange({ ...value, phoneCountry: code })
+            }
+          />
+          <input
+            type="tel"
+            style={{ ...inputStyle, flex: 1, minWidth: 0 }}
+            value={value.phone}
+            onChange={(e) => set("phone")(e.target.value)}
+          />
+        </div>
       </label>
       <label style={{ ...labelStyle, gridColumn: "1 / -1" }}>
         Address

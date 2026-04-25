@@ -30,5 +30,5 @@ body {
   50%      { filter: brightness(1.55); }
 }
 .paint-flash {
-  animation: paint-flash 2s ease-in-out 3;
+  animation: paint-flash 1.5s ease-in-out 1;
 }

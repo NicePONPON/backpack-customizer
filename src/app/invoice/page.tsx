@@ -1,12 +1,18 @@
 "use client";
 
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import BillToForm, { EMPTY_BILL_TO, type BillTo } from "@/components/BillToForm";
 import InvoiceDocument from "@/components/InvoiceDocument";
+import SiteHeader from "@/components/SiteHeader";
 import { decodeDesign } from "@/lib/invoiceSerialization";
-import { CURRENCIES, MOQ, type CurrencyCode } from "@/lib/pricing";
+import {
+  CURRENCIES,
+  MOQ,
+  companyForCurrency,
+  type CurrencyCode,
+} from "@/lib/pricing";
 import { getColorName, getDisplayName } from "@/lib/bagReference";
 import { EMBROIDERY_COLORS } from "@/components/EmbroideryControls";
 import { ZIPPER_COLORS } from "@/components/ZipperPullControls";
@@ -96,12 +102,19 @@ function InvoicePageInner() {
   const [sharing, setSharing] = useState(false);
 
   const docRef = useRef<HTMLDivElement>(null);
-  const [invoiceNumber] = useState(generateInvoiceNumber);
-  const [date] = useState(formatToday);
+  // Generated client-side only — Math.random() and new Date() would otherwise
+  // produce different values during SSR vs hydration and trigger a mismatch.
+  const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [date, setDate] = useState("");
+  useEffect(() => {
+    setInvoiceNumber(generateInvoiceNumber());
+    setDate(formatToday());
+  }, []);
 
   if (!design) {
     return (
       <main style={pageBg}>
+        <SiteHeader />
         <div style={containerStyle}>
           <div style={{ ...cardStyle, textAlign: "center" }}>
             <h1 style={{ fontSize: 24, margin: "8px 0 16px" }}>
@@ -111,7 +124,7 @@ function InvoicePageInner() {
               Start by customizing your backpack, then generate a quotation.
             </p>
             <Link
-              href="/"
+              href="/customize"
               style={{
                 display: "inline-block",
                 padding: "10px 22px",
@@ -137,7 +150,10 @@ function InvoicePageInner() {
     ZIPPER_COLORS.find((c) => c.value === design.zipperColor)?.name ??
     design.zipperColor;
 
-  const backHref = d ? `/?d=${encodeURIComponent(d)}` : "/";
+  const backHref = d
+    ? `/customize?d=${encodeURIComponent(d)}`
+    : "/customize";
+  const company = companyForCurrency(currency);
 
   const handleShare = async () => {
     if (!docRef.current || sharing) return;
@@ -207,6 +223,7 @@ function InvoicePageInner() {
 
   return (
     <main style={pageBg}>
+      <SiteHeader />
       <div style={containerStyle}>
         {/* NAV */}
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -298,6 +315,21 @@ function InvoicePageInner() {
             embroideryColorName={embroideryColorName}
           />
         </div>
+
+        <footer
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginTop: 16,
+            color: "rgba(255,255,255,0.45)",
+            fontSize: 12,
+            lineHeight: 1.6,
+            letterSpacing: 0.3,
+          }}
+        >
+          <div>© 2026 {company.name}. All rights reserved.</div>
+          <div>Designed and engineered for modern everyday carry.</div>
+        </footer>
       </div>
 
       {/* ACTION BAR */}

@@ -4,7 +4,9 @@ import { forwardRef } from "react";
 import InvoiceBagPreview from "@/components/InvoiceBagPreview";
 import type { DesignState } from "@/lib/invoiceSerialization";
 import type { BillTo } from "@/components/BillToForm";
+import { findCountry } from "@/lib/countries";
 import {
+  companyForCurrency,
   computePricing,
   formatCurrency,
   type CurrencyCode,
@@ -23,11 +25,6 @@ type Props = {
   getColorName: (hex: string) => string;
   zipperColorName: string;
   embroideryColorName: string;
-};
-
-const COMPANY = {
-  name: "Computex Systems Investments (PTY) LTD",
-  tagline: "Modern everyday carry",
 };
 
 const pageStyle: React.CSSProperties = {
@@ -93,6 +90,8 @@ const InvoiceDocument = forwardRef<HTMLDivElement, Props>(function InvoiceDocume
     currency,
   });
 
+  const company = companyForCurrency(currency);
+
   const parts: PartMeta[] = Object.entries(design.colors).map(([part, hex]) => ({
     displayName: getDisplayName(part),
     colorName: getColorName(hex),
@@ -144,10 +143,10 @@ const InvoiceDocument = forwardRef<HTMLDivElement, Props>(function InvoiceDocume
       >
         <div>
           <div style={{ fontWeight: 700, fontSize: 16, color: "#111" }}>
-            {COMPANY.name}
+            {company.name}
           </div>
           <div style={{ fontSize: 12, color: "#666", marginTop: 2 }}>
-            {COMPANY.tagline}
+            {company.tagline}
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
@@ -171,15 +170,25 @@ const InvoiceDocument = forwardRef<HTMLDivElement, Props>(function InvoiceDocume
       <div style={{ display: "flex", gap: 32, marginTop: 16 }}>
         <div style={{ flex: 1 }}>
           <div style={sectionHeaderStyle}>From</div>
-          <div style={{ fontWeight: 600 }}>{COMPANY.name}</div>
-          <div style={{ color: "#666", fontSize: 12 }}>{COMPANY.tagline}</div>
+          <div style={{ fontWeight: 600 }}>{company.name}</div>
+          <div style={{ color: "#666", fontSize: 12 }}>{company.tagline}</div>
+          <div style={{ color: "#888", fontSize: 11, marginTop: 2 }}>
+            {company.country}
+          </div>
         </div>
         <div style={{ flex: 1 }}>
           <div style={sectionHeaderStyle}>Bill to</div>
           <div style={{ fontWeight: 600 }}>{billTo.name || "—"}</div>
           {billTo.company && <div>{billTo.company}</div>}
           {billTo.email && <div style={{ color: "#555" }}>{billTo.email}</div>}
-          {billTo.phone && <div style={{ color: "#555" }}>{billTo.phone}</div>}
+          {billTo.phone && (
+            <div style={{ color: "#555" }}>
+              {findCountry(billTo.phoneCountry)?.dialCode
+                ? `${findCountry(billTo.phoneCountry)!.dialCode} `
+                : ""}
+              {billTo.phone}
+            </div>
+          )}
           {billTo.address && <div style={{ color: "#555" }}>{billTo.address}</div>}
           {billTo.country && <div style={{ color: "#555" }}>{billTo.country}</div>}
         </div>
@@ -550,7 +559,7 @@ const InvoiceDocument = forwardRef<HTMLDivElement, Props>(function InvoiceDocume
           written confirmation.
         </div>
         <div style={{ marginTop: 4 }}>
-          © 2026 {COMPANY.name}. All rights reserved. Designed and engineered for
+          © 2026 {company.name}. All rights reserved. Designed and engineered for
           modern everyday carry.
         </div>
       </div>
