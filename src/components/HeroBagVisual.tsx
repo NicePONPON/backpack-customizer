@@ -48,24 +48,87 @@ function separatedOffset(i: number): { x: number; y: number } {
   };
 }
 
-function fitContain(cw: number, ch: number, iw: number, ih: number) {
+// Position the IMAGE so the bag's bbox (not the full image) sits inside the
+// container with explicit top/bottom/side margins. Standard object-fit:
+// contain centers the whole padded image and leaves the bag floating high
+// in the frame; this anchors the bag itself instead, which gives reliable
+// headroom for the upward float animation and trims dead space at the bottom.
+function fitBag(
+  cw: number,
+  ch: number,
+  iw: number,
+  ih: number,
+  bbox: { left: number; right: number; top: number; bottom: number },
+  topMarginFrac: number,
+  bottomMarginFrac: number,
+  sideMarginFrac: number,
+) {
   if (cw <= 0 || ch <= 0 || iw <= 0 || ih <= 0) {
     return { left: 0, top: 0, width: cw, height: ch };
   }
-  const containerAspect = cw / ch;
-  const imageAspect = iw / ih;
-  if (containerAspect > imageAspect) {
-    const height = ch;
-    const width = ch * imageAspect;
-    return { left: (cw - width) / 2, top: 0, width, height };
+  const bagWFrac = bbox.right - bbox.left;
+  const bagHFrac = bbox.bottom - bbox.top;
+  if (bagWFrac <= 0 || bagHFrac <= 0) {
+    // Degenerate bbox — fall back to centered contain.
+    const containerAspect = cw / ch;
+    const imageAspect = iw / ih;
+    if (containerAspect > imageAspect) {
+      const height = ch;
+      const width = ch * imageAspect;
+      return { left: (cw - width) / 2, top: 0, width, height };
+    }
+    const width = cw;
+    const height = cw / imageAspect;
+    return { left: 0, top: (ch - height) / 2, width, height };
   }
-  const width = cw;
-  const height = cw / imageAspect;
-  return { left: 0, top: (ch - height) / 2, width, height };
+
+  const bagAspect = (bagWFrac * iw) / (bagHFrac * ih);
+  const availW = cw * (1 - 2 * sideMarginFrac);
+  const availH = ch * (1 - topMarginFrac - bottomMarginFrac);
+
+  // Fit the bag bbox inside (availW, availH), preserving its aspect.
+  let bagDisplayH = availH;
+  let bagDisplayW = bagDisplayH * bagAspect;
+  if (bagDisplayW > availW) {
+    bagDisplayW = availW;
+    bagDisplayH = bagDisplayW / bagAspect;
+  }
+
+  // Back out the rendered image dimensions from the desired bag size.
+  // Since the bag is bagWFrac × bagHFrac of the full image, the full image
+  // must render at (bagDisplayW / bagWFrac, bagDisplayH / bagHFrac).
+  const renderedW = bagDisplayW / bagWFrac;
+  const renderedH = bagDisplayH / bagHFrac;
+
+  // Place the image so the bag's center lands at (cw/2, topMargin + bagH/2).
+  const bagCenterFracX = (bbox.left + bbox.right) / 2;
+  const bagCenterFracY = (bbox.top + bbox.bottom) / 2;
+  const targetBagCenterX = cw / 2;
+  const targetBagCenterY = ch * topMarginFrac + bagDisplayH / 2;
+
+  return {
+    left: targetBagCenterX - bagCenterFracX * renderedW,
+    top: targetBagCenterY - bagCenterFracY * renderedH,
+    width: renderedW,
+    height: renderedH,
+  };
 }
 
-type BagBounds = { left: number; right: number };
+type BagBounds = {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+};
 type Intrinsic = { w: number; h: number };
+
+// Bag-anchor margins (fractions of container). 10% top gives plenty of
+// headroom for the upward float (max ~22px on a 480px container = ~4.5%);
+// 4% bottom removes most of the dead space below the bag without crowding
+// the next section.
+const BAG_TOP_MARGIN_FRAC = 0.1;
+const BAG_BOTTOM_MARGIN_FRAC = 0.04;
+const BAG_SIDE_MARGIN_FRAC = 0.025;
 
 export default function HeroBagVisual() {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,10 +138,11 @@ export default function HeroBagVisual() {
   const [merged, setMerged] = useState(false);
   const [supportsHover, setSupportsHover] = useState(true);
 
-  // One-time alpha-channel scan: find leftmost and rightmost columns of
-  // opaque pixels in Hero.png. That defines the bag's actual horizontal
-  // extent so the 5 strips are sliced at equal widths within the bag,
-  // not the (much wider) padded image canvas.
+  // One-time alpha-channel scan: find the bag's full bounding box (left,
+  // right, top, bottom columns/rows of opaque pixels) in Hero.png. The
+  // horizontal extent is used to slice the 5 color strips at equal widths
+  // inside the bag, and the vertical extent lets us position the image so
+  // the bag — not the padded image — sits where we want in the container.
   useEffect(() => {
     let cancelled = false;
     const img = new Image();
@@ -97,19 +161,27 @@ export default function HeroBagVisual() {
       const ALPHA_THRESHOLD = 16;
       let leftCol = W;
       let rightCol = -1;
-      for (let x = 0; x < W; x++) {
-        for (let y = 0; y < H; y++) {
+      let topRow = H;
+      let bottomRow = -1;
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
           const a = data[(y * W + x) * 4 + 3];
           if (a > ALPHA_THRESHOLD) {
             if (x < leftCol) leftCol = x;
             if (x > rightCol) rightCol = x;
-            break;
+            if (y < topRow) topRow = y;
+            if (y > bottomRow) bottomRow = y;
           }
         }
       }
-      if (rightCol < leftCol) return;
+      if (rightCol < leftCol || bottomRow < topRow) return;
       setIntrinsic({ w: img.naturalWidth, h: img.naturalHeight });
-      setBagBounds({ left: leftCol / W, right: (rightCol + 1) / W });
+      setBagBounds({
+        left: leftCol / W,
+        right: (rightCol + 1) / W,
+        top: topRow / H,
+        bottom: (bottomRow + 1) / H,
+      });
     };
     img.src = HERO_SRC;
     return () => {
@@ -148,9 +220,18 @@ export default function HeroBagVisual() {
   const scrollScale = useTransform(scrollYProgress, [0, 1], [1, 1.04]);
 
   const overlayRect = useMemo(() => {
-    if (!containerSize || !intrinsic) return null;
-    return fitContain(containerSize.w, containerSize.h, intrinsic.w, intrinsic.h);
-  }, [containerSize, intrinsic]);
+    if (!containerSize || !intrinsic || !bagBounds) return null;
+    return fitBag(
+      containerSize.w,
+      containerSize.h,
+      intrinsic.w,
+      intrinsic.h,
+      bagBounds,
+      BAG_TOP_MARGIN_FRAC,
+      BAG_BOTTOM_MARGIN_FRAC,
+      BAG_SIDE_MARGIN_FRAC,
+    );
+  }, [containerSize, intrinsic, bagBounds]);
 
   const ready =
     bagBounds !== null && overlayRect !== null && containerSize !== null;
@@ -198,6 +279,10 @@ export default function HeroBagVisual() {
             WebkitUserSelect: "none",
             cursor: supportsHover ? "default" : "pointer",
             touchAction: "manipulation",
+            // 20% brighter, applied at the segments' common parent so the
+            // multiply blend between image and tint composites first, then
+            // the brightness lifts the entire result uniformly.
+            filter: "brightness(1.2)",
           }}
         >
           {ready &&
@@ -284,10 +369,10 @@ export default function HeroBagVisual() {
                     decoding="async"
                     style={{
                       position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
+                      left: overlayRect.left,
+                      top: overlayRect.top,
+                      width: overlayRect.width,
+                      height: overlayRect.height,
                       pointerEvents: "none",
                       display: "block",
                     }}

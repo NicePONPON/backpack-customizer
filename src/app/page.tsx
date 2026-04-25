@@ -108,6 +108,9 @@ export default function HomePage() {
             width: "100%",
             maxWidth: 480,
             aspectRatio: "1 / 1",
+            // Generous gap so the floating animation (segments can translate
+            // up to ~22px above their resting position) never clips toward
+            // the slogan above.
             marginTop: 16,
           }}
         >
