@@ -6,15 +6,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 const HERO_SRC = "/texture/Hero.png";
 
 // Five vertical bands, left → right.
-//   "Ivory Dome"   → Ivory Dune (#FFF6DF) — closest brand-palette match
-//   "Frosted Gray" → Frost Gray (#F3F6F5) — closest brand-palette match
-//   Lavender Mist, Mint Dust, Rose Blush are exact palette hexes.
 const BANDS: string[] = [
-  "#FFF6DF", // Ivory Dome (Ivory Dune)
-  "#F3F6F5", // Frosted Gray (Frost Gray)
-  "#C2BAC7", // Lavender Mist
-  "#BBD8C6", // Mint Dust
-  "#E7CEC8", // Rose Blush
+  "#3F5759", // Pine Smoke
+  "#6B9DA7", // Tideglass Blues
+  "#D6D9AF", // Olive Cream
+  "#F0E196", // Butter Glow
+  "#FFF6DF", // Ivory Dune
 ];
 
 const SEGMENT_COUNT = BANDS.length;
