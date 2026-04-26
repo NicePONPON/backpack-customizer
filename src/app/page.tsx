@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
 import IntroVideo from "@/components/IntroVideo";
+import Gallery from "@/components/Gallery";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
@@ -183,6 +184,12 @@ export default function HomePage() {
             <FeatureExpandableCard key={card.title} data={card} />
           ))}
         </div>
+      </section>
+
+      {/* GALLERY */}
+      <section style={sectionStyle}>
+        <h2 style={sectionHeaderStyle}>GALLERY</h2>
+        <Gallery />
       </section>
 
       {/* WHO ARE YOU? */}
