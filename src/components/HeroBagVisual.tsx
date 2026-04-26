@@ -122,11 +122,12 @@ type BagBounds = {
 };
 type Intrinsic = { w: number; h: number };
 
-// Bag-anchor margins (fractions of container). 10% top gives plenty of
-// headroom for the upward float (max ~22px on a 480px container = ~4.5%);
-// 4% bottom removes most of the dead space below the bag without crowding
-// the next section.
-const BAG_TOP_MARGIN_FRAC = 0.1;
+// Bag-anchor margins (fractions of container). Center segment's max upward
+// translation is VERTICAL_OFFSET_PX (16) + FLOAT_AMPLITUDE_PX (6) = 22px;
+// 16% top headroom keeps that float well clear of the slogan above on every
+// breakpoint (51px on a 320px container, 77px on 480px). 4% bottom removes
+// dead space below the bag without crowding the next section.
+const BAG_TOP_MARGIN_FRAC = 0.16;
 const BAG_BOTTOM_MARGIN_FRAC = 0.04;
 const BAG_SIDE_MARGIN_FRAC = 0.025;
 

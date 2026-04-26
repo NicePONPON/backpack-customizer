@@ -4,6 +4,7 @@ import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
+import IntroVideo from "@/components/IntroVideo";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
@@ -18,13 +19,13 @@ const FEATURE_CARDS: FeatureCardData[] = [
         videoSrc: "/gif/Reinforce Stitching.mp4",
         title: "Reinforced Stitching",
         description:
-          "Bar-tacked stress points and double-row seams stand up to a decade of daily wear. Heavy loads and hard pulls — every panel stays put.",
+          "Bar-tacked stress points and double-row lockstitches anchor every strap and seam to the body, holding the bag intact through years of heavy loads and hard pulls.",
       },
       {
         videoSrc: "/gif/Machine Washable.mp4",
         title: "Machine Washable",
         description:
-          "Toss it in the wash. Colorfast fabric and rust-proof hardware survive a full cycle, so your bag stays first-week fresh after years.",
+          "Toss it in the wash. Colorfast dyes, rust-proof hardware, and reinforced edges hold their shape and tone across dozens of cycles — fresh-looking year after year.",
       },
     ],
   },
@@ -37,13 +38,13 @@ const FEATURE_CARDS: FeatureCardData[] = [
         videoSrc: "/gif/Reinforced Laptop Compartment.mp4",
         title: "Reinforced Laptop Compartment",
         description:
-          "A structured sleeve cradles your laptop in foam, suspended off the bag floor to absorb shock the moment it hits the ground.",
+          "A purpose-built suspended sleeve cradles your laptop in dense foam, lifted clear of the bag floor so ground impacts dissipate before reaching your device.",
       },
       {
         videoSrc: "/gif/Super Breathable Straps Padding.mp4",
         title: "Super-Breathable Straps & Padding",
         description:
-          "Air-channeled mesh and contoured padding move heat away from your back, so heavy carries stay cool through the longest commute.",
+          "Contoured shoulder straps and air-channeled mesh back padding distribute weight evenly and vent body heat, keeping long carries cool, balanced, and effortless.",
       },
     ],
   },
@@ -56,13 +57,13 @@ const FEATURE_CARDS: FeatureCardData[] = [
         videoSrc: "/gif/Shockproof Foam Armor.mp4",
         title: "Shockproof Foam Armor",
         description:
-          "Closed-cell foam panels line the chassis, dissipating impact before it reaches your gear. Drops, throws, jostled trains — contents arrive intact.",
+          "Closed-cell foam armor lines the chassis, absorbing impact energy before it reaches your gear — bumps, drops, and jostled commutes leave the contents undisturbed.",
       },
       {
         videoSrc: "/gif/Water-Resistant Material.mp4",
         title: "Water-Resistant Material",
         description:
-          "Tightly-woven shell sheds rain on contact; sealed-zip hardware blocks weather at every seam. Essentials stay dry through unexpected downpours.",
+          "A high-density woven shell with hydrophobic coating beads water on contact, shedding rain and unexpected splashes so the essentials inside stay completely dry.",
       },
     ],
   },
@@ -108,6 +109,7 @@ const sectionHeaderStyle: React.CSSProperties = {
 export default function HomePage() {
   return (
     <main style={pageBg}>
+      <IntroVideo />
       <SiteHeader />
 
       {/* HERO */}
