@@ -105,23 +105,36 @@ export default function IntroVideo() {
           />
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.55 }}
-            transition={{ duration: 1.2, delay: 1.2, ease: SMOOTH_EASE }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.8, ease: SMOOTH_EASE }}
             style={{
               position: "absolute",
               left: 0,
               right: 0,
-              bottom: 32,
+              // Lift above the iOS home indicator so the hint isn't hidden
+              // by the bottom safe-area chrome on iPhone.
+              bottom: "calc(20px + env(safe-area-inset-bottom, 12px))",
               textAlign: "center",
-              color: "#fff",
-              fontSize: 12,
-              fontWeight: 500,
-              letterSpacing: 2,
-              textTransform: "uppercase",
               pointerEvents: "none",
             }}
           >
-            Double-click to skip
+            <span
+              style={{
+                display: "inline-block",
+                background: "rgba(0,0,0,0.55)",
+                color: "rgba(255,255,255,0.92)",
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: 1.6,
+                textTransform: "uppercase",
+                padding: "8px 14px",
+                borderRadius: 999,
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+              }}
+            >
+              Double-tap to skip
+            </span>
           </motion.div>
         </motion.div>
       )}
