@@ -10,9 +10,24 @@ const VIDEO_SRC = "/gif/Backpack-EasyCareEasyLife3.mp4";
 const MAX_INTRO_MS = 12_000;
 const SMOOTH_EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
 
+// Two clicks/taps within this window are treated as a "skip" gesture.
+// 400ms matches the OS-level double-click threshold on macOS/iOS.
+const DOUBLE_TAP_WINDOW_MS = 400;
+
 export default function IntroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const lastTapRef = useRef(0);
   const [visible, setVisible] = useState(true);
+
+  const handleSkipTap = () => {
+    const now = Date.now();
+    if (now - lastTapRef.current < DOUBLE_TAP_WINDOW_MS) {
+      setVisible(false);
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  };
 
   // Lock body scroll while the intro is on screen.
   useEffect(() => {
@@ -45,7 +60,8 @@ export default function IntroVideo() {
         <motion.div
           initial={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
           exit={{ opacity: 0, filter: "blur(18px)", scale: 1.05 }}
-          transition={{ duration: 0.9, ease: SMOOTH_EASE }}
+          transition={{ duration: 1.8, ease: SMOOTH_EASE }}
+          onClick={handleSkipTap}
           style={{
             position: "fixed",
             inset: 0,
@@ -58,6 +74,10 @@ export default function IntroVideo() {
             justifyContent: "center",
             overflow: "hidden",
             willChange: "opacity, filter, transform",
+            cursor: "pointer",
+            // Disable double-tap zoom on iOS so the skip gesture lands
+            // cleanly without triggering a viewport zoom.
+            touchAction: "manipulation",
           }}
           aria-hidden
         >
