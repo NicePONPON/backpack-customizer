@@ -5,6 +5,7 @@ import Link from "next/link";
 import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
 import PngOverlayLayer from "@/components/PngOverlayLayer";
+import BagDimensionGuides from "@/components/BagDimensionGuides";
 import CalibrationPanel from "@/components/CalibrationPanel";
 import ZipperCalibrationPanel from "@/components/ZipperCalibrationPanel";
 import EmbroideryControls, {
@@ -286,6 +287,7 @@ export default function CustomizePage() {
               calibration={frontCalibration}
               debug={calibrationTarget === "front" && debugOverlay}
             />
+            <BagDimensionGuides size={size} />
           </div>
         </div>
 
