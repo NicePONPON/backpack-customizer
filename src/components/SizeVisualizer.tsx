@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { GalleryImage } from "./Gallery";
+import { useEffect, useState, type ReactNode } from "react";
 
 type Props = {
-  selectedBag: GalleryImage | null;
+  // Drives which calibration set is used. `null` hides the bag overlays
+  // (used on the home page when no gallery card is snapped yet).
+  sizeClass: "14" | "16" | null;
+  // Rendered inside each figure's bag slot (man + woman). The same node is
+  // mounted twice — gallery: an <img>; customize: the live FrontSVG + PNG
+  // overlay composition.
+  bagSlot?: ReactNode;
 };
 
-// Source image: /public/texture/peopleback.png — man (175cm) left, woman (165cm) right.
+// Source image: /public/texture/peopleback.png — man (175cm) left, woman (160cm) right.
 const IMG_W = 1402;
 const IMG_H = 1122;
 
@@ -48,7 +53,7 @@ type FigureKey = (typeof FIGURE_KEYS)[number];
 
 const SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
-export default function SizeVisualizer({ selectedBag }: Props) {
+export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
   const [tuneMode, setTuneMode] = useState(false);
   const [calibration, setCalibration] = useState<
     Record<"14" | "16", SizeCalibration>
@@ -60,12 +65,14 @@ export default function SizeVisualizer({ selectedBag }: Props) {
     setTuneMode(params.get("tune") === "visualizer");
   }, []);
 
-  const activeSize: "14" | "16" = selectedBag?.sizeClass ?? "16";
+  const activeSize: "14" | "16" = sizeClass ?? "16";
+  const showBag = sizeClass !== null && bagSlot != null;
 
   return (
     <div
       style={{
         marginTop: 36,
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -128,7 +135,7 @@ export default function SizeVisualizer({ selectedBag }: Props) {
                 height: `${BAG_BOX_HEIGHT_PCT * c.scale}%`,
                 aspectRatio: "1 / 1",
                 transform: "translateX(-50%)",
-                opacity: selectedBag ? 1 : 0,
+                opacity: showBag ? 1 : 0,
                 transition: tuneMode
                   ? "none"
                   : `opacity 0.5s ${SMOOTH_EASE}`,
@@ -137,21 +144,7 @@ export default function SizeVisualizer({ selectedBag }: Props) {
                   "drop-shadow(0 6px 14px rgba(0,0,0,0.45)) saturate(0.85)",
               }}
             >
-              {selectedBag && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={encodeURI(selectedBag.src)}
-                  alt=""
-                  draggable={false}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                    display: "block",
-                    userSelect: "none",
-                  }}
-                />
-              )}
+              {showBag && bagSlot}
             </div>
           );
         })}
@@ -166,7 +159,7 @@ export default function SizeVisualizer({ selectedBag }: Props) {
       >
         {[
           { x: 36.75, cm: 175, ftIn: `5'9"` },
-          { x: 65.25, cm: 165, ftIn: `5'5"` },
+          { x: 65.25, cm: 160, ftIn: `5'3"` },
         ].map((h) => (
           <div
             key={h.cm}
@@ -340,7 +333,7 @@ function TunePanel({
                   color: "rgba(255,255,255,0.7)",
                 }}
               >
-                {figKey === "man" ? "Man · 175 cm" : "Woman · 165 cm"}
+                {figKey === "man" ? "Man · 175 cm" : "Woman · 160 cm"}
               </div>
               <Slider
                 label="centerX (%)"

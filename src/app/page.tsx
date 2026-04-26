@@ -193,7 +193,26 @@ export default function HomePage() {
       <section style={sectionStyle}>
         <h2 style={sectionHeaderStyle}>GALLERY</h2>
         <Gallery onActiveChange={setSelectedBag} />
-        <SizeVisualizer selectedBag={selectedBag} />
+        <SizeVisualizer
+          sizeClass={selectedBag?.sizeClass ?? null}
+          bagSlot={
+            selectedBag ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={encodeURI(selectedBag.src)}
+                alt=""
+                draggable={false}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  userSelect: "none",
+                }}
+              />
+            ) : null
+          }
+        />
       </section>
 
       {/* WHO ARE YOU? */}

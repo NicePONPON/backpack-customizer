@@ -17,6 +17,7 @@ import EmbroideryControls, {
 import ZipperPullControls, {
   ZIPPER_COLORS,
 } from "@/components/ZipperPullControls";
+import SizeVisualizer from "@/components/SizeVisualizer";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import {
@@ -434,6 +435,41 @@ export default function CustomizePage() {
         color={zipperColor}
         onEnabledChange={setZipperUpgrade}
         onColorChange={setZipperColor}
+      />
+
+      <SizeVisualizer
+        sizeClass={size}
+        bagSlot={
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "100%",
+              transform: `scale(${SIZE_SCALE[size]})`,
+              transformOrigin: "center center",
+            }}
+          >
+            <FrontSVG
+              colors={colors}
+              setSelectedPart={() => {}}
+              embroideryLines={embroideryLines}
+              embroideryLineCount={embroideryLineCount}
+              embroideryColor={embroideryColor}
+              embroideryPosition={embroideryPosition}
+              embroideryFont={embroideryFont}
+              embroideryLineSizes={embroideryLineSizes}
+              zipperUpgrade={zipperUpgrade}
+              zipperColor={zipperColor}
+              zipperCalibration={zipperCalibration}
+            />
+            <PngOverlayLayer
+              viewBoxW={FRONT_VIEWBOX.w}
+              viewBoxH={FRONT_VIEWBOX.h}
+              pngSrc={FRONT_TEXTURE_SRC}
+              calibration={frontCalibration}
+            />
+          </div>
+        }
       />
 
       {/* REVIEW / QUOTE */}
