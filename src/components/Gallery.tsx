@@ -2,16 +2,46 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const IMAGES = [
-  "/gallery/14-ivorydune-1.png",
-  "/gallery/14-ivorydune-2.png",
-  "/gallery/14-ivorydune-3.png",
-  "/gallery/14-ivorydune-4.png",
-  "/gallery/14-frostgrey-1.png",
-  "/gallery/14-frostgrey-2.png",
-  "/gallery/14-frostgrey-3.png",
-  "/gallery/14-frostgrey-4.png",
+type GalleryImage = { src: string; sizeClass: "14" | "16" };
+
+// 14" entries rendered 15% smaller so the size difference reads visually
+// alongside the 16" frames. Order: all 14" first, then all 16".
+const IMAGES: GalleryImage[] = [
+  { src: "/gallery/14-ivorydune-1.png", sizeClass: "14" },
+  { src: "/gallery/14-frostgrey-1.png", sizeClass: "14" },
+  { src: "/gallery/16-ivorydune-1 copy.png", sizeClass: "16" },
+  { src: "/gallery/16-frostgrey-1 copy.png", sizeClass: "16" },
 ];
+
+const SIZE_SCALE: Record<"14" | "16", number> = {
+  "14": 0.85,
+  "16": 1,
+};
+
+const COLOR_LABELS: Record<string, string> = {
+  ivorydune: "Ivory Dune",
+  frostgrey: "Frost Gray",
+};
+
+const VIEW_LABELS: Record<string, string> = {
+  "1": "Front",
+  "2": "Right",
+  "3": "Left",
+  "4": "Back",
+};
+
+function imageLabel(src: string): string {
+  const file = src
+    .split("/")
+    .pop()!
+    .replace(/\.png$/i, "")
+    .replace(/\s+copy$/i, "");
+  const [size, colorRaw, viewIdx] = file.split("-");
+  const color = COLOR_LABELS[colorRaw] ?? colorRaw;
+  if (viewIdx === "1") return `${size}" ${color}`;
+  const view = VIEW_LABELS[viewIdx] ?? viewIdx;
+  return `${size}" ${color} (${view})`;
+}
 
 const SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 const CARD_W = "clamp(140px, 38vw, 220px)";
@@ -86,17 +116,19 @@ export default function Gallery() {
             "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
         }}
       >
-        {IMAGES.map((src, i) => {
+        {IMAGES.map((img, i) => {
           const active = i === activeIdx;
+          const scale = SIZE_SCALE[img.sizeClass];
           return (
             <div
-              key={src}
+              key={img.src}
               ref={(el) => {
                 itemRefs.current[i] = el;
               }}
               style={{
+                position: "relative",
                 flex: "0 0 auto",
-                width: CARD_W,
+                width: `calc(${CARD_W} * ${scale})`,
                 aspectRatio: "1 / 1",
                 scrollSnapAlign: "center",
                 borderRadius: 24,
@@ -115,7 +147,7 @@ export default function Gallery() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={src}
+                src={encodeURI(img.src)}
                 alt=""
                 draggable={false}
                 style={{
@@ -124,8 +156,40 @@ export default function Gallery() {
                   objectFit: "contain",
                   display: "block",
                   userSelect: "none",
+                  filter: "saturate(0.7)",
+                  transform: scale === 1 ? "none" : `scale(${scale})`,
+                  transformOrigin: "center center",
                 }}
               />
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  bottom: 12,
+                  textAlign: "center",
+                  pointerEvents: "none",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(0,0,0,0.5)",
+                    color: "rgba(255,255,255,0.92)",
+                    fontSize: 10,
+                    fontWeight: 600,
+                    letterSpacing: 1.4,
+                    textTransform: "uppercase",
+                    padding: "5px 10px",
+                    borderRadius: 999,
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {imageLabel(img.src)}
+                </span>
+              </div>
             </div>
           );
         })}
@@ -135,26 +199,33 @@ export default function Gallery() {
         style={{
           display: "flex",
           justifyContent: "center",
-          gap: 8,
           marginTop: 14,
         }}
         aria-hidden
       >
-        {IMAGES.map((_, i) => (
-          <span
-            key={i}
+        <div
+          style={{
+            position: "relative",
+            width: 220,
+            height: 4,
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.18)",
+            overflow: "hidden",
+          }}
+        >
+          <div
             style={{
-              width: i === activeIdx ? 22 : 6,
-              height: 6,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: "100%",
+              width: `${((activeIdx + 1) / IMAGES.length) * 100}%`,
               borderRadius: 999,
-              background:
-                i === activeIdx
-                  ? "rgba(255,255,255,0.85)"
-                  : "rgba(255,255,255,0.3)",
-              transition: `width 0.4s ${SMOOTH_EASE}, background 0.4s ${SMOOTH_EASE}`,
+              background: "rgba(255,255,255,0.88)",
+              transition: `width 0.4s ${SMOOTH_EASE}`,
             }}
           />
-        ))}
+        </div>
       </div>
     </div>
   );
