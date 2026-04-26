@@ -31,8 +31,15 @@ export function findCountry(code: string): Country | undefined {
   return COUNTRIES.find((c) => c.code === code);
 }
 
-// flagcdn.com is a free public CDN serving PNGs at fixed widths. w80 is small
-// enough for the 20–28px circles we render and crisp on retina.
+// Local high-quality flag PNGs in public/nationalflag. ISO code → filename.
+const FLAG_FILES: Record<string, string> = {
+  SZ: "eswatini.png",
+  ZA: "southafrica.png",
+  TW: "taiwan.png",
+  US: "usa.png",
+};
+
 export function flagSrc(code: string): string {
-  return `https://flagcdn.com/w80/${code.toLowerCase()}.png`;
+  const file = FLAG_FILES[code.toUpperCase()];
+  return file ? `/nationalflag/${file}` : "";
 }

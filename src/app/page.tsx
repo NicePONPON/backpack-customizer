@@ -4,19 +4,67 @@ import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
+import FeatureExpandableCard, {
+  type FeatureCardData,
+} from "@/components/FeatureExpandableCard";
 
-const PILLARS: Array<{ title: string; copy: string }> = [
+const FEATURE_CARDS: FeatureCardData[] = [
   {
     title: "Durability",
-    copy: "Reinforced seams and weather-resistant fabric, built to outlast your commute.",
+    summary:
+      "Reinforced seams and weather-resistant fabric, built to outlast your commute.",
+    items: [
+      {
+        videoSrc: "/gif/Reinforce Stitching.mp4",
+        title: "Reinforced Stitching",
+        description:
+          "Bar-tacked stress points and double-row seams stand up to a decade of daily wear. Heavy loads and hard pulls — every panel stays put.",
+      },
+      {
+        videoSrc: "/gif/Machine Washable.mp4",
+        title: "Machine Washable",
+        description:
+          "Toss it in the wash. Colorfast fabric and rust-proof hardware survive a full cycle, so your bag stays first-week fresh after years.",
+      },
+    ],
   },
   {
     title: "Design",
-    copy: "Considered details, clean silhouettes — a bag that earns its place every day.",
+    summary:
+      "Considered details, clean silhouettes — a bag that earns its place every day.",
+    items: [
+      {
+        videoSrc: "/gif/Reinforced Laptop Compartment.mp4",
+        title: "Reinforced Laptop Compartment",
+        description:
+          "A structured sleeve cradles your laptop in foam, suspended off the bag floor to absorb shock the moment it hits the ground.",
+      },
+      {
+        videoSrc: "/gif/Super Breathable Straps Padding.mp4",
+        title: "Super-Breathable Straps & Padding",
+        description:
+          "Air-channeled mesh and contoured padding move heat away from your back, so heavy carries stay cool through the longest commute.",
+      },
+    ],
   },
   {
     title: "Quality",
-    copy: "Tested materials and careful assembly. Every panel held to the same standard.",
+    summary:
+      "Tested materials and careful assembly. Every panel held to the same standard.",
+    items: [
+      {
+        videoSrc: "/gif/Shockproof Foam Armor.mp4",
+        title: "Shockproof Foam Armor",
+        description:
+          "Closed-cell foam panels line the chassis, dissipating impact before it reaches your gear. Drops, throws, jostled trains — contents arrive intact.",
+      },
+      {
+        videoSrc: "/gif/Water-Resistant Material.mp4",
+        title: "Water-Resistant Material",
+        description:
+          "Tightly-woven shell sheds rain on contact; sealed-zip hardware blocks weather at every seam. Essentials stay dry through unexpected downpours.",
+      },
+    ],
   },
 ];
 
@@ -124,40 +172,13 @@ export default function HomePage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             gap: 16,
+            alignItems: "start",
           }}
         >
-          {PILLARS.map((p) => (
-            <div
-              key={p.title}
-              style={{
-                ...cardBaseStyle,
-                padding: "20px 22px 22px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  letterSpacing: 1.5,
-                  color: "#fff",
-                  textTransform: "uppercase",
-                  marginBottom: 8,
-                }}
-              >
-                {p.title}
-              </div>
-              <div
-                style={{
-                  color: "rgba(255,255,255,0.7)",
-                  fontSize: 14,
-                  lineHeight: 1.55,
-                }}
-              >
-                {p.copy}
-              </div>
-            </div>
+          {FEATURE_CARDS.map((card) => (
+            <FeatureExpandableCard key={card.title} data={card} />
           ))}
         </div>
       </section>

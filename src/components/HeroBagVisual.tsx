@@ -239,11 +239,8 @@ export default function HeroBagVisual() {
   const handleHoverStart = () => {
     if (supportsHover) setMerged(true);
   };
-  const handleHoverEnd = () => {
-    if (supportsHover) setMerged(false);
-  };
   const handleTap = () => {
-    if (!supportsHover) setMerged((m) => !m);
+    setMerged((m) => !m);
   };
 
   return (
@@ -269,7 +266,6 @@ export default function HeroBagVisual() {
           animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
           transition={{ duration: ENTRY_DURATION, ease: SMOOTH_EASE }}
           onHoverStart={handleHoverStart}
-          onHoverEnd={handleHoverEnd}
           onTap={handleTap}
           style={{
             position: "relative",
