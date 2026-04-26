@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
 import IntroVideo from "@/components/IntroVideo";
-import Gallery from "@/components/Gallery";
+import Gallery, { type GalleryImage } from "@/components/Gallery";
+import SizeVisualizer from "@/components/SizeVisualizer";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
@@ -108,6 +110,7 @@ const sectionHeaderStyle: React.CSSProperties = {
 };
 
 export default function HomePage() {
+  const [selectedBag, setSelectedBag] = useState<GalleryImage | null>(null);
   return (
     <main style={pageBg}>
       <IntroVideo />
@@ -189,7 +192,8 @@ export default function HomePage() {
       {/* GALLERY */}
       <section style={sectionStyle}>
         <h2 style={sectionHeaderStyle}>GALLERY</h2>
-        <Gallery />
+        <Gallery onActiveChange={setSelectedBag} />
+        <SizeVisualizer selectedBag={selectedBag} />
       </section>
 
       {/* WHO ARE YOU? */}

@@ -2,54 +2,45 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type GalleryImage = { src: string; sizeClass: "14" | "16" };
+export type GalleryImage = { src: string; sizeClass: "14" | "16" };
 
-// 14" entries rendered 15% smaller so the size difference reads visually
-// alongside the 16" frames. Order: all 14" first, then all 16".
-const IMAGES: GalleryImage[] = [
-  { src: "/gallery/14-ivorydune-1.png", sizeClass: "14" },
-  { src: "/gallery/14-frostgrey-1.png", sizeClass: "14" },
-  { src: "/gallery/16-ivorydune-1 copy.png", sizeClass: "16" },
-  { src: "/gallery/16-frostgrey-1 copy.png", sizeClass: "16" },
-];
-
-const SIZE_SCALE: Record<"14" | "16", number> = {
-  "14": 0.85,
-  "16": 1,
+type GalleryProps = {
+  onActiveChange?: (img: GalleryImage) => void;
 };
+
+// Photos are pre-scaled in Photoshop — 14" files render visibly smaller than
+// 16" files at native size, and saturation is already toned down at the
+// source. No runtime size or saturation correction needed.
+const IMAGES: GalleryImage[] = [
+  { src: "/gallery/14-ivorydune.png", sizeClass: "14" },
+  { src: "/gallery/14-frostgrey.png", sizeClass: "14" },
+  { src: "/gallery/16-ivorydune.png", sizeClass: "16" },
+  { src: "/gallery/16-frostgrey.png", sizeClass: "16" },
+];
 
 const COLOR_LABELS: Record<string, string> = {
   ivorydune: "Ivory Dune",
   frostgrey: "Frost Gray",
 };
 
-const VIEW_LABELS: Record<string, string> = {
-  "1": "Front",
-  "2": "Right",
-  "3": "Left",
-  "4": "Back",
-};
-
 function imageLabel(src: string): string {
-  const file = src
-    .split("/")
-    .pop()!
-    .replace(/\.png$/i, "")
-    .replace(/\s+copy$/i, "");
-  const [size, colorRaw, viewIdx] = file.split("-");
+  const file = src.split("/").pop()!.replace(/\.png$/i, "");
+  const [size, colorRaw] = file.split("-");
   const color = COLOR_LABELS[colorRaw] ?? colorRaw;
-  if (viewIdx === "1") return `${size}" ${color}`;
-  const view = VIEW_LABELS[viewIdx] ?? viewIdx;
-  return `${size}" ${color} (${view})`;
+  return `${size}" ${color}`;
 }
 
 const SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 const CARD_W = "clamp(140px, 38vw, 220px)";
 
-export default function Gallery() {
+export default function Gallery({ onActiveChange }: GalleryProps = {}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    onActiveChange?.(IMAGES[activeIdx]);
+  }, [activeIdx, onActiveChange]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -118,22 +109,29 @@ export default function Gallery() {
       >
         {IMAGES.map((img, i) => {
           const active = i === activeIdx;
-          const scale = SIZE_SCALE[img.sizeClass];
           return (
             <div
               key={img.src}
               ref={(el) => {
                 itemRefs.current[i] = el;
               }}
+              onClick={() => {
+                itemRefs.current[i]?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                  inline: "center",
+                });
+              }}
               style={{
                 position: "relative",
                 flex: "0 0 auto",
-                width: `calc(${CARD_W} * ${scale})`,
+                width: CARD_W,
                 aspectRatio: "1 / 1",
                 scrollSnapAlign: "center",
                 borderRadius: 24,
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.14)",
+                cursor: "pointer",
                 background:
                   "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
                 boxShadow: active
@@ -156,9 +154,6 @@ export default function Gallery() {
                   objectFit: "contain",
                   display: "block",
                   userSelect: "none",
-                  filter: "saturate(0.7)",
-                  transform: scale === 1 ? "none" : `scale(${scale})`,
-                  transformOrigin: "center center",
                 }}
               />
               <div
