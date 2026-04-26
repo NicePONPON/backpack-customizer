@@ -103,6 +103,26 @@ export default function IntroVideo() {
               display: "block",
             }}
           />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.55 }}
+            transition={{ duration: 1.2, delay: 1.2, ease: SMOOTH_EASE }}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 32,
+              textAlign: "center",
+              color: "#fff",
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              pointerEvents: "none",
+            }}
+          >
+            Double-click to skip
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
