@@ -89,6 +89,12 @@ export default function SizeVisualizer({ selectedBag }: Props) {
           position: "relative",
           width: "100%",
           maxWidth: 620,
+        }}
+      >
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
           aspectRatio: `${IMG_W} / ${IMG_H}`,
         }}
       >
@@ -149,6 +155,48 @@ export default function SizeVisualizer({ selectedBag }: Props) {
             </div>
           );
         })}
+      </div>
+
+      <div
+        style={{
+          position: "relative",
+          height: 36,
+          marginTop: 4,
+        }}
+      >
+        {[
+          { x: 36.75, cm: 175, ftIn: `5'9"` },
+          { x: 65.25, cm: 165, ftIn: `5'5"` },
+        ].map((h) => (
+          <div
+            key={h.cm}
+            style={{
+              position: "absolute",
+              left: `${h.x}%`,
+              top: 0,
+              transform: "translateX(-50%)",
+              textAlign: "center",
+              color: "rgba(255,255,255,0.78)",
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: 0.6,
+              whiteSpace: "nowrap",
+            }}
+          >
+            <div>{h.cm} cm</div>
+            <div
+              style={{
+                fontSize: 10,
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.5)",
+                marginTop: 1,
+              }}
+            >
+              {h.ftIn}
+            </div>
+          </div>
+        ))}
+      </div>
       </div>
 
       {tuneMode && (
