@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 export type GalleryImage = { src: string; sizeClass: "14" | "16" };
 
@@ -213,66 +213,12 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
                   </div>
                 </>
               ) : (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={encodeURI(item.silhouetteSrc)}
-                    alt=""
-                    draggable={false}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                      display: "block",
-                      userSelect: "none",
-                      // brightness(0) collapses every pixel to black while
-                      // preserving alpha, so the bag silhouette becomes a
-                      // clean shadow. The blur softens the edges so it reads
-                      // as cast shadow rather than a black cutout.
-                      filter: "brightness(0) blur(1.5px)",
-                      opacity: 0.45,
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 6,
-                      pointerEvents: "none",
-                      textAlign: "center",
-                      padding: "0 16px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        color: "rgba(255,255,255,0.95)",
-                        fontSize: 16,
-                        fontWeight: 700,
-                        letterSpacing: 2.4,
-                        textTransform: "uppercase",
-                        textShadow: "0 2px 12px rgba(0,0,0,0.6)",
-                      }}
-                    >
-                      {item.label}
-                    </div>
-                    <div
-                      style={{
-                        color: "rgba(255,255,255,0.65)",
-                        fontSize: 11,
-                        fontWeight: 500,
-                        letterSpacing: 1.6,
-                        textTransform: "uppercase",
-                        textShadow: "0 2px 10px rgba(0,0,0,0.6)",
-                      }}
-                    >
-                      {item.subLabel}
-                    </div>
-                  </div>
-                </>
+                <ComingSoonCardContent
+                  silhouetteSrc={item.silhouetteSrc}
+                  label={item.label}
+                  subLabel={item.subLabel}
+                  active={active}
+                />
               )}
             </div>
           );
@@ -312,5 +258,208 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
         </div>
       </div>
     </div>
+  );
+}
+
+type ComingSoonProps = {
+  silhouetteSrc: string;
+  label: string;
+  subLabel: string;
+  active: boolean;
+};
+
+function ComingSoonCardContent({
+  silhouetteSrc,
+  label,
+  subLabel,
+  active,
+}: ComingSoonProps) {
+  type Status = "idle" | "submitting" | "success" | "error";
+  const [status, setStatus] = useState<Status>("idle");
+  const [email, setEmail] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (status === "submitting") return;
+    setStatus("submitting");
+    setErrorMsg("");
+    try {
+      const r = await fetch("/api/notify-me", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!r.ok) {
+        const data = (await r.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data.error || "Something went wrong.");
+      }
+      setStatus("success");
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+    }
+  };
+
+  // Stop card-level click handler (which scrolls the gallery) from firing
+  // when the user is interacting with the form.
+  const stop = (e: React.SyntheticEvent) => e.stopPropagation();
+
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={encodeURI(silhouetteSrc)}
+        alt=""
+        draggable={false}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          display: "block",
+          userSelect: "none",
+          filter: "brightness(0) blur(1.5px)",
+          opacity: 0.45,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
+          textAlign: "center",
+          padding: "0 14px",
+          pointerEvents: active ? "auto" : "none",
+        }}
+      >
+        <div
+          style={{
+            color: "rgba(255,255,255,0.95)",
+            fontSize: 15,
+            fontWeight: 700,
+            letterSpacing: 2.2,
+            textTransform: "uppercase",
+            textShadow: "0 2px 12px rgba(0,0,0,0.6)",
+          }}
+        >
+          {label}
+        </div>
+        <div
+          style={{
+            color: "rgba(255,255,255,0.65)",
+            fontSize: 10,
+            fontWeight: 500,
+            letterSpacing: 1.6,
+            textTransform: "uppercase",
+            textShadow: "0 2px 10px rgba(0,0,0,0.6)",
+            marginBottom: 4,
+          }}
+        >
+          {subLabel}
+        </div>
+
+        {/* Form region — fades in when the card is active. */}
+        <div
+          style={{
+            width: "100%",
+            opacity: active ? 1 : 0,
+            transform: active ? "translateY(0)" : "translateY(4px)",
+            transition: `opacity 0.4s ${SMOOTH_EASE}, transform 0.4s ${SMOOTH_EASE}`,
+          }}
+        >
+          {status === "success" ? (
+            <div
+              style={{
+                color: "rgba(255,255,255,0.92)",
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: 0.4,
+                lineHeight: 1.4,
+                textShadow: "0 2px 10px rgba(0,0,0,0.6)",
+                padding: "8px 6px",
+              }}
+            >
+              Thanks — we&rsquo;ll let you know.
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              onClick={stop}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                width: "100%",
+              }}
+            >
+              <input
+                type="email"
+                required
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onClick={stop}
+                onMouseDown={stop}
+                onTouchStart={stop}
+                disabled={status === "submitting"}
+                style={{
+                  width: "100%",
+                  padding: "7px 10px",
+                  borderRadius: 8,
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  background: "rgba(0,0,0,0.35)",
+                  color: "#fff",
+                  fontSize: 12,
+                  outline: "none",
+                  textAlign: "center",
+                  letterSpacing: 0.2,
+                }}
+              />
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                onClick={stop}
+                style={{
+                  width: "100%",
+                  padding: "7px 10px",
+                  borderRadius: 8,
+                  border: "none",
+                  background:
+                    status === "submitting"
+                      ? "rgba(255,255,255,0.5)"
+                      : "#fff",
+                  color: "#111",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: 1.2,
+                  textTransform: "uppercase",
+                  cursor: status === "submitting" ? "wait" : "pointer",
+                }}
+              >
+                {status === "submitting" ? "Sending…" : "Notify me"}
+              </button>
+              {status === "error" && errorMsg && (
+                <div
+                  style={{
+                    color: "#FFB4B4",
+                    fontSize: 10,
+                    lineHeight: 1.3,
+                    textShadow: "0 2px 8px rgba(0,0,0,0.6)",
+                    marginTop: 2,
+                  }}
+                >
+                  {errorMsg}
+                </div>
+              )}
+            </form>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
