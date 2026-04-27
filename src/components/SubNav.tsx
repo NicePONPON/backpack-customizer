@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS: ReadonlyArray<{ href: string; label: string }> = [
-  { href: "/gallery", label: "Gallery + Visualizer" },
-  { href: "/customize", label: "Bulk customization" },
-  { href: "/shop", label: "Individual customer" },
+  { href: "/", label: "Home" },
+  { href: "/gallery", label: "Lookbook" },
+  { href: "/customize", label: "Customize" },
+  { href: "/shop", label: "Shop" },
 ];
 
 type Props = {
@@ -58,7 +59,12 @@ export default function SubNav({ invert = false }: Props) {
     >
       <div style={{ display: "flex", gap: 28 }}>
         {LINKS.map((link) => {
-          const active = pathname?.startsWith(link.href) ?? false;
+          // Home needs exact match — every path starts with "/", so a naive
+          // startsWith would keep the Home tab lit on every page.
+          const active =
+            link.href === "/"
+              ? pathname === "/"
+              : pathname?.startsWith(link.href) ?? false;
           return (
             <Link
               key={link.href}
