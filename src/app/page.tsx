@@ -1,13 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
 import IntroVideo from "@/components/IntroVideo";
-import Gallery, { type GalleryImage } from "@/components/Gallery";
-import SizeVisualizer from "@/components/SizeVisualizer";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
@@ -89,17 +83,6 @@ const sectionStyle: React.CSSProperties = {
   maxWidth: 960,
 };
 
-const cardBaseStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
-  border: "1px solid rgba(255,255,255,0.14)",
-  borderRadius: 20,
-  backdropFilter: "blur(20px) saturate(180%)",
-  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-  boxShadow:
-    "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
-};
-
 const sectionHeaderStyle: React.CSSProperties = {
   textAlign: "center",
   fontSize: 22,
@@ -110,7 +93,6 @@ const sectionHeaderStyle: React.CSSProperties = {
 };
 
 export default function HomePage() {
-  const [selectedBag, setSelectedBag] = useState<GalleryImage | null>(null);
   return (
     <main style={pageBg}>
       <IntroVideo />
@@ -265,144 +247,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* GALLERY */}
-      <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>GALLERY</h2>
-        <Gallery onActiveChange={setSelectedBag} />
-        <SizeVisualizer
-          sizeClass={selectedBag?.sizeClass ?? null}
-          bagSlot={
-            selectedBag ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={encodeURI(selectedBag.src)}
-                alt=""
-                draggable={false}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  display: "block",
-                  userSelect: "none",
-                }}
-              />
-            ) : null
-          }
-        />
-      </section>
-
-      {/* WHO ARE YOU? */}
-      <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>WHO ARE YOU?</h2>
-        <p
-          style={{
-            textAlign: "center",
-            color: "rgba(255,255,255,0.65)",
-            fontSize: 15,
-            margin: "-12px 0 24px",
-          }}
-        >
-          Pick the path that fits — we&rsquo;ll route you to the right place.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 16,
-          }}
-        >
-          <SegmenterCard
-            href="/customize"
-            label="Business / school / organization"
-            title="Bulk customization & quotation"
-            description="Configure colors, embroidery, and zipper hardware. Generate a printable quotation for orders of 200+ units."
-            cta="Customize in bulk →"
-          />
-          <SegmenterCard
-            href="/shop"
-            label="Individual customer"
-            title="Find your local store"
-            description="Pick your region and we&rsquo;ll route you to the local distributor or retail platform that ships to you."
-            cta="Shop your region →"
-          />
-        </div>
-      </section>
-
       <SiteFooter />
     </main>
-  );
-}
-
-function SegmenterCard({
-  href,
-  label,
-  title,
-  description,
-  cta,
-}: {
-  href: string;
-  label: string;
-  title: string;
-  description: string;
-  cta: string;
-}) {
-  return (
-    <Link
-      href={href}
-      style={{
-        ...cardBaseStyle,
-        padding: "24px 26px 26px",
-        textDecoration: "none",
-        color: "inherit",
-        display: "flex",
-        flexDirection: "column",
-        gap: 10,
-        minHeight: 220,
-      }}
-    >
-      <div
-        style={{
-          fontSize: 11,
-          fontWeight: 700,
-          letterSpacing: 1.5,
-          textTransform: "uppercase",
-          color: "rgba(255,255,255,0.55)",
-        }}
-      >
-        {label}
-      </div>
-      <div
-        style={{
-          fontSize: 22,
-          fontWeight: 700,
-          color: "#fff",
-          letterSpacing: 0.3,
-          lineHeight: 1.2,
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          color: "rgba(255,255,255,0.7)",
-          fontSize: 14,
-          lineHeight: 1.55,
-          flex: 1,
-        }}
-      >
-        {description}
-      </div>
-      <div
-        style={{
-          marginTop: 8,
-          fontWeight: 700,
-          color: "#fff",
-          letterSpacing: 0.3,
-        }}
-      >
-        {cta}
-      </div>
-    </Link>
   );
 }
