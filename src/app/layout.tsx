@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,10 +13,45 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Vercel injects VERCEL_URL (host only, no protocol) at build/runtime on
+// every preview and production deploy. Falling back to localhost keeps
+// next/metadata happy during dev. When a custom domain is hooked up, set
+// NEXT_PUBLIC_SITE_URL in the project env to override.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
+const SITE_NAME = "Computex Systems";
+const SITE_TAGLINE = "Built for the way you carry.";
+const SITE_DESCRIPTION =
+  "Modern everyday backpacks engineered for durability, designed without compromise. Available in five colors, customizable for businesses, schools, and organizations.";
+
 export const metadata: Metadata = {
-  title: "Computex Systems — Modern everyday carry",
-  description:
-    "Premium everyday backpacks for individuals, businesses, schools, and organizations.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#222222",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -28,7 +64,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <WhatsAppButton />
+      </body>
     </html>
   );
 }
