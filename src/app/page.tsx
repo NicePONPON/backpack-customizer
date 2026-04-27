@@ -172,6 +172,82 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* BRAND STORY */}
+      <section
+        style={{
+          ...sectionStyle,
+          maxWidth: 640,
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          gap: 18,
+          padding: "8px 0",
+        }}
+      >
+        <p
+          style={{
+            color: "rgba(255,255,255,0.92)",
+            fontSize: 19,
+            fontWeight: 500,
+            lineHeight: 1.5,
+            letterSpacing: 0.2,
+            margin: 0,
+          }}
+        >
+          We design for what everyday life actually needs.
+        </p>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.72)",
+            fontSize: 15,
+            lineHeight: 1.7,
+            letterSpacing: 0.2,
+            margin: 0,
+          }}
+        >
+          This backpack brings together protection, lightness, and simplicity—built
+          with a dedicated laptop compartment, a water-repellent exterior, and a
+          structure refined through real use.
+        </p>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.72)",
+            fontSize: 15,
+            lineHeight: 1.7,
+            letterSpacing: 0.2,
+            margin: 0,
+          }}
+        >
+          Not overly technical, not overly minimal. Just balanced.
+        </p>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.72)",
+            fontSize: 15,
+            lineHeight: 1.7,
+            letterSpacing: 0.2,
+            margin: 0,
+          }}
+        >
+          We believe a backpack should feel natural to carry, effortless to use,
+          and ready for the rhythm of daily life—from commuting to movement in
+          between.
+        </p>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.92)",
+            fontSize: 16,
+            fontWeight: 500,
+            lineHeight: 1.5,
+            letterSpacing: 0.4,
+            margin: "4px 0 0",
+            fontStyle: "italic",
+          }}
+        >
+          Designed to be just right.
+        </p>
+      </section>
+
       {/* VALUE PILLARS */}
       <section style={sectionStyle}>
         <h2 style={sectionHeaderStyle}>WHY THIS BAG</h2>
