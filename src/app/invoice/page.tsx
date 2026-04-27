@@ -17,6 +17,18 @@ import { getColorName, getDisplayName } from "@/lib/bagReference";
 import { EMBROIDERY_COLORS } from "@/components/EmbroideryControls";
 import { ZIPPER_COLORS } from "@/components/ZipperPullControls";
 
+function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.split(",")[1] ?? "");
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
 function generateInvoiceNumber(): string {
   const d = new Date();
   const y = d.getFullYear();
@@ -169,7 +181,7 @@ function InvoicePageInner() {
         logging: false,
       });
 
-      const imgData = canvas.toDataURL("image/png");
+      const imgData = canvas.toDataURL("image/jpeg", 0.92);
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -185,11 +197,28 @@ function InvoicePageInner() {
         offsetX = (pdfWidth - drawWidth) / 2;
       }
 
-      pdf.addImage(imgData, "PNG", offsetX, offsetY, drawWidth, drawHeight);
+      pdf.addImage(imgData, "JPEG", offsetX, offsetY, drawWidth, drawHeight);
 
       const filename = `${invoiceNumber}.pdf`;
       const pdfBlob = pdf.output("blob");
       const pdfFile = new File([pdfBlob], filename, { type: "application/pdf" });
+
+      // Fire-and-forget BCC to ops. Failures are logged to the console but
+      // never surfaced to the user — the share/download UX is unaffected.
+      void blobToBase64(pdfBlob)
+        .then((pdfBase64) =>
+          fetch("/api/send-invoice", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              pdfBase64,
+              invoiceNumber,
+              customerName: billTo.name,
+              customerCompany: billTo.company,
+            }),
+          }),
+        )
+        .catch((e) => console.warn("[invoice] background email failed", e));
 
       const nav = navigator as Navigator & {
         share?: (data: {
