@@ -4,18 +4,35 @@ import { useEffect, useRef, useState } from "react";
 
 export type GalleryImage = { src: string; sizeClass: "14" | "16" };
 
+type GalleryItem =
+  | { kind: "photo"; src: string; sizeClass: "14" | "16" }
+  | {
+      kind: "placeholder";
+      silhouetteSrc: string;
+      label: string;
+      subLabel: string;
+    };
+
 type GalleryProps = {
-  onActiveChange?: (img: GalleryImage) => void;
+  onActiveChange?: (img: GalleryImage | null) => void;
 };
 
 // Photos are pre-scaled in Photoshop — 14" files render visibly smaller than
 // 16" files at native size, and saturation is already toned down at the
 // source. No runtime size or saturation correction needed.
-const IMAGES: GalleryImage[] = [
-  { src: "/gallery/14-ivorydune.png", sizeClass: "14" },
-  { src: "/gallery/14-frostgrey.png", sizeClass: "14" },
-  { src: "/gallery/16-ivorydune.png", sizeClass: "16" },
-  { src: "/gallery/16-frostgrey.png", sizeClass: "16" },
+const ITEMS: GalleryItem[] = [
+  { kind: "photo", src: "/gallery/14-ivorydune.png", sizeClass: "14" },
+  { kind: "photo", src: "/gallery/14-frostgrey.png", sizeClass: "14" },
+  { kind: "photo", src: "/gallery/16-ivorydune.png", sizeClass: "16" },
+  { kind: "photo", src: "/gallery/16-frostgrey.png", sizeClass: "16" },
+  {
+    kind: "placeholder",
+    // Reuse an existing render as the silhouette source so the placeholder
+    // card matches the proportions of every other card in the row.
+    silhouetteSrc: "/gallery/16-frostgrey.png",
+    label: "Coming Soon",
+    subLabel: "2026 Summer",
+  },
 ];
 
 const COLOR_LABELS: Record<string, string> = {
@@ -39,7 +56,12 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
   const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
-    onActiveChange?.(IMAGES[activeIdx]);
+    const item = ITEMS[activeIdx];
+    onActiveChange?.(
+      item.kind === "photo"
+        ? { src: item.src, sizeClass: item.sizeClass }
+        : null,
+    );
   }, [activeIdx, onActiveChange]);
 
   useEffect(() => {
@@ -107,11 +129,13 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
             "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
         }}
       >
-        {IMAGES.map((img, i) => {
+        {ITEMS.map((item, i) => {
           const active = i === activeIdx;
+          const cardKey =
+            item.kind === "photo" ? item.src : `placeholder-${i}`;
           return (
             <div
-              key={img.src}
+              key={cardKey}
               ref={(el) => {
                 itemRefs.current[i] = el;
               }}
@@ -143,48 +167,113 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
                 willChange: "transform, opacity",
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={encodeURI(img.src)}
-                alt=""
-                draggable={false}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  display: "block",
-                  userSelect: "none",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  right: 0,
-                  bottom: 12,
-                  textAlign: "center",
-                  pointerEvents: "none",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    background: "rgba(0,0,0,0.5)",
-                    color: "rgba(255,255,255,0.92)",
-                    fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: 1.4,
-                    textTransform: "uppercase",
-                    padding: "5px 10px",
-                    borderRadius: 999,
-                    backdropFilter: "blur(8px)",
-                    WebkitBackdropFilter: "blur(8px)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {imageLabel(img.src)}
-                </span>
-              </div>
+              {item.kind === "photo" ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={encodeURI(item.src)}
+                    alt=""
+                    draggable={false}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                      display: "block",
+                      userSelect: "none",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 12,
+                      textAlign: "center",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: "inline-block",
+                        background: "rgba(0,0,0,0.5)",
+                        color: "rgba(255,255,255,0.92)",
+                        fontSize: 10,
+                        fontWeight: 600,
+                        letterSpacing: 1.4,
+                        textTransform: "uppercase",
+                        padding: "5px 10px",
+                        borderRadius: 999,
+                        backdropFilter: "blur(8px)",
+                        WebkitBackdropFilter: "blur(8px)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {imageLabel(item.src)}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={encodeURI(item.silhouetteSrc)}
+                    alt=""
+                    draggable={false}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                      display: "block",
+                      userSelect: "none",
+                      // brightness(0) collapses every pixel to black while
+                      // preserving alpha, so the bag silhouette becomes a
+                      // clean shadow. The blur softens the edges so it reads
+                      // as cast shadow rather than a black cutout.
+                      filter: "brightness(0) blur(1.5px)",
+                      opacity: 0.45,
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      pointerEvents: "none",
+                      textAlign: "center",
+                      padding: "0 16px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        color: "rgba(255,255,255,0.95)",
+                        fontSize: 16,
+                        fontWeight: 700,
+                        letterSpacing: 2.4,
+                        textTransform: "uppercase",
+                        textShadow: "0 2px 12px rgba(0,0,0,0.6)",
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                    <div
+                      style={{
+                        color: "rgba(255,255,255,0.65)",
+                        fontSize: 11,
+                        fontWeight: 500,
+                        letterSpacing: 1.6,
+                        textTransform: "uppercase",
+                        textShadow: "0 2px 10px rgba(0,0,0,0.6)",
+                      }}
+                    >
+                      {item.subLabel}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}
@@ -214,7 +303,7 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
               top: 0,
               left: 0,
               height: "100%",
-              width: `${((activeIdx + 1) / IMAGES.length) * 100}%`,
+              width: `${((activeIdx + 1) / ITEMS.length) * 100}%`,
               borderRadius: 999,
               background: "rgba(255,255,255,0.88)",
               transition: `width 0.4s ${SMOOTH_EASE}`,
