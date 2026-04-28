@@ -14,10 +14,20 @@ const SMOOTH_EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
 // 400ms matches the OS-level double-click threshold on macOS/iOS.
 const DOUBLE_TAP_WINDOW_MS = 400;
 
+// sessionStorage key — cleared when the browser tab/window closes, so the
+// intro plays again on the user's next visit but never twice within a
+// single browsing session even if they navigate away from the hero and
+// come back.
+const SESSION_FLAG = "intro_played";
+
 export default function IntroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const lastTapRef = useRef(0);
-  const [visible, setVisible] = useState(true);
+  // Two-state design: `mounted` controls whether we render the overlay at
+  // all (so repeat-visit users never see a flash), `visible` drives the
+  // exit animation when it's time to dismiss.
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const handleSkipTap = () => {
     const now = Date.now();
@@ -28,6 +38,27 @@ export default function IntroVideo() {
       lastTapRef.current = now;
     }
   };
+
+  // First-mount session check. Runs once on the client after hydration; if
+  // the flag is already set we never render the overlay. Setting the flag
+  // up front (rather than after the video ends) means a mid-intro skip
+  // still counts as "played" — preventing a replay if the user navigates
+  // away and comes back within the session.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (sessionStorage.getItem(SESSION_FLAG) === "1") return;
+      sessionStorage.setItem(SESSION_FLAG, "1");
+    } catch {
+      // sessionStorage can throw in private-mode Safari or if disabled by
+      // policy. Fall through and just play the intro this time.
+    }
+    // setState-in-effect is intentional here: we're synchronizing with an
+    // external store (sessionStorage) that only exists post-hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+    setVisible(true);
+  }, []);
 
   // Lock body scroll while the intro is on screen.
   useEffect(() => {
@@ -40,19 +71,23 @@ export default function IntroVideo() {
   }, [visible]);
 
   useEffect(() => {
+    if (!mounted) return;
     const t = window.setTimeout(() => setVisible(false), MAX_INTRO_MS);
     return () => window.clearTimeout(t);
-  }, []);
+  }, [mounted]);
 
   // Some mobile browsers reject autoPlay attribute but allow .play() invoked
   // immediately after mount on a muted, playsInline element.
   useEffect(() => {
+    if (!mounted) return;
     const v = videoRef.current;
     if (!v) return;
     v.play().catch(() => {
       setVisible(false);
     });
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>
