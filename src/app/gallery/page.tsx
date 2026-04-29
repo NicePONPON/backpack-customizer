@@ -45,10 +45,11 @@ const AD_IMAGES: ReadonlyArray<{ src: string; alt: string }> = [
 ];
 
 const AD_SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
-// Cards lean tall to match the 9:16 portrait source PNGs without distorting
-// them. clamp() keeps them readable on phone screens (where 75vw ≈ a single
-// card spans most of the viewport) and capped on wide desktops.
-const AD_CARD_W = "clamp(220px, 60vw, 360px)";
+// Hero-scale cards: ads are the primary marketing surface above the
+// gallery, so the active card spans nearly the full content width — same
+// visual weight as the pre-rail version. Inactive neighbors still peek in
+// past the edge mask thanks to the scale(0.9) shrink.
+const AD_CARD_W = "clamp(280px, 92vw, 900px)";
 
 export default function GalleryPage() {
   const [selectedBag, setSelectedBag] = useState<GalleryImage | null>(null);
