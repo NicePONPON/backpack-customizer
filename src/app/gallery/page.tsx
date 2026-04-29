@@ -42,6 +42,10 @@ const AD_IMAGES: ReadonlyArray<{ src: string; alt: string }> = [
     src: "/advertisement/AD-Comparison.png",
     alt: "Computex vs. competitors comparison",
   },
+  {
+    src: "/advertisement/AD-Segregation.png",
+    alt: "Computex backpack compartment segregation",
+  },
 ];
 
 const AD_SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
