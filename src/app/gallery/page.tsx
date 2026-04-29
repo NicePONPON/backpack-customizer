@@ -36,7 +36,7 @@ const sectionHeaderStyle: React.CSSProperties = {
 // their filenames here. Each entry renders as one slide in the carousel.
 // Single entries skip the carousel UI and render as a static image.
 const AD_IMAGES: ReadonlyArray<{ src: string; alt: string }> = [
-  { src: "/advertisement/Test.png", alt: "Computex vs. competitors" },
+  { src: "/advertisement/AD-Hero.png", alt: "Computex vs. competitors" },
 ];
 
 export default function GalleryPage() {
