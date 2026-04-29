@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Gallery, { type GalleryImage } from "@/components/Gallery";
@@ -33,11 +33,22 @@ const sectionHeaderStyle: React.CSSProperties = {
 };
 
 // Advertisement panel — drop new PNGs into public/advertisement/ and add
-// their filenames here. Each entry renders as one slide in the carousel.
-// Single entries skip the carousel UI and render as a static image.
+// their filenames here. Each entry renders as one card in the scroll-snap
+// rail (same UX as the photo gallery below). Single entries still render
+// in the rail; with one card the snap is a no-op.
 const AD_IMAGES: ReadonlyArray<{ src: string; alt: string }> = [
-  { src: "/advertisement/AD-Hero.png", alt: "Computex vs. competitors" },
+  { src: "/advertisement/AD-Hero.png", alt: "Computex hero advertisement" },
+  {
+    src: "/advertisement/AD-Comparison.png",
+    alt: "Computex vs. competitors comparison",
+  },
 ];
+
+const AD_SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
+// Cards lean tall to match the 9:16 portrait source PNGs without distorting
+// them. clamp() keeps them readable on phone screens (where 75vw ≈ a single
+// card spans most of the viewport) and capped on wide desktops.
+const AD_CARD_W = "clamp(220px, 60vw, 360px)";
 
 export default function GalleryPage() {
   const [selectedBag, setSelectedBag] = useState<GalleryImage | null>(null);
@@ -84,67 +95,164 @@ export default function GalleryPage() {
 }
 
 function AdvertisementPanel() {
-  // Carousel only kicks in for 2+ slides. With one image we render it
-  // statically to avoid an idle dot indicator and unnecessary state.
-  const [index, setIndex] = useState(0);
-  const hasMultiple = AD_IMAGES.length > 1;
-  const current = AD_IMAGES[index] ?? AD_IMAGES[0];
+  const trackRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  // Center-detection mirror of Gallery.tsx — find which card is closest to
+  // the track's horizontal center on every scroll/resize, then drive the
+  // active card's scale/opacity from that index.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let raf = 0;
+    const update = () => {
+      const r = track.getBoundingClientRect();
+      const center = r.left + r.width / 2;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      itemRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const ir = el.getBoundingClientRect();
+        const ic = ir.left + ir.width / 2;
+        const d = Math.abs(ic - center);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      });
+      setActiveIdx(bestIdx);
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+
+    update();
+    track.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      track.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   return (
     <div
       style={{
         position: "relative",
-        width: "100%",
-        borderRadius: 20,
-        overflow: "hidden",
-        background:
-          "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
-        border: "1px solid rgba(255,255,255,0.14)",
-        boxShadow:
-          "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
+        marginInline: "calc(50% - 50vw)",
+        width: "100vw",
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={current.src}
-        alt={current.alt}
+      <style>{`.ad-track::-webkit-scrollbar{display:none}`}</style>
+      <div
+        ref={trackRef}
+        className="ad-track"
         style={{
-          width: "100%",
-          height: "auto",
-          display: "block",
+          display: "flex",
+          gap: 18,
+          overflowX: "auto",
+          scrollSnapType: "x mandatory",
+          paddingBlock: 12,
+          paddingInline: `calc(50vw - (${AD_CARD_W}) / 2)`,
+          scrollbarWidth: "none",
+          WebkitOverflowScrolling: "touch",
+          maskImage:
+            "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%)",
         }}
-      />
-
-      {hasMultiple && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 12,
-            left: 0,
-            right: 0,
-            display: "flex",
-            justifyContent: "center",
-            gap: 8,
-          }}
-        >
-          {AD_IMAGES.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Show advertisement ${i + 1}`}
-              onClick={() => setIndex(i)}
+      >
+        {AD_IMAGES.map((ad, i) => {
+          const active = i === activeIdx;
+          return (
+            <div
+              key={ad.src}
+              ref={(el) => {
+                itemRefs.current[i] = el;
+              }}
+              onClick={() => {
+                itemRefs.current[i]?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                  inline: "center",
+                });
+              }}
               style={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                border: "none",
+                position: "relative",
+                flex: "0 0 auto",
+                width: AD_CARD_W,
+                aspectRatio: "9 / 16",
+                scrollSnapAlign: "center",
+                borderRadius: 24,
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.14)",
                 cursor: "pointer",
                 background:
-                  i === index ? "#fff" : "rgba(255,255,255,0.4)",
-                padding: 0,
+                  "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
+                boxShadow: active
+                  ? "0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18)"
+                  : "0 8px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.14)",
+                transform: active ? "scale(1)" : "scale(0.9)",
+                opacity: active ? 1 : 0.5,
+                transition: `transform 0.6s ${AD_SMOOTH_EASE}, opacity 0.6s ${AD_SMOOTH_EASE}, box-shadow 0.6s ${AD_SMOOTH_EASE}`,
+                willChange: "transform, opacity",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={ad.src}
+                alt={ad.alt}
+                draggable={false}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                  userSelect: "none",
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {AD_IMAGES.length > 1 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 14,
+          }}
+          aria-hidden
+        >
+          <div
+            style={{
+              position: "relative",
+              width: 220,
+              height: 4,
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.18)",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                height: "100%",
+                width: `${((activeIdx + 1) / AD_IMAGES.length) * 100}%`,
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.88)",
+                transition: `width 0.4s ${AD_SMOOTH_EASE}`,
               }}
             />
-          ))}
+          </div>
         </div>
       )}
     </div>
