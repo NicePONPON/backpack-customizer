@@ -6,7 +6,8 @@
   "header": {
     "languageEn": "EN",
     "languageZh": "中",
-    "languageToggleLabel": "切換語言"
+    "languageToggleLabel": "切換語言",
+    "homeAriaLabel": "首頁"
   },
   "nav": {
     "home": "首頁",
@@ -192,6 +193,13 @@
       "frostGray": "霜灰",
       "blushedSnow": "胭脂雪"
     }
+  },
+  "zipper": {
+    "sectionHeader": "拉鍊頭升級",
+    "style": "樣式",
+    "stock": "原裝",
+    "paracord": "傘繩",
+    "paracordColor": "傘繩顏色"
   },
   "shop": {
     "heading": "選擇你的地區",

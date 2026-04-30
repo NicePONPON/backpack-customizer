@@ -6,7 +6,8 @@
   "header": {
     "languageEn": "EN",
     "languageZh": "中",
-    "languageToggleLabel": "Switch language"
+    "languageToggleLabel": "Switch language",
+    "homeAriaLabel": "Home"
   },
   "nav": {
     "home": "Home",
@@ -192,6 +193,13 @@
       "frostGray": "Frost Gray",
       "blushedSnow": "Blushed Snow"
     }
+  },
+  "zipper": {
+    "sectionHeader": "ZIPPER PULL UPGRADE",
+    "style": "Style",
+    "stock": "Stock",
+    "paracord": "Paracord",
+    "paracordColor": "Paracord color"
   },
   "shop": {
     "heading": "Choose your region",

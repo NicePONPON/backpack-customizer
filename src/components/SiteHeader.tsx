@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import LanguageToggle from "./LanguageToggle";
 import SubNav from "./SubNav";
 
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function SiteHeader({ invert = false, showSubNav = true }: Props) {
+  const t = useTranslations("header");
   // Sticky across every page. The translucent backdrop + blur matches the
   // glass-card aesthetic used elsewhere and keeps the logo legible while page
   // content scrolls underneath. z-index 50 sits above the invoice page's
@@ -61,7 +63,7 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
       >
         <Link
           href="/"
-          aria-label="Home"
+          aria-label={t("homeAriaLabel")}
           style={{ display: "inline-flex", alignItems: "center" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

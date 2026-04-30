@@ -1,8 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 export const ZIPPER_COLORS = [
-  { name: "Ivory Dune", value: "#FFF6DF" },
-  { name: "Ash Steel", value: "#727576" },
+  { key: "ivoryDune", name: "Ivory Dune", value: "#FFF6DF" },
+  { key: "ashSteel", name: "Ash Steel", value: "#727576" },
 ] as const;
 
 export type ZipperColor = (typeof ZIPPER_COLORS)[number]["value"];
@@ -59,13 +61,15 @@ export default function ZipperPullControls({
   onEnabledChange,
   onColorChange,
 }: Props) {
+  const t = useTranslations("zipper");
+  const tColors = useTranslations("colors");
   return (
     <div style={{ width: "100%", maxWidth: 720, color: "#fff" }}>
-      <h2 style={sectionHeaderStyle}>ZIPPER PULL UPGRADE</h2>
+      <h2 style={sectionHeaderStyle}>{t("sectionHeader")}</h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={cardStyle}>
-          <div style={cardTitleStyle}>Style</div>
+          <div style={cardTitleStyle}>{t("style")}</div>
           <div
             style={{
               display: "flex",
@@ -77,20 +81,20 @@ export default function ZipperPullControls({
               onClick={() => onEnabledChange(false)}
               style={pillStyle(!enabled)}
             >
-              Stock
+              {t("stock")}
             </button>
             <button
               onClick={() => onEnabledChange(true)}
               style={pillStyle(enabled)}
             >
-              Paracord
+              {t("paracord")}
             </button>
           </div>
         </div>
 
         {enabled && (
           <div style={cardStyle}>
-            <div style={cardTitleStyle}>Paracord color</div>
+            <div style={cardTitleStyle}>{t("paracordColor")}</div>
             <div
               style={{
                 display: "flex",
@@ -120,7 +124,7 @@ export default function ZipperPullControls({
                     }}
                   />
                   <div style={{ fontSize: 12, color: "#e4e4e4", marginTop: 6 }}>
-                    {c.name}
+                    {tColors(`swatches.${c.key}`)}
                   </div>
                 </div>
               ))}
