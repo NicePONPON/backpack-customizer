@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { COUNTRIES, flagSrc } from "@/lib/countries";
@@ -11,13 +12,6 @@ const DISTRIBUTOR_URLS: Record<string, string> = {
   SZ: "#",
   ZA: "#",
   US: "#",
-};
-
-const REGION_TAGLINES: Record<string, string> = {
-  TW: "Available through our Taiwan retail partners.",
-  SZ: "Local pickup and delivery across Eswatini.",
-  ZA: "Shipping nationwide via our South African distributor.",
-  US: "Available on our United States e-commerce partner.",
 };
 
 const pageBg: React.CSSProperties = {
@@ -53,6 +47,7 @@ const cardStyle: React.CSSProperties = {
 };
 
 export default function ShopPage() {
+  const t = useTranslations("shop");
   return (
     <main style={pageBg}>
       <SiteHeader />
@@ -78,7 +73,7 @@ export default function ShopPage() {
             backgroundClip: "text",
           }}
         >
-          Choose your region
+          {t("heading")}
         </h1>
         <p
           style={{
@@ -88,8 +83,7 @@ export default function ShopPage() {
             letterSpacing: 0.3,
           }}
         >
-          We&rsquo;ll route you to the local distributor or retail platform that
-          ships to your region.
+          {t("subheading")}
         </p>
       </section>
 
@@ -104,7 +98,13 @@ export default function ShopPage() {
       >
         {COUNTRIES.map((c) => {
           const url = DISTRIBUTOR_URLS[c.code] ?? "#";
-          const tagline = REGION_TAGLINES[c.code] ?? "";
+          const tagline = (() => {
+            try {
+              return t(`regionTagline.${c.code}`);
+            } catch {
+              return "";
+            }
+          })();
           return (
             <a
               key={c.code}
@@ -143,7 +143,7 @@ export default function ShopPage() {
                   color: "#fff",
                 }}
               >
-                Visit local store →
+                {t("visitCta")}
               </div>
             </a>
           );
