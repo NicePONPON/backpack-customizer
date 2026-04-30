@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import LanguageToggle from "./LanguageToggle";
 import SubNav from "./SubNav";
 
 const LOGO_SRC = "/logo/logo.png";
@@ -43,6 +44,7 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
     >
       <header
         style={{
+          position: "relative",
           display: "flex",
           justifyContent: "center",
           // Vertical padding respects the iOS notch / dynamic island.
@@ -73,6 +75,18 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
             }}
           />
         </Link>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "max(20px, env(safe-area-inset-right))",
+            transform: "translateY(-50%)",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <LanguageToggle />
+        </div>
       </header>
       {showSubNav && <SubNav invert={invert} />}
     </div>

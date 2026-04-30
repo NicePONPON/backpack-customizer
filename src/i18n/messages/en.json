@@ -2,5 +2,10 @@
   "_meta": {
     "locale": "en",
     "note": "English source-of-truth strings. Add namespaces as components are migrated."
+  },
+  "header": {
+    "languageEn": "EN",
+    "languageZh": "中",
+    "languageToggleLabel": "Switch language"
   }
 }
