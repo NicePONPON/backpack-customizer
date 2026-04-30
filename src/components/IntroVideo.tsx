@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 const VIDEO_SRC = "/gif/Backpack-EasyCareEasyLife3.mp4";
 // Hard cap: even if onEnded never fires (codec issues, autoplay block,
@@ -21,6 +22,7 @@ const DOUBLE_TAP_WINDOW_MS = 400;
 const SESSION_FLAG = "intro_played";
 
 export default function IntroVideo() {
+  const t = useTranslations("intro");
   const videoRef = useRef<HTMLVideoElement>(null);
   const lastTapRef = useRef(0);
   // Two-state design: `mounted` controls whether we render the overlay at
@@ -168,7 +170,7 @@ export default function IntroVideo() {
                 WebkitBackdropFilter: "blur(8px)",
               }}
             >
-              Double-tap to skip
+              {t("skipHint")}
             </span>
           </motion.div>
         </motion.div>

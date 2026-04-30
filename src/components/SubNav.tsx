@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const LINKS: ReadonlyArray<{ href: string; label: string }> = [
-  { href: "/", label: "Home" },
-  { href: "/gallery", label: "Lookbook" },
-  { href: "/customize", label: "Customize" },
-  { href: "/shop", label: "Shop" },
-];
+import { useTranslations } from "next-intl";
 
 type Props = {
   invert?: boolean;
@@ -19,6 +13,14 @@ export default function SubNav({ invert = false }: Props) {
   // their parent tab lit. usePathname returns null during the very first
   // render in some Next versions; treat that as no match.
   const pathname = usePathname();
+  const t = useTranslations("nav");
+
+  const links = [
+    { href: "/", label: t("home") },
+    { href: "/gallery", label: t("lookbook") },
+    { href: "/customize", label: t("customize") },
+    { href: "/shop", label: t("shop") },
+  ];
 
   const backdrop = invert
     ? "rgba(255,255,255,0.55)"
@@ -58,7 +60,7 @@ export default function SubNav({ invert = false }: Props) {
       }}
     >
       <div style={{ display: "flex", gap: 28 }}>
-        {LINKS.map((link) => {
+        {links.map((link) => {
           // Home needs exact match — every path starts with "/", so a naive
           // startsWith would keep the Home tab lit on every page.
           const active =

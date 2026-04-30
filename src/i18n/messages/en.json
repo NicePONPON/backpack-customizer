@@ -7,5 +7,34 @@
     "languageEn": "EN",
     "languageZh": "中",
     "languageToggleLabel": "Switch language"
+  },
+  "nav": {
+    "home": "Home",
+    "lookbook": "Lookbook",
+    "customize": "Customize",
+    "shop": "Shop"
+  },
+  "footer": {
+    "copyright": "© 2026 {company}. All rights reserved.",
+    "tagline": "Designed and engineered for modern everyday carry.",
+    "defaultCompany": "Computex Systems Investments (PTY) LTD"
+  },
+  "intro": {
+    "skipHint": "Double-tap to skip"
+  },
+  "share": {
+    "triggerOpen": "Share this page",
+    "triggerClose": "Close share menu",
+    "platformWhatsapp": "Share on WhatsApp",
+    "platformFacebook": "Share on Facebook",
+    "platformX": "Share on X",
+    "platformReddit": "Share on Reddit",
+    "platformInstagram": "Copy link for Instagram",
+    "platformTiktok": "Copy link for TikTok",
+    "toastCopiedTo": "Link copied — paste into {platform}.",
+    "toastCopyFailed": "Couldn't copy automatically. Long-press the URL bar.",
+    "platformInstagramName": "Instagram",
+    "platformTiktokName": "TikTok",
+    "shareTagline": "Built for the way you carry. — Computex Systems"
   }
 }

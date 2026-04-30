@@ -7,5 +7,34 @@
     "languageEn": "EN",
     "languageZh": "中",
     "languageToggleLabel": "切換語言"
+  },
+  "nav": {
+    "home": "首頁",
+    "lookbook": "形象集",
+    "customize": "客製化",
+    "shop": "選購"
+  },
+  "footer": {
+    "copyright": "© 2026 {company}。版權所有。",
+    "tagline": "為當代日常通勤而設計與打造。",
+    "defaultCompany": "Computex Systems Investments (PTY) LTD"
+  },
+  "intro": {
+    "skipHint": "點兩下可跳過"
+  },
+  "share": {
+    "triggerOpen": "分享此頁",
+    "triggerClose": "關閉分享選單",
+    "platformWhatsapp": "分享到 WhatsApp",
+    "platformFacebook": "分享到 Facebook",
+    "platformX": "分享到 X",
+    "platformReddit": "分享到 Reddit",
+    "platformInstagram": "複製連結（Instagram 用）",
+    "platformTiktok": "複製連結（TikTok 用）",
+    "toastCopiedTo": "連結已複製 — 請貼到 {platform}。",
+    "toastCopyFailed": "自動複製失敗，請長按網址列複製。",
+    "platformInstagramName": "Instagram",
+    "platformTiktokName": "TikTok",
+    "shareTagline": "為你的攜帶方式而生。 — Computex Systems"
   }
 }

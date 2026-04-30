@@ -1,14 +1,16 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 type Props = {
   companyName?: string;
   invert?: boolean;
 };
 
-export default function SiteFooter({
-  companyName = "Computex Systems Investments (PTY) LTD",
-  invert = false,
-}: Props) {
+export default function SiteFooter({ companyName, invert = false }: Props) {
+  const t = useTranslations("footer");
+  const company = companyName ?? t("defaultCompany");
+
   return (
     <footer
       style={{
@@ -23,8 +25,8 @@ export default function SiteFooter({
         letterSpacing: 0.3,
       }}
     >
-      <div>© 2026 {companyName}. All rights reserved.</div>
-      <div>Designed and engineered for modern everyday carry.</div>
+      <div>{t("copyright", { company })}</div>
+      <div>{t("tagline")}</div>
     </footer>
   );
 }
