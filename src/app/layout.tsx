@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ShareDock from "@/components/ShareDock";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "@/i18n/getLocale";
+import { loadMessages, loadFallbackMessages } from "@/i18n/loadMessages";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,20 +57,46 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = loadMessages(locale);
+  const fallbackMessages = loadFallbackMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <ShareDock />
+        <NextIntlClientProvider
+          locale={locale}
+          messages={messages}
+          getMessageFallback={({ namespace, key }) => {
+            const path = namespace ? `${namespace}.${key}` : key;
+            return readByPath(fallbackMessages, path) ?? path;
+          }}
+        >
+          {children}
+          <ShareDock />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
+}
+
+function readByPath(obj: unknown, path: string): string | undefined {
+  const parts = path.split(".");
+  let cur: unknown = obj;
+  for (const p of parts) {
+    if (cur && typeof cur === "object" && p in (cur as Record<string, unknown>)) {
+      cur = (cur as Record<string, unknown>)[p];
+    } else {
+      return undefined;
+    }
+  }
+  return typeof cur === "string" ? cur : undefined;
 }
