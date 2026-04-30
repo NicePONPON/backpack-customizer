@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
@@ -5,66 +6,6 @@ import IntroVideo from "@/components/IntroVideo";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
-
-const FEATURE_CARDS: FeatureCardData[] = [
-  {
-    title: "Durability",
-    summary:
-      "Reinforced seams and weather-resistant fabric, built to outlast your commute.",
-    items: [
-      {
-        videoSrc: "/gif/Reinforce Stitching.mp4",
-        title: "Reinforced Stitching",
-        description:
-          "Bar-tacked stress points and double-row lockstitches anchor every strap and seam to the body, holding the bag intact through years of heavy loads and hard pulls.",
-      },
-      {
-        videoSrc: "/gif/Machine Washable.mp4",
-        title: "Machine Washable",
-        description:
-          "Toss it in the wash. Colorfast dyes, rust-proof hardware, and reinforced edges hold their shape and tone across dozens of cycles — fresh-looking year after year.",
-      },
-    ],
-  },
-  {
-    title: "Design",
-    summary:
-      "Considered details, clean silhouettes — a bag that earns its place every day.",
-    items: [
-      {
-        videoSrc: "/gif/Reinforced Laptop Compartment.mp4",
-        title: "Reinforced Laptop Compartment",
-        description:
-          "A purpose-built suspended sleeve cradles your laptop in dense foam, lifted clear of the bag floor so ground impacts dissipate before reaching your device.",
-      },
-      {
-        videoSrc: "/gif/Super Breathable Straps Padding.mp4",
-        title: "Super-Breathable Straps & Padding",
-        description:
-          "Contoured shoulder straps and air-channeled mesh back padding distribute weight evenly and vent body heat, keeping long carries cool, balanced, and effortless.",
-      },
-    ],
-  },
-  {
-    title: "Quality",
-    summary:
-      "Tested materials and careful assembly. Every panel held to the same standard.",
-    items: [
-      {
-        videoSrc: "/gif/Shockproof Foam Armor.mp4",
-        title: "Shockproof Foam Armor",
-        description:
-          "Closed-cell foam armor lines the chassis, absorbing impact energy before it reaches your gear — bumps, drops, and jostled commutes leave the contents undisturbed.",
-      },
-      {
-        videoSrc: "/gif/Water-Resistant Material.mp4",
-        title: "Water-Resistant Material",
-        description:
-          "A high-density woven shell with hydrophobic coating beads water on contact, shedding rain and unexpected splashes so the essentials inside stay completely dry.",
-      },
-    ],
-  },
-];
 
 const pageBg: React.CSSProperties = {
   minHeight: "100vh",
@@ -93,6 +34,61 @@ const sectionHeaderStyle: React.CSSProperties = {
 };
 
 export default function HomePage() {
+  const t = useTranslations("home");
+
+  const FEATURE_CARDS: FeatureCardData[] = [
+    {
+      title: t("whyThisBag.durability.title"),
+      summary: t("whyThisBag.durability.summary"),
+      items: [
+        {
+          videoSrc: "/gif/Reinforce Stitching.mp4",
+          title: t("whyThisBag.durability.reinforcedStitching.title"),
+          description: t(
+            "whyThisBag.durability.reinforcedStitching.description"
+          ),
+        },
+        {
+          videoSrc: "/gif/Machine Washable.mp4",
+          title: t("whyThisBag.durability.machineWashable.title"),
+          description: t("whyThisBag.durability.machineWashable.description"),
+        },
+      ],
+    },
+    {
+      title: t("whyThisBag.design.title"),
+      summary: t("whyThisBag.design.summary"),
+      items: [
+        {
+          videoSrc: "/gif/Reinforced Laptop Compartment.mp4",
+          title: t("whyThisBag.design.laptopCompartment.title"),
+          description: t("whyThisBag.design.laptopCompartment.description"),
+        },
+        {
+          videoSrc: "/gif/Super Breathable Straps Padding.mp4",
+          title: t("whyThisBag.design.breathableStraps.title"),
+          description: t("whyThisBag.design.breathableStraps.description"),
+        },
+      ],
+    },
+    {
+      title: t("whyThisBag.quality.title"),
+      summary: t("whyThisBag.quality.summary"),
+      items: [
+        {
+          videoSrc: "/gif/Shockproof Foam Armor.mp4",
+          title: t("whyThisBag.quality.shockproofFoam.title"),
+          description: t("whyThisBag.quality.shockproofFoam.description"),
+        },
+        {
+          videoSrc: "/gif/Water-Resistant Material.mp4",
+          title: t("whyThisBag.quality.waterResistant.title"),
+          description: t("whyThisBag.quality.waterResistant.description"),
+        },
+      ],
+    },
+  ];
+
   return (
     <main style={pageBg}>
       <IntroVideo />
@@ -123,7 +119,7 @@ export default function HomePage() {
             backgroundClip: "text",
           }}
         >
-          Built for the way you carry.
+          {t("hero.tagline")}
         </h1>
         <p
           style={{
@@ -135,8 +131,7 @@ export default function HomePage() {
             maxWidth: 560,
           }}
         >
-          Modern everyday backpacks engineered for durability, designed without
-          compromise.
+          {t("hero.subline")}
         </p>
 
         <div
@@ -176,7 +171,7 @@ export default function HomePage() {
             margin: 0,
           }}
         >
-          We design for what everyday life actually needs.
+          {t("brandStory.lead")}
         </p>
         <p
           style={{
@@ -187,9 +182,7 @@ export default function HomePage() {
             margin: 0,
           }}
         >
-          This backpack brings together protection, lightness, and simplicity—built
-          with a dedicated laptop compartment, a water-repellent exterior, and a
-          structure refined through real use.
+          {t("brandStory.p1")}
         </p>
         <p
           style={{
@@ -200,7 +193,7 @@ export default function HomePage() {
             margin: 0,
           }}
         >
-          Not overly technical, not overly minimal. Just balanced.
+          {t("brandStory.p2")}
         </p>
         <p
           style={{
@@ -211,9 +204,7 @@ export default function HomePage() {
             margin: 0,
           }}
         >
-          We believe a backpack should feel natural to carry, effortless to use,
-          and ready for the rhythm of daily life—from commuting to movement in
-          between.
+          {t("brandStory.p3")}
         </p>
         <p
           style={{
@@ -226,13 +217,13 @@ export default function HomePage() {
             fontStyle: "italic",
           }}
         >
-          Designed to be just right.
+          {t("brandStory.closer")}
         </p>
       </section>
 
       {/* VALUE PILLARS */}
       <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>WHY THIS BAG</h2>
+        <h2 style={sectionHeaderStyle}>{t("whyThisBag.heading")}</h2>
         <div
           style={{
             display: "grid",

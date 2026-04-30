@@ -36,5 +36,57 @@
     "platformInstagramName": "Instagram",
     "platformTiktokName": "TikTok",
     "shareTagline": "Built for the way you carry. — Computex Systems"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Built for the way you carry.",
+      "subline": "Modern everyday backpacks engineered for durability, designed without compromise."
+    },
+    "brandStory": {
+      "lead": "We design for what everyday life actually needs.",
+      "p1": "This backpack brings together protection, lightness, and simplicity—built with a dedicated laptop compartment, a water-repellent exterior, and a structure refined through real use.",
+      "p2": "Not overly technical, not overly minimal. Just balanced.",
+      "p3": "We believe a backpack should feel natural to carry, effortless to use, and ready for the rhythm of daily life—from commuting to movement in between.",
+      "closer": "Designed to be just right."
+    },
+    "whyThisBag": {
+      "heading": "WHY THIS BAG",
+      "durability": {
+        "title": "Durability",
+        "summary": "Reinforced seams and weather-resistant fabric, built to outlast your commute.",
+        "reinforcedStitching": {
+          "title": "Reinforced Stitching",
+          "description": "Bar-tacked stress points and double-row lockstitches anchor every strap and seam to the body, holding the bag intact through years of heavy loads and hard pulls."
+        },
+        "machineWashable": {
+          "title": "Machine Washable",
+          "description": "Toss it in the wash. Colorfast dyes, rust-proof hardware, and reinforced edges hold their shape and tone across dozens of cycles — fresh-looking year after year."
+        }
+      },
+      "design": {
+        "title": "Design",
+        "summary": "Considered details, clean silhouettes — a bag that earns its place every day.",
+        "laptopCompartment": {
+          "title": "Reinforced Laptop Compartment",
+          "description": "A purpose-built suspended sleeve cradles your laptop in dense foam, lifted clear of the bag floor so ground impacts dissipate before reaching your device."
+        },
+        "breathableStraps": {
+          "title": "Super-Breathable Straps & Padding",
+          "description": "Contoured shoulder straps and air-channeled mesh back padding distribute weight evenly and vent body heat, keeping long carries cool, balanced, and effortless."
+        }
+      },
+      "quality": {
+        "title": "Quality",
+        "summary": "Tested materials and careful assembly. Every panel held to the same standard.",
+        "shockproofFoam": {
+          "title": "Shockproof Foam Armor",
+          "description": "Closed-cell foam armor lines the chassis, absorbing impact energy before it reaches your gear — bumps, drops, and jostled commutes leave the contents undisturbed."
+        },
+        "waterResistant": {
+          "title": "Water-Resistant Material",
+          "description": "A high-density woven shell with hydrophobic coating beads water on contact, shedding rain and unexpected splashes so the essentials inside stay completely dry."
+        }
+      }
+    }
   }
 }
