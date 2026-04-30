@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
 
 export type GalleryImage = { src: string; sizeClass: "14" | "16" };
 
@@ -9,8 +10,6 @@ type GalleryItem =
   | {
       kind: "placeholder";
       silhouetteSrc: string;
-      label: string;
-      subLabel: string;
     };
 
 type GalleryProps = {
@@ -30,8 +29,6 @@ const ITEMS: GalleryItem[] = [
     // Reuse an existing render as the silhouette source so the placeholder
     // card matches the proportions of every other card in the row.
     silhouetteSrc: "/gallery/16-frostgrey.png",
-    label: "Coming Soon",
-    subLabel: "2026 Summer",
   },
 ];
 
@@ -215,8 +212,6 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
               ) : (
                 <ComingSoonCardContent
                   silhouetteSrc={item.silhouetteSrc}
-                  label={item.label}
-                  subLabel={item.subLabel}
                   active={active}
                 />
               )}
@@ -263,17 +258,14 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
 
 type ComingSoonProps = {
   silhouetteSrc: string;
-  label: string;
-  subLabel: string;
   active: boolean;
 };
 
 function ComingSoonCardContent({
   silhouetteSrc,
-  label,
-  subLabel,
   active,
 }: ComingSoonProps) {
+  const t = useTranslations("gallery");
   type Status = "idle" | "submitting" | "success" | "error";
   const [status, setStatus] = useState<Status>("idle");
   const [email, setEmail] = useState("");
@@ -298,7 +290,7 @@ function ComingSoonCardContent({
       setStatus("success");
     } catch (err) {
       setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+      setErrorMsg(err instanceof Error ? err.message : t("notifyErrorGeneric"));
     }
   };
 
@@ -347,7 +339,7 @@ function ComingSoonCardContent({
             textShadow: "0 2px 12px rgba(0,0,0,0.6)",
           }}
         >
-          {label}
+          {t("comingSoonLabel")}
         </div>
         <div
           style={{
@@ -360,7 +352,7 @@ function ComingSoonCardContent({
             marginBottom: 4,
           }}
         >
-          {subLabel}
+          {t("comingSoonSubLabel")}
         </div>
 
         {/* Form region — fades in when the card is active. */}
@@ -384,7 +376,7 @@ function ComingSoonCardContent({
                 padding: "8px 6px",
               }}
             >
-              Thanks — we&rsquo;ll let you know.
+              {t("notifySuccess")}
             </div>
           ) : (
             <form
@@ -400,7 +392,7 @@ function ComingSoonCardContent({
               <input
                 type="email"
                 required
-                placeholder="your@email.com"
+                placeholder={t("notifyEmailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onClick={stop}
@@ -441,7 +433,7 @@ function ComingSoonCardContent({
                   cursor: status === "submitting" ? "wait" : "pointer",
                 }}
               >
-                {status === "submitting" ? "Sending…" : "Notify me"}
+                {status === "submitting" ? t("notifyButtonSubmitting") : t("notifyButtonIdle")}
               </button>
               {status === "error" && errorMsg && (
                 <div

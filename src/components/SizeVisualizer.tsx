@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 type Props = {
   // Drives which calibration set is used. `null` hides the bag overlays
@@ -54,6 +55,7 @@ type FigureKey = (typeof FIGURE_KEYS)[number];
 const SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
+  const t = useTranslations("size");
   const [tuneMode, setTuneMode] = useState(false);
   const [calibration, setCalibration] = useState<
     Record<"14" | "16", SizeCalibration>
@@ -88,7 +90,7 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
           color: "rgba(255,255,255,0.55)",
         }}
       >
-        How it wears
+        {t("howItWears")}
       </div>
 
       <div

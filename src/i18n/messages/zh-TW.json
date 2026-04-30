@@ -37,6 +37,19 @@
     "platformTiktokName": "TikTok",
     "shareTagline": "為你的攜帶方式而生。 — Computex Systems"
   },
+  "gallery": {
+    "sectionHeading": "形象集",
+    "comingSoonLabel": "即將上市",
+    "comingSoonSubLabel": "2026 夏季",
+    "notifyEmailPlaceholder": "your@email.com",
+    "notifyButtonIdle": "通知我",
+    "notifyButtonSubmitting": "傳送中…",
+    "notifySuccess": "謝謝 — 上市時會通知你。",
+    "notifyErrorGeneric": "發生錯誤，請稍後再試。"
+  },
+  "size": {
+    "howItWears": "上身效果"
+  },
   "home": {
     "hero": {
       "tagline": "為你的攜帶方式而生。",

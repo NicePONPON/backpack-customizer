@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Gallery, { type GalleryImage } from "@/components/Gallery";
@@ -57,6 +58,7 @@ const AD_CARD_W = "clamp(280px, 92vw, 900px)";
 
 export default function GalleryPage() {
   const [selectedBag, setSelectedBag] = useState<GalleryImage | null>(null);
+  const t = useTranslations("gallery");
 
   return (
     <main style={pageBg}>
@@ -70,7 +72,7 @@ export default function GalleryPage() {
 
       {/* GALLERY */}
       <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>GALLERY</h2>
+        <h2 style={sectionHeaderStyle}>{t("sectionHeading")}</h2>
         <Gallery onActiveChange={setSelectedBag} />
         <SizeVisualizer
           sizeClass={selectedBag?.sizeClass ?? null}

@@ -37,6 +37,19 @@
     "platformTiktokName": "TikTok",
     "shareTagline": "Built for the way you carry. — Computex Systems"
   },
+  "gallery": {
+    "sectionHeading": "GALLERY",
+    "comingSoonLabel": "Coming Soon",
+    "comingSoonSubLabel": "2026 Summer",
+    "notifyEmailPlaceholder": "your@email.com",
+    "notifyButtonIdle": "Notify me",
+    "notifyButtonSubmitting": "Sending…",
+    "notifySuccess": "Thanks — we'll let you know.",
+    "notifyErrorGeneric": "Something went wrong."
+  },
+  "size": {
+    "howItWears": "How it wears"
+  },
   "home": {
     "hero": {
       "tagline": "Built for the way you carry.",
