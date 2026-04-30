@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 export type EmbroideryPosition = "top" | "bottom";
 export type EmbroideryColor =
   | "#000000"
@@ -11,22 +13,25 @@ export type EmbroideryColor =
 export type EmbroideryFont = "serif" | "sans-serif";
 export type EmbroideryLineSize = "small" | "medium" | "large";
 
-export const EMBROIDERY_COLORS: Array<{ value: EmbroideryColor; name: string }> =
-  [
-    { value: "#000000", name: "Black" },
-    { value: "#FFFFFF", name: "White" },
-    { value: "#808080", name: "Gray" },
-    { value: "#D32F2F", name: "Red" },
-    { value: "#1976D2", name: "Blue" },
-    { value: "#FBC02D", name: "Yellow" },
-  ];
+export const EMBROIDERY_COLORS: Array<{
+  value: EmbroideryColor;
+  name: string;
+  nameKey: string;
+}> = [
+  { value: "#000000", name: "Black", nameKey: "colorBlack" },
+  { value: "#FFFFFF", name: "White", nameKey: "colorWhite" },
+  { value: "#808080", name: "Gray", nameKey: "colorGray" },
+  { value: "#D32F2F", name: "Red", nameKey: "colorRed" },
+  { value: "#1976D2", name: "Blue", nameKey: "colorBlue" },
+  { value: "#FBC02D", name: "Yellow", nameKey: "colorYellow" },
+];
 
-const SIZE_LABELS: Record<EmbroideryLineSize, string> = {
-  small: "S",
-  medium: "M",
-  large: "L",
-};
 const SIZE_KEYS: EmbroideryLineSize[] = ["small", "medium", "large"];
+const SIZE_TKEY: Record<EmbroideryLineSize, string> = {
+  small: "sizeSmall",
+  medium: "sizeMedium",
+  large: "sizeLarge",
+};
 
 type Props = {
   lines: [string, string];
@@ -119,6 +124,8 @@ export default function EmbroideryControls({
   onFontChange,
   onLineSizesChange,
 }: Props) {
+  const t = useTranslations("embroidery");
+
   const setLine = (index: 0 | 1, value: string) => {
     const next: [string, string] = [lines[0], lines[1]];
     next[index] = value;
@@ -140,30 +147,33 @@ export default function EmbroideryControls({
         style={inputStyle}
         value={lines[index]}
         onChange={(e) => setLine(index, e.target.value)}
-        placeholder={`Line ${index + 1}`}
+        placeholder={t("linePlaceholder", { n: index + 1 })}
       />
       <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-        {SIZE_KEYS.map((s) => (
-          <button
-            key={s}
-            onClick={() => setLineSize(index, s)}
-            style={miniPillStyle(lineSizes[index] === s)}
-            title={s}
-          >
-            {SIZE_LABELS[s]}
-          </button>
-        ))}
+        {SIZE_KEYS.map((s) => {
+          const label = t(SIZE_TKEY[s]);
+          return (
+            <button
+              key={s}
+              onClick={() => setLineSize(index, s)}
+              style={miniPillStyle(lineSizes[index] === s)}
+              title={label}
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 
   return (
     <div style={{ width: "100%", maxWidth: 720, color: "#fff" }}>
-      <h2 style={sectionHeaderStyle}>EMBROIDERY</h2>
+      <h2 style={sectionHeaderStyle}>{t("sectionHeader")}</h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={cardStyle}>
-          <div style={cardTitleStyle}>Lines</div>
+          <div style={cardTitleStyle}>{t("lines")}</div>
 
           <div
             style={{
@@ -179,7 +189,7 @@ export default function EmbroideryControls({
                 onClick={() => onLineCountChange(n)}
                 style={pillStyle(lineCount === n)}
               >
-                {n} line{n === 2 ? "s" : ""}
+                {n === 1 ? t("lineCount1") : t("lineCount2")}
               </button>
             ))}
           </div>
@@ -197,7 +207,7 @@ export default function EmbroideryControls({
         </div>
 
         <div style={cardStyle}>
-          <div style={cardTitleStyle}>Font style</div>
+          <div style={cardTitleStyle}>{t("fontStyle")}</div>
           <div
             style={{
               display: "flex",
@@ -217,14 +227,14 @@ export default function EmbroideryControls({
                       : "Arial, Helvetica, sans-serif",
                 }}
               >
-                {f === "serif" ? "Serif" : "Sans-Serif"}
+                {f === "serif" ? t("fontSerif") : t("fontSans")}
               </button>
             ))}
           </div>
         </div>
 
         <div style={cardStyle}>
-          <div style={cardTitleStyle}>Position</div>
+          <div style={cardTitleStyle}>{t("position")}</div>
           <div
             style={{
               display: "flex",
@@ -236,19 +246,19 @@ export default function EmbroideryControls({
               onClick={() => onPositionChange("top")}
               style={pillStyle(position === "top")}
             >
-              Front Top
+              {t("positionTop")}
             </button>
             <button
               onClick={() => onPositionChange("bottom")}
               style={pillStyle(position === "bottom")}
             >
-              Front Bottom
+              {t("positionBottom")}
             </button>
           </div>
         </div>
 
         <div style={cardStyle}>
-          <div style={cardTitleStyle}>Thread color</div>
+          <div style={cardTitleStyle}>{t("threadColor")}</div>
           <div
             style={{
               display: "flex",
@@ -276,7 +286,7 @@ export default function EmbroideryControls({
                   }}
                 />
                 <div style={{ fontSize: 12, color: "#e4e4e4", marginTop: 6 }}>
-                  {c.name}
+                  {t(c.nameKey)}
                 </div>
               </div>
             ))}

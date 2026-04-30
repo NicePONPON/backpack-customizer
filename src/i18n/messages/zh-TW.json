@@ -102,6 +102,97 @@
       }
     }
   },
+  "customize": {
+    "intro": {
+      "title": "打造你的日常隨行",
+      "subtitle": "即時客製尺寸、顏色與配件"
+    },
+    "sections": {
+      "color": "布料顏色選擇"
+    },
+    "size": {
+      "fourteenInch": "14 吋",
+      "sixteenInch": "16 吋"
+    },
+    "actions": {
+      "reviewDesign": "預覽你的設計 →"
+    }
+  },
+  "embroidery": {
+    "lines": "行數",
+    "fontStyle": "字體樣式",
+    "position": "位置",
+    "threadColor": "繡線顏色",
+    "lineCount1": "1 行",
+    "lineCount2": "2 行",
+    "linePlaceholder": "第 {n} 行",
+    "sectionHeader": "刺繡",
+    "sizeSmall": "小",
+    "sizeMedium": "中",
+    "sizeLarge": "大",
+    "fontSerif": "襯線體",
+    "fontSans": "黑體",
+    "positionTop": "正面上方",
+    "positionBottom": "正面下方",
+    "colorBlack": "黑",
+    "colorWhite": "白",
+    "colorGray": "灰",
+    "colorRed": "紅",
+    "colorBlue": "藍",
+    "colorYellow": "黃"
+  },
+  "colors": {
+    "groups": {
+      "coreDark": "深色核心",
+      "natureGreens": "自然綠",
+      "lightGreensYellow": "淺綠與黃",
+      "earthBrown": "大地棕",
+      "warmRed": "暖紅",
+      "softNeutral": "柔和中性",
+      "grayScale": "灰階"
+    },
+    "swatches": {
+      "charcoalAbyss": "炭墨深淵",
+      "midnightNavy": "午夜海軍",
+      "eclipseBlue": "蝕日藍",
+      "nocturneBlue": "夜曲藍",
+      "regalTide": "御潮藍",
+      "icedHorizon": "霜霽地平",
+      "pineSmoke": "松煙綠",
+      "mossDusk": "苔暮綠",
+      "tideglassBlues": "潮玻璃藍",
+      "aquaGrove": "碧林湖",
+      "mintDust": "薄荷霧",
+      "glacialMint": "冰川薄荷",
+      "oliveCream": "橄欖奶霜",
+      "lemonFern": "檸蕨綠",
+      "butterGlow": "奶油暖陽",
+      "limeDew": "青檸晨露",
+      "vanillaFlare": "香草微光",
+      "ivoryDune": "象牙沙丘",
+      "cocoaDrift": "可可漂木",
+      "rustEmber": "鏽燼橘",
+      "honeyClay": "蜜陶土",
+      "fadedAlmond": "褪杏色",
+      "goldenWheat": "金穗黃",
+      "stoneOat": "石麥米",
+      "cinnamonClay": "肉桂陶",
+      "wineEmber": "酒燼紅",
+      "chiliFlame": "辣火紅",
+      "apricotDust": "杏霧粉",
+      "desertBlush": "沙漠霞",
+      "barePetal": "素瓣粉",
+      "lavenderMist": "薰衣紫霧",
+      "winterAzure": "冬青蔚藍",
+      "roseBlush": "玫瑰胭脂",
+      "featherRose": "羽翎玫瑰",
+      "biscuitBeige": "餅乾米",
+      "sunlitCotton": "陽光棉",
+      "ashSteel": "鋼灰",
+      "frostGray": "霜灰",
+      "blushedSnow": "胭脂雪"
+    }
+  },
   "shop": {
     "heading": "選擇你的地區",
     "subheading": "我們會將你導向當地的經銷夥伴或負責配送你所在地區的零售平台。",

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
 import PngOverlayLayer from "@/components/PngOverlayLayer";
@@ -62,6 +63,8 @@ const ALL_GROUPS = [
 const FLASH_DURATION_MS = 1500;
 
 export default function CustomizePage() {
+  const tCustomize = useTranslations("customize");
+  const tColors = useTranslations("colors");
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
   const [colors, setColors] = useState<Record<string, string>>({});
   const [size, setSize] = useState<"14" | "16">("14");
@@ -203,7 +206,7 @@ export default function CustomizePage() {
             backgroundClip: "text",
           }}
         >
-          Design your everyday carry
+          {tCustomize("intro.title")}
         </h1>
         <p
           style={{
@@ -214,7 +217,7 @@ export default function CustomizePage() {
             margin: "10px 0 0",
           }}
         >
-          Customize size, color, and attachement in real time
+          {tCustomize("intro.subtitle")}
         </p>
       </div>
 
@@ -234,7 +237,9 @@ export default function CustomizePage() {
               cursor: "pointer",
             }}
           >
-            {s} inch
+            {s === "14"
+              ? tCustomize("size.fourteenInch")
+              : tCustomize("size.sixteenInch")}
           </button>
         ))}
       </div>
@@ -338,13 +343,13 @@ export default function CustomizePage() {
             margin: "8px 0 20px",
           }}
         >
-          FABRIC COLOR SELECTION
+          {tCustomize("sections.color")}
         </h2>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {COLOR_GROUPS.map((group) => (
             <div
-              key={group.title}
+              key={group.titleKey}
               style={{
                 background:
                   "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
@@ -366,7 +371,7 @@ export default function CustomizePage() {
                   letterSpacing: 0.5,
                 }}
               >
-                {group.title}
+                {tColors(`groups.${group.titleKey}`)}
               </div>
 
               <div
@@ -405,7 +410,7 @@ export default function CustomizePage() {
                         overflowWrap: "anywhere",
                       }}
                     >
-                      {color.name}
+                      {tColors(`swatches.${color.key}`)}
                     </div>
                   </div>
                 ))}
@@ -496,7 +501,7 @@ export default function CustomizePage() {
             boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
           }}
         >
-          Review your design →
+          {tCustomize("actions.reviewDesign")}
         </Link>
       </div>
 

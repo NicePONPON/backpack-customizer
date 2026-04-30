@@ -102,6 +102,97 @@
       }
     }
   },
+  "customize": {
+    "intro": {
+      "title": "Design your everyday carry",
+      "subtitle": "Customize size, color, and attachement in real time"
+    },
+    "sections": {
+      "color": "FABRIC COLOR SELECTION"
+    },
+    "size": {
+      "fourteenInch": "14 inch",
+      "sixteenInch": "16 inch"
+    },
+    "actions": {
+      "reviewDesign": "Review your design →"
+    }
+  },
+  "embroidery": {
+    "lines": "Lines",
+    "fontStyle": "Font style",
+    "position": "Position",
+    "threadColor": "Thread color",
+    "lineCount1": "1 line",
+    "lineCount2": "2 lines",
+    "linePlaceholder": "Line {n}",
+    "sectionHeader": "EMBROIDERY",
+    "sizeSmall": "S",
+    "sizeMedium": "M",
+    "sizeLarge": "L",
+    "fontSerif": "Serif",
+    "fontSans": "Sans-Serif",
+    "positionTop": "Front Top",
+    "positionBottom": "Front Bottom",
+    "colorBlack": "Black",
+    "colorWhite": "White",
+    "colorGray": "Gray",
+    "colorRed": "Red",
+    "colorBlue": "Blue",
+    "colorYellow": "Yellow"
+  },
+  "colors": {
+    "groups": {
+      "coreDark": "Core Dark",
+      "natureGreens": "Nature Greens",
+      "lightGreensYellow": "Light Greens & Yellow",
+      "earthBrown": "Earth & Brown",
+      "warmRed": "Warm / Red",
+      "softNeutral": "Soft / Neutral",
+      "grayScale": "Gray Scale"
+    },
+    "swatches": {
+      "charcoalAbyss": "Charcoal Abyss",
+      "midnightNavy": "Midnight Navy",
+      "eclipseBlue": "Eclipse Blue",
+      "nocturneBlue": "Nocturne Blue",
+      "regalTide": "Regal Tide",
+      "icedHorizon": "Iced Horizon",
+      "pineSmoke": "Pine Smoke",
+      "mossDusk": "Moss Dusk",
+      "tideglassBlues": "Tideglass Blues",
+      "aquaGrove": "Aqua Grove",
+      "mintDust": "Mint Dust",
+      "glacialMint": "Glacial Mint",
+      "oliveCream": "Olive Cream",
+      "lemonFern": "Lemon Fern",
+      "butterGlow": "Butter Glow",
+      "limeDew": "Lime Dew",
+      "vanillaFlare": "Vanilla Flare",
+      "ivoryDune": "Ivory Dune",
+      "cocoaDrift": "Cocoa Drift",
+      "rustEmber": "Rust Ember",
+      "honeyClay": "Honey Clay",
+      "fadedAlmond": "Faded Almond",
+      "goldenWheat": "Golden Wheat",
+      "stoneOat": "Stone Oat",
+      "cinnamonClay": "Cinnamon Clay",
+      "wineEmber": "Wine Ember",
+      "chiliFlame": "Chili Flame",
+      "apricotDust": "Apricot Dust",
+      "desertBlush": "Desert Blush",
+      "barePetal": "Bare Petal",
+      "lavenderMist": "Lavender Mist",
+      "winterAzure": "Winter Azure",
+      "roseBlush": "Rose Blush",
+      "featherRose": "Feather Rose",
+      "biscuitBeige": "Biscuit Beige",
+      "sunlitCotton": "Sunlit Cotton",
+      "ashSteel": "Ash Steel",
+      "frostGray": "Frost Gray",
+      "blushedSnow": "Blushed Snow"
+    }
+  },
   "shop": {
     "heading": "Choose your region",
     "subheading": "We'll route you to the local distributor or retail platform that ships to your region.",
