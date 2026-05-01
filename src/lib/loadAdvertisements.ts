@@ -21,9 +21,19 @@ export function loadAdvertisements(locale: Locale): AdImage[] {
     return [];
   }
 
+  const SLOT_ORDER = ["Hero", "Comparison", "Segregation"];
+
   return entries
     .filter((f) => f.startsWith(prefix) && f.toLowerCase().endsWith(".png"))
-    .sort()
+    .sort((a, b) => {
+      const slotA = a.slice(prefix.length).replace(/\.png$/i, "");
+      const slotB = b.slice(prefix.length).replace(/\.png$/i, "");
+      const ia = SLOT_ORDER.indexOf(slotA);
+      const ib = SLOT_ORDER.indexOf(slotB);
+      const orderA = ia === -1 ? SLOT_ORDER.length : ia;
+      const orderB = ib === -1 ? SLOT_ORDER.length : ib;
+      return orderA - orderB;
+    })
     .map((f) => ({
       src: `/advertisement/${f}`,
       alt: ALT_TEXT[locale](f.slice(prefix.length).replace(/\.png$/i, "")),
