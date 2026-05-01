@@ -4,7 +4,7 @@ import "./globals.css";
 import ShareDock from "@/components/ShareDock";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "@/i18n/getLocale";
-import { loadMessages, loadFallbackMessages } from "@/i18n/loadMessages";
+import { loadMessages } from "@/i18n/loadMessages";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,7 +64,6 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = loadMessages(locale);
-  const fallbackMessages = loadFallbackMessages();
 
   return (
     <html
@@ -77,10 +76,6 @@ export default async function RootLayout({
           messages={messages}
           now={new Date()}
           timeZone="UTC"
-          getMessageFallback={({ namespace, key }) => {
-            const path = namespace ? `${namespace}.${key}` : key;
-            return readByPath(fallbackMessages, path) ?? path;
-          }}
         >
           {children}
           <ShareDock />
@@ -88,17 +83,4 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
-
-function readByPath(obj: unknown, path: string): string | undefined {
-  const parts = path.split(".");
-  let cur: unknown = obj;
-  for (const p of parts) {
-    if (cur && typeof cur === "object" && p in (cur as Record<string, unknown>)) {
-      cur = (cur as Record<string, unknown>)[p];
-    } else {
-      return undefined;
-    }
-  }
-  return typeof cur === "string" ? cur : undefined;
 }
