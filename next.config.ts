@@ -1,7 +1,8 @@
 import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
 
-const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+// Default lookup path matches our file at ./src/i18n/request.ts
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   // Old shared invoice / customizer links lived at /?d=... before the marketing
