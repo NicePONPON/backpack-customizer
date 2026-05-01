@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
