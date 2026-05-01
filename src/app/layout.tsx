@@ -75,6 +75,8 @@ export default async function RootLayout({
         <NextIntlClientProvider
           locale={locale}
           messages={messages}
+          now={new Date()}
+          timeZone="UTC"
           getMessageFallback={({ namespace, key }) => {
             const path = namespace ? `${namespace}.${key}` : key;
             return readByPath(fallbackMessages, path) ?? path;
