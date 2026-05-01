@@ -46,9 +46,8 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
     >
       <header
         style={{
-          position: "relative",
           display: "flex",
-          justifyContent: "center",
+          alignItems: "center",
           // Vertical padding respects the iOS notch / dynamic island.
           // Horizontal padding respects landscape safe-areas on notched phones.
           paddingTop: "max(14px, env(safe-area-inset-top))",
@@ -61,10 +60,12 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
           borderBottom,
         }}
       >
+        {/* Left spacer mirrors the toggle width so the logo stays centred */}
+        <div style={{ flex: 1 }} />
         <Link
           href="/"
           aria-label={t("homeAriaLabel")}
-          style={{ display: "inline-flex", alignItems: "center" }}
+          style={{ display: "inline-flex", alignItems: "center", flexShrink: 0 }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -77,16 +78,7 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
             }}
           />
         </Link>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            right: "max(20px, env(safe-area-inset-right))",
-            transform: "translateY(-50%)",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
           <LanguageToggle />
         </div>
       </header>
