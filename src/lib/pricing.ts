@@ -62,6 +62,9 @@ export type CurrencyMeta = {
   decimals: number;
   taxRate: number;
   taxLabel: string;
+  // Per-currency bag base prices (tax-inclusive, in this currency's units).
+  // When set, these override BASE_PRICES_SZL * rateFromSZL for the bag line.
+  bagPrices?: Record<"14" | "16", number>;
 };
 
 // TODO: finalize FX rates and tax treatment per jurisdiction with finance.
@@ -81,26 +84,27 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyMeta> = {
     symbol: "R ",
     rateFromSZL: 1, // SZL is pegged 1:1 to ZAR.
     decimals: 2,
-    taxRate: 0.15,
-    taxLabel: "VAT 15%",
+    taxRate: 0.17, // same VAT treatment as Eswatini
+    taxLabel: "VAT 17%",
   },
   USD: {
     code: "USD",
     label: "US Dollar ($)",
     symbol: "$",
-    rateFromSZL: 0.054, // placeholder
+    rateFromSZL: 0.1, // 14" = $49, 16" = $59 (pre-tax)
     decimals: 2,
     taxRate: 0,
-    taxLabel: "Tax 0% (export)",
+    taxLabel: "Pre-tax (state tax varies)",
   },
   TWD: {
     code: "TWD",
     label: "New Taiwan Dollar (NT$)",
     symbol: "NT$",
-    rateFromSZL: 1.7, // placeholder
+    rateFromSZL: 3.0, // used for zipper / embroidery add-ons
     decimals: 0,
     taxRate: 0.05,
     taxLabel: "VAT 5%",
+    bagPrices: { "14": 1490, "16": 1690 }, // independently set; not SZL * rate
   },
 };
 
@@ -154,8 +158,9 @@ function hasText(lines: [string, string], count: 1 | 2): boolean {
 export function computePricing(input: PricingInput): PricingBreakdown {
   const { size, quantity, zipperUpgrade, currency } = input;
   const qty = Math.max(0, Math.floor(quantity));
-  const taxRate = CURRENCIES[currency].taxRate;
-  const taxLabel = CURRENCIES[currency].taxLabel;
+  const meta = CURRENCIES[currency];
+  const taxRate = meta.taxRate;
+  const taxLabel = meta.taxLabel;
 
   const items: LineItem[] = [];
 
@@ -171,7 +176,11 @@ export function computePricing(input: PricingInput): PricingBreakdown {
     };
   };
 
-  items.push(makeLine(`Base ${size}" backpack`, BASE_PRICES_SZL[size]));
+  // Use per-currency bag price if set, otherwise convert from SZL.
+  const bagUnitInclSZL = meta.bagPrices
+    ? meta.bagPrices[size] / meta.rateFromSZL
+    : BASE_PRICES_SZL[size];
+  items.push(makeLine(`Base ${size}" backpack`, bagUnitInclSZL));
 
   if (zipperUpgrade) {
     items.push(

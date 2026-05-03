@@ -47,6 +47,8 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
     >
       <header
         style={{
+          position: "relative",
+          zIndex: 1,
           display: "flex",
           alignItems: "center",
           // Vertical padding respects the iOS notch / dynamic island.

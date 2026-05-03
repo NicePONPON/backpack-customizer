@@ -1,5 +1,3 @@
-"use client";
-
 import type { CurrencyCode } from "@/lib/pricing";
 
 export const CURRENCY_COOKIE_NAME = "NEXT_CURRENCY";
