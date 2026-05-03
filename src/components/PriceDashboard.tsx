@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { computePricing, formatCurrency, VOLUME_TIERS, type CurrencyCode } from "@/lib/pricing";
+import { computePricing, formatCurrency, VOLUME_TIERS } from "@/lib/pricing";
 import type { EmbroideryLineSize } from "@/components/EmbroideryControls";
+import { readCurrencyCookie } from "@/lib/currencyPreference";
 
 const FIXED_QTYS = [200, 500, 1000] as const;
 
@@ -13,7 +14,6 @@ type Props = {
   embroideryLines: [string, string];
   embroideryLineCount: 1 | 2;
   embroideryLineSizes: [EmbroideryLineSize, EmbroideryLineSize];
-  currency?: CurrencyCode;
 };
 
 export default function PriceDashboard({
@@ -22,9 +22,13 @@ export default function PriceDashboard({
   embroideryLines,
   embroideryLineCount,
   embroideryLineSizes,
-  currency = "SZL",
 }: Props) {
   const t = useTranslations("priceDashboard");
+  const [currency, setCurrency] = useState(readCurrencyCookie());
+
+  useEffect(() => {
+    setCurrency(readCurrencyCookie());
+  }, []);
 
   const tiers = useMemo(
     () =>

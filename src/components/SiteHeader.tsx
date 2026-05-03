@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import LanguageToggle from "./LanguageToggle";
+import CurrencySelector from "./CurrencySelector";
 import SubNav from "./SubNav";
 
 const LOGO_SRC = "/logo/logo.png";
@@ -78,7 +79,8 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
             }}
           />
         </Link>
-        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 8 }}>
+          <CurrencySelector invert={invert} />
           <LanguageToggle />
         </div>
       </header>
