@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { computePricing, formatCurrency, VOLUME_TIERS } from "@/lib/pricing";
+import { computePricing, formatCurrency, VOLUME_TIERS, type CurrencyCode } from "@/lib/pricing";
 import type { EmbroideryLineSize } from "@/components/EmbroideryControls";
 import { readCurrencyCookie } from "@/lib/currencyPreference";
 
@@ -24,7 +24,7 @@ export default function PriceDashboard({
   embroideryLineSizes,
 }: Props) {
   const t = useTranslations("priceDashboard");
-  const [currency, setCurrency] = useState(readCurrencyCookie());
+  const [currency, setCurrency] = useState<CurrencyCode>("SZL");
 
   useEffect(() => {
     setCurrency(readCurrencyCookie());
