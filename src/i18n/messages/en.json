@@ -201,6 +201,16 @@
     "paracord": "Paracord",
     "paracordColor": "Paracord color"
   },
+  "priceDashboard": {
+    "title": "ESTIMATED PRICE PER UNIT",
+    "qty": "{qty} pcs",
+    "discount": "{pct}% off",
+    "noDiscount": "Base price",
+    "taxNote": "Tax-inclusive prices. Volume discounts applied at 200 / 500 / 1,000 pcs."
+  },
+  "bagGuide": {
+    "hint": "Tap any panel on the bag to select it, then choose a color below."
+  },
   "shop": {
     "heading": "Choose your region",
     "subheading": "We'll route you to the local distributor or retail platform that ships to your region.",

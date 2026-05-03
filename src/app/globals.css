@@ -32,3 +32,8 @@ body {
 .paint-flash {
   animation: paint-flash 1.5s ease-in-out 1;
 }
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.9; }
+}

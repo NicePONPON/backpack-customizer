@@ -201,6 +201,16 @@
     "paracord": "傘繩",
     "paracordColor": "傘繩顏色"
   },
+  "priceDashboard": {
+    "title": "每件估算單價",
+    "qty": "{qty} 件",
+    "discount": "折扣 {pct}%",
+    "noDiscount": "基本售價",
+    "taxNote": "含稅價格。200 / 500 / 1,000 件起享量批折扣。"
+  },
+  "bagGuide": {
+    "hint": "點選包包任意部位以選取，再於下方挑選顏色。"
+  },
   "shop": {
     "heading": "選擇你的地區",
     "subheading": "我們會將你導向當地的經銷夥伴或負責配送你所在地區的零售平台。",

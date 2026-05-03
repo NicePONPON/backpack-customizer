@@ -18,6 +18,7 @@ import EmbroideryControls, {
 import ZipperPullControls, {
   ZIPPER_COLORS,
 } from "@/components/ZipperPullControls";
+import PriceDashboard from "@/components/PriceDashboard";
 import SizeVisualizer from "@/components/SizeVisualizer";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -65,6 +66,7 @@ const FLASH_DURATION_MS = 1500;
 export default function CustomizePage() {
   const tCustomize = useTranslations("customize");
   const tColors = useTranslations("colors");
+  const tBagGuide = useTranslations("bagGuide");
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
   const [colors, setColors] = useState<Record<string, string>>({});
   const [size, setSize] = useState<"14" | "16">("14");
@@ -331,8 +333,40 @@ export default function CustomizePage() {
         </div>
       </div>
 
+      {/* BAG GUIDE */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 720,
+          textAlign: "center",
+          marginTop: -120,
+        }}
+      >
+        <p
+          style={{
+            color: "rgba(255,255,255,0.5)",
+            fontSize: 13,
+            fontWeight: 400,
+            letterSpacing: 0.4,
+            margin: 0,
+            animation: "pulse-hint 2.4s ease-in-out 0.8s 3",
+          }}
+        >
+          {tBagGuide("hint")}
+        </p>
+      </div>
+
+      {/* PRICE DASHBOARD */}
+      <PriceDashboard
+        size={size}
+        zipperUpgrade={zipperUpgrade}
+        embroideryLines={embroideryLines}
+        embroideryLineCount={embroideryLineCount}
+        embroideryLineSizes={embroideryLineSizes}
+      />
+
       {/* COLOR */}
-      <div style={{ width: "100%", maxWidth: 720, marginTop: -140 }}>
+      <div style={{ width: "100%", maxWidth: 720, marginTop: 0 }}>
         <h2
           style={{
             color: "#fff",
