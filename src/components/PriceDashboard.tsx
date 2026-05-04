@@ -59,7 +59,7 @@ export default function PriceDashboard({
           "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
         border: "1px solid rgba(255,255,255,0.14)",
         borderRadius: 20,
-        padding: "18px 20px 20px",
+        padding: "16px clamp(12px, 3vw, 20px) 18px",
         backdropFilter: "blur(20px) saturate(180%)",
         WebkitBackdropFilter: "blur(20px) saturate(180%)",
         boxShadow:
@@ -71,10 +71,10 @@ export default function PriceDashboard({
           color: "#fff",
           textAlign: "center",
           fontWeight: 700,
-          fontSize: 14,
-          letterSpacing: 2,
+          fontSize: "clamp(10px, 2.5vw, 14px)",
+          letterSpacing: "clamp(0.5px, 0.5vw, 2px)",
           textTransform: "uppercase",
-          marginBottom: 14,
+          marginBottom: 12,
           opacity: 0.9,
         }}
       >
@@ -85,7 +85,7 @@ export default function PriceDashboard({
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 10,
+          gap: "clamp(6px, 1.5vw, 10px)",
         }}
       >
         {tiers.map(({ qty, perUnit, discountPct }) => (
@@ -94,21 +94,25 @@ export default function PriceDashboard({
             style={{
               background: "rgba(255,255,255,0.07)",
               border: "1px solid rgba(255,255,255,0.12)",
-              borderRadius: 14,
-              padding: "14px 10px 16px",
+              borderRadius: 12,
+              padding: "clamp(8px, 2vw, 14px) clamp(4px, 1vw, 10px) clamp(10px, 2.5vw, 16px)",
               textAlign: "center",
               display: "flex",
               flexDirection: "column",
-              gap: 4,
+              gap: 3,
+              minWidth: 0,
             }}
           >
             <div
               style={{
                 color: "rgba(255,255,255,0.55)",
-                fontSize: 11,
+                fontSize: "clamp(9px, 2vw, 11px)",
                 fontWeight: 600,
-                letterSpacing: 1.2,
+                letterSpacing: "clamp(0px, 0.3vw, 1.2px)",
                 textTransform: "uppercase",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {t("qty", { qty })}
@@ -116,10 +120,13 @@ export default function PriceDashboard({
             <div
               style={{
                 color: "#fff",
-                fontSize: 22,
+                fontSize: "clamp(13px, 3.8vw, 22px)",
                 fontWeight: 700,
                 letterSpacing: -0.5,
                 lineHeight: 1.15,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {formatCurrency(perUnit, currency)}
@@ -127,9 +134,12 @@ export default function PriceDashboard({
             <div
               style={{
                 color: "#a8e6a3",
-                fontSize: 11,
+                fontSize: "clamp(9px, 2vw, 11px)",
                 fontWeight: 600,
-                letterSpacing: 0.5,
+                letterSpacing: "clamp(0px, 0.2vw, 0.5px)",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {discountPct > 0
@@ -143,7 +153,7 @@ export default function PriceDashboard({
       <div
         style={{
           color: "rgba(255,255,255,0.4)",
-          fontSize: 11,
+          fontSize: "clamp(9px, 2vw, 11px)",
           textAlign: "center",
           marginTop: 10,
           letterSpacing: 0.3,
