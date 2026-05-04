@@ -8,6 +8,7 @@ import IntroVideo from "@/components/IntroVideo";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
+import BrandStory from "@/components/BrandStory";
 
 const pageBg: React.CSSProperties = {
   minHeight: "100vh",
@@ -152,76 +153,7 @@ export default function HomePage() {
       </section>
 
       {/* BRAND STORY */}
-      <section
-        style={{
-          ...sectionStyle,
-          maxWidth: 640,
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: 18,
-          padding: "8px 0",
-        }}
-      >
-        <p
-          style={{
-            color: "rgba(255,255,255,0.92)",
-            fontSize: 19,
-            fontWeight: 500,
-            lineHeight: 1.5,
-            letterSpacing: 0.2,
-            margin: 0,
-          }}
-        >
-          {t("brandStory.lead")}
-        </p>
-        <p
-          style={{
-            color: "rgba(255,255,255,0.72)",
-            fontSize: 15,
-            lineHeight: 1.7,
-            letterSpacing: 0.2,
-            margin: 0,
-          }}
-        >
-          {t("brandStory.p1")}
-        </p>
-        <p
-          style={{
-            color: "rgba(255,255,255,0.72)",
-            fontSize: 15,
-            lineHeight: 1.7,
-            letterSpacing: 0.2,
-            margin: 0,
-          }}
-        >
-          {t("brandStory.p2")}
-        </p>
-        <p
-          style={{
-            color: "rgba(255,255,255,0.72)",
-            fontSize: 15,
-            lineHeight: 1.7,
-            letterSpacing: 0.2,
-            margin: 0,
-          }}
-        >
-          {t("brandStory.p3")}
-        </p>
-        <p
-          style={{
-            color: "rgba(255,255,255,0.92)",
-            fontSize: 16,
-            fontWeight: 500,
-            lineHeight: 1.5,
-            letterSpacing: 0.4,
-            margin: "4px 0 0",
-            fontStyle: "italic",
-          }}
-        >
-          {t("brandStory.closer")}
-        </p>
-      </section>
+      <BrandStory />
 
       {/* VALUE PILLARS */}
       <section style={sectionStyle}>

@@ -57,11 +57,27 @@
       "subline": "Modern everyday backpacks engineered for durability, designed without compromise."
     },
     "brandStory": {
-      "lead": "We design for what everyday life actually needs.",
-      "p1": "This backpack brings together protection, lightness, and simplicity—built with a dedicated laptop compartment, a water-repellent exterior, and a structure refined through real use.",
-      "p2": "Not overly technical, not overly minimal. Just balanced.",
-      "p3": "We believe a backpack should feel natural to carry, effortless to use, and ready for the rhythm of daily life—from commuting to movement in between.",
-      "closer": "Designed to be just right."
+      "act1": {
+        "label": "Designed by professionals.",
+        "headline": "Engineered for protection.",
+        "sub": "Built for everyday life."
+      },
+      "act2": {
+        "problem": "Most products today are overdesigned.\nToo many features. Too much complexity.\nToo little durability.",
+        "bridge": "We chose a simpler approach.",
+        "resolution": "We remove what doesn't matter — so what remains just works."
+      },
+      "pillars": {
+        "one": "Clean lines.",
+        "two": "Essential functions.",
+        "three": "Nothing extra."
+      },
+      "closing": {
+        "p1": "Lightweight, durable, and easy to carry.",
+        "p2": "Made to fit into your day — whether you're heading to work, moving through the city, or just getting things done.",
+        "p3": "Things you use without thinking, but trust every time you do.",
+        "origin": "Designed in Taiwan."
+      }
     },
     "whyThisBag": {
       "heading": "WHY THIS BAG",
