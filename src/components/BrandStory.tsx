@@ -51,7 +51,7 @@ export default function BrandStory() {
         <p style={{ ...fadeStyle(inView1, 0), margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.38)" }}>
           {t("act1.label")}
         </p>
-        <h2 style={{ ...fadeStyle(inView1, 0.1), margin: 0, fontSize: "clamp(30px, 7vw, 52px)", fontWeight: 700, lineHeight: 1.05, letterSpacing: -0.5, background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+        <h2 style={{ ...fadeStyle(inView1, 0.1), margin: 0, fontSize: "clamp(30px, 7vw, 52px)", fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5, paddingBottom: "0.1em", background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
           {t("act1.headline")}
         </h2>
         <p style={{ ...fadeStyle(inView1, 0.2), margin: 0, fontSize: 16, color: "rgba(255,255,255,0.5)", letterSpacing: 0.3 }}>
