@@ -19,10 +19,24 @@ function useInView(threshold = 0.1) {
   return [ref, inView] as const;
 }
 
+// Two fixed snap points — no continuous drift as viewport resizes.
+// Initialises to the mobile value (SSR-safe; desktop snaps once on mount).
+function useIsWide(breakpoint = 560) {
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const check = () => setWide(window.innerWidth >= breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return wide;
+}
+
 export default function BrandStory() {
   const t = useTranslations("home.brandStory");
   const [ref1, inView1] = useInView();
   const [ref2, inView2] = useInView();
+  const wide = useIsWide();
 
   const fadeStyle = (inView: boolean, delay = 0): React.CSSProperties => ({
     opacity: inView ? 1 : 0,
@@ -44,17 +58,35 @@ export default function BrandStory() {
       }}
     >
       {/* ── Beat 1: Headline ─────────────────────────────────────────── */}
-      <div
-        ref={ref1}
-        style={{ display: "flex", flexDirection: "column", gap: 10 }}
-      >
-        <p style={{ ...fadeStyle(inView1, 0), margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.38)" }}>
+      <div ref={ref1} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <p style={{
+          ...fadeStyle(inView1, 0),
+          margin: 0, fontSize: 11, fontWeight: 600,
+          letterSpacing: 3, textTransform: "uppercase",
+          color: "rgba(255,255,255,0.38)",
+        }}>
           {t("act1.label")}
         </p>
-        <h2 style={{ ...fadeStyle(inView1, 0.1), margin: 0, fontSize: "clamp(30px, 7vw, 52px)", fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5, paddingBottom: "0.1em", background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+
+        <h2 style={{
+          ...fadeStyle(inView1, 0.1),
+          margin: 0,
+          fontSize: wide ? 46 : 30,
+          fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5,
+          paddingBottom: "0.1em",
+          background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}>
           {t("act1.headline")}
         </h2>
-        <p style={{ ...fadeStyle(inView1, 0.2), margin: 0, fontSize: 16, color: "rgba(255,255,255,0.5)", letterSpacing: 0.3 }}>
+
+        <p style={{
+          ...fadeStyle(inView1, 0.2),
+          margin: 0, fontSize: 16,
+          color: "rgba(255,255,255,0.5)", letterSpacing: 0.3,
+        }}>
           {t("act1.sub")}
         </p>
       </div>
@@ -68,7 +100,12 @@ export default function BrandStory() {
           {t("act2.problem")}
         </p>
 
-        <p style={{ margin: 0, fontSize: "clamp(18px, 4vw, 24px)", fontWeight: 600, lineHeight: 1.3, color: "rgba(255,255,255,0.92)", letterSpacing: -0.2 }}>
+        <p style={{
+          margin: 0,
+          fontSize: wide ? 22 : 18,
+          fontWeight: 600, lineHeight: 1.3,
+          color: "rgba(255,255,255,0.92)", letterSpacing: -0.2,
+        }}>
           {t("act2.bridge")}
         </p>
 
