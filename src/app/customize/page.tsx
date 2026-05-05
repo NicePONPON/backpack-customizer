@@ -32,6 +32,7 @@ import {
 } from "@/lib/overlayCalibration";
 import { COLOR_GROUPS } from "@/lib/bagReference";
 import { encodeDesign, decodeDesign } from "@/lib/invoiceSerialization";
+import SaveDesignModal from "@/components/SaveDesignModal";
 
 const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
 const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
@@ -72,6 +73,8 @@ export default function CustomizePage() {
   const [size, setSize] = useState<"14" | "16">("14");
   const [flashGroup, setFlashGroup] = useState<string | null>(null);
   const [flashNonce, setFlashNonce] = useState(0);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [savedToast, setSavedToast] = useState(false);
 
   const [embroideryLines, setEmbroideryLines] = useState<[string, string]>([
     "",
@@ -112,6 +115,13 @@ export default function CustomizePage() {
     const target = params.get("calibrate");
     if (target === "front" || target === "back" || target === "zipper") {
       setCalibrationTarget(target);
+    }
+
+    // Show confirmation toast when returning from magic-link save flow.
+    if (params.get("saved") === "1") {
+      setSavedToast(true);
+      setTimeout(() => setSavedToast(false), 4000);
+      window.history.replaceState({}, "", "/customize");
     }
 
     // Restore design state if returning from the invoice page.
@@ -518,9 +528,27 @@ export default function CustomizePage() {
           maxWidth: 720,
           display: "flex",
           justifyContent: "center",
+          gap: 12,
+          flexWrap: "wrap",
           marginTop: 12,
         }}
       >
+        <button
+          onClick={() => setShowSaveModal(true)}
+          style={{
+            padding: "14px 28px",
+            borderRadius: 999,
+            background: "transparent",
+            color: "#fff",
+            fontWeight: 700,
+            fontSize: 15,
+            letterSpacing: 0.5,
+            border: "1.5px solid rgba(255,255,255,0.55)",
+            cursor: "pointer",
+          }}
+        >
+          Save my style
+        </button>
         <Link
           href={invoiceHref}
           style={{
@@ -569,6 +597,38 @@ export default function CustomizePage() {
       )}
 
       <SiteFooter />
+
+      {showSaveModal && (
+        <SaveDesignModal
+          design={{
+            size, colors, embroideryLines, embroideryLineCount,
+            embroideryColor, embroideryPosition, embroideryFont,
+            embroideryLineSizes, zipperUpgrade, zipperColor,
+          }}
+          onClose={() => setShowSaveModal(false)}
+        />
+      )}
+
+      {savedToast && (
+        <div
+          style={{
+            position: "fixed", bottom: 28, left: "50%",
+            transform: "translateX(-50%)",
+            background: "rgba(30,30,30,0.96)",
+            border: "1px solid rgba(168,230,163,0.4)",
+            borderRadius: 999,
+            padding: "12px 24px",
+            color: "#a8e6a3",
+            fontSize: 14,
+            fontWeight: 600,
+            zIndex: 400,
+            whiteSpace: "nowrap",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+          }}
+        >
+          ✓ Your design has been saved for this season
+        </div>
+      )}
     </main>
   );
 }

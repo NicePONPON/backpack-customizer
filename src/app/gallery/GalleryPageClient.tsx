@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import Gallery, { type GalleryImage } from "@/components/Gallery";
 import SizeVisualizer from "@/components/SizeVisualizer";
 import type { AdImage } from "@/lib/loadAdvertisements";
+import CommunityGallery from "@/components/CommunityGallery";
 
 const sectionStyle: React.CSSProperties = {
   width: "100%",
@@ -62,6 +63,11 @@ export default function GalleryPageClient({ ads }: Props) {
             ) : null
           }
         />
+      </section>
+
+      <section style={sectionStyle}>
+        <h2 style={sectionHeaderStyle}>COMMUNITY STYLES</h2>
+        <CommunityGallery />
       </section>
     </>
   );
