@@ -65,8 +65,52 @@ export default function GalleryPageClient({ ads }: Props) {
         />
       </section>
 
+      {/* Studio CTA */}
+      <section
+        style={{
+          ...sectionStyle,
+          background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          borderRadius: 22,
+          padding: "32px 28px",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 16,
+        }}
+      >
+        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
+          Community Studio
+        </p>
+        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, letterSpacing: 0.5, color: "#fff", lineHeight: 1.2 }}>
+          Want to design your own?
+        </h2>
+        <p style={{ margin: 0, fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 440 }}>
+          Head to Studio to pick your colors, submit your vote, and see this season's top styles. The most popular design at season close gets made — and voters get first access.
+        </p>
+        <a
+          href="/studio"
+          style={{
+            display: "inline-block",
+            marginTop: 4,
+            padding: "13px 28px",
+            borderRadius: 999,
+            background: "#fff",
+            color: "#111",
+            fontWeight: 700,
+            fontSize: 14,
+            letterSpacing: 0.5,
+            textDecoration: "none",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+          }}
+        >
+          Go to Studio →
+        </a>
+      </section>
+
+      {/* Community top 3 */}
       <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>COMMUNITY STYLES</h2>
         <CommunityGallery />
       </section>
     </>
