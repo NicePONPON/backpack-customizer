@@ -138,7 +138,7 @@ export default function StudioPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#f0f0f0, #e8e8e8)",
+        background: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#ffffff, #FDFAF3)",
         backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column",

@@ -69,7 +69,7 @@ export default function GalleryPageClient({ ads }: Props) {
           ...sectionStyle,
           background: isDark
             ? "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)"
-            : "linear-gradient(135deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.02) 100%)",
+            : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%)",
           border: isDark
             ? "1px solid rgba(255,255,255,0.12)"
             : "1px solid rgba(0,0,0,0.1)",
@@ -140,23 +140,21 @@ function AppleAdScroll({ ads }: { ads: AdImage[] }) {
           ad={ad}
           index={i}
           total={ads.length}
+          isActive={i === activeIdx}
           onVisible={() => setActiveIdx(i)}
         />
       ))}
 
-      {/* Fixed progress dots on the right */}
+      {/* Progress dots anchored below all sections, centered */}
       {ads.length > 1 && (
         <div
           style={{
-            position: "fixed",
-            right: 20,
-            top: "50%",
-            transform: "translateY(-50%)",
             display: "flex",
-            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
             gap: 8,
-            zIndex: 10,
-            pointerEvents: "none",
+            padding: "20px 0",
+            background: "transparent",
           }}
           aria-hidden
         >
@@ -164,12 +162,12 @@ function AppleAdScroll({ ads }: { ads: AdImage[] }) {
             <div
               key={i}
               style={{
-                width: 5,
-                height: i === activeIdx ? 20 : 5,
+                width: i === activeIdx ? 20 : 6,
+                height: 6,
                 borderRadius: 999,
-                background: "rgba(255,255,255,0.9)",
+                background: i === activeIdx ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.4)",
-                transition: "height 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease",
               }}
             />
           ))}
@@ -183,15 +181,19 @@ function AppleAdSection({
   ad,
   index,
   total,
+  isActive,
   onVisible,
 }: {
   ad: AdImage;
   index: number;
   total: number;
+  isActive: boolean;
   onVisible: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
+  const onVisibleRef = useRef(onVisible);
+  onVisibleRef.current = onVisible;
 
   useEffect(() => {
     const el = ref.current;
@@ -200,15 +202,17 @@ function AppleAdSection({
       ([entry]) => {
         if (entry.isIntersecting) {
           setRevealed(true);
-          onVisible();
+          onVisibleRef.current();
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.3 }
     );
     obs.observe(el);
     return () => obs.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
 
   return (
     <div
@@ -217,9 +221,11 @@ function AppleAdSection({
         position: "relative",
         height: "100svh",
         overflow: "hidden",
+        // Add a 1px border between sections so they feel distinct
+        borderBottom: isLast ? "none" : "1px solid rgba(0,0,0,0.15)",
       }}
     >
-      {/* Full-bleed image with zoom-in reveal */}
+      {/* Full-bleed image — zooms in on load, pulls back when revealed */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={ad.src}
@@ -231,36 +237,37 @@ function AppleAdSection({
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          transform: revealed ? "scale(1)" : "scale(1.07)",
+          transform: revealed ? "scale(1)" : "scale(1.06)",
           transition: "transform 1.6s cubic-bezier(0.2, 0, 0, 1)",
           willChange: "transform",
           userSelect: "none",
         }}
       />
 
-      {/* Bottom scrim so the counter stays legible */}
+      {/* Bottom scrim */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.05) 35%, transparent 65%)",
+            "linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 30%, transparent 60%)",
           pointerEvents: "none",
         }}
       />
 
-      {/* Slide counter */}
+      {/* Bottom info row: slide counter on left, scroll cue on right */}
       <div
         style={{
           position: "absolute",
-          bottom: 36,
-          left: 0,
-          right: 0,
+          bottom: 32,
+          left: 32,
+          right: 32,
           display: "flex",
-          justifyContent: "center",
+          alignItems: "center",
+          justifyContent: "space-between",
           opacity: revealed ? 1 : 0,
-          transform: revealed ? "translateY(0)" : "translateY(16px)",
-          transition: "opacity 0.9s ease 0.5s, transform 0.9s ease 0.5s",
+          transform: revealed ? "translateY(0)" : "translateY(12px)",
+          transition: "opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s",
           pointerEvents: "none",
         }}
       >
@@ -271,35 +278,55 @@ function AppleAdSection({
             fontWeight: 600,
             letterSpacing: 3,
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.65)",
+            color: "rgba(255,255,255,0.6)",
           }}
         >
           {index + 1} / {total}
         </p>
+
+        {/* Scroll cue only on non-last slides */}
+        {!isLast && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
+              scroll
+            </p>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              style={{
+                animation: "bob 2s ease-in-out infinite",
+              }}
+            >
+              <path d="M3 6l5 5 5-5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        )}
       </div>
 
-      {/* Scroll cue arrow — only on first section */}
-      {index === 0 && (
+      {/* Top label on first section */}
+      {isFirst && (
         <div
           style={{
             position: "absolute",
-            bottom: 60,
+            top: 32,
             left: 0,
             right: 0,
             display: "flex",
             justifyContent: "center",
             opacity: revealed ? 1 : 0,
-            transition: "opacity 1s ease 1s",
+            transition: "opacity 1s ease 0.6s",
             pointerEvents: "none",
-            animation: "bob 2s ease-in-out infinite",
           }}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 7l6 6 6-6" stroke="rgba(255,255,255,0.6)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <style>{`@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }`}</style>
+          <p style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
+            Lookbook
+          </p>
         </div>
       )}
+
+      <style>{`@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }`}</style>
     </div>
   );
 }

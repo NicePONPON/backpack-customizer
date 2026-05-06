@@ -33,6 +33,7 @@ import {
 import { COLOR_GROUPS } from "@/lib/bagReference";
 import { encodeDesign, decodeDesign } from "@/lib/invoiceSerialization";
 import SaveDesignModal from "@/components/SaveDesignModal";
+import { useTheme } from "@/lib/ThemeContext";
 
 const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
 const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
@@ -68,6 +69,8 @@ export default function CustomizePage() {
   const tCustomize = useTranslations("customize");
   const tColors = useTranslations("colors");
   const tBagGuide = useTranslations("bagGuide");
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
   const [colors, setColors] = useState<Record<string, string>>({});
   const [size, setSize] = useState<"14" | "16">("14");
@@ -183,13 +186,15 @@ export default function CustomizePage() {
     <main
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(#555555, #222222)",
+        background: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#ffffff, #FDFAF3)",
         backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         padding: "0 24px 48px",
         gap: 28,
+        color: isDark ? "#fff" : "#111",
+        transition: "background 0.5s ease, color 0.5s ease",
       }}
     >
       <SiteHeader />

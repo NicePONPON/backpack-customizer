@@ -4,9 +4,9 @@ import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { COUNTRIES, flagSrc } from "@/lib/countries";
+import { useTheme } from "@/lib/ThemeContext";
 
 // TODO: replace with real distributor / regional e-commerce URLs once supplied.
-// Keys map to ISO 3166-1 alpha-2 country codes from src/lib/countries.ts.
 const DISTRIBUTOR_URLS: Record<string, string> = {
   TW: "#",
   SZ: "#",
@@ -14,40 +14,51 @@ const DISTRIBUTOR_URLS: Record<string, string> = {
   US: "#",
 };
 
-const pageBg: React.CSSProperties = {
-  minHeight: "100vh",
-  background: "linear-gradient(#555555, #222222)",
-  backgroundAttachment: "fixed",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  padding: "0 24px 48px",
-  gap: 32,
-  color: "#fff",
-};
-
-const cardStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
-  border: "1px solid rgba(255,255,255,0.14)",
-  borderRadius: 20,
-  padding: "28px 24px 24px",
-  backdropFilter: "blur(20px) saturate(180%)",
-  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-  boxShadow:
-    "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
-  textDecoration: "none",
-  color: "inherit",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  textAlign: "center",
-  gap: 12,
-  minHeight: 220,
-};
-
 export default function ShopPage() {
   const t = useTranslations("shop");
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const pageBg: React.CSSProperties = {
+    minHeight: "100vh",
+    background: isDark
+      ? "linear-gradient(#555555, #222222)"
+      : "linear-gradient(#ffffff, #FDFAF3)",
+    backgroundAttachment: "fixed",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "0 24px 48px",
+    gap: 32,
+    color: isDark ? "#fff" : "#111",
+    transition: "background 0.5s ease, color 0.5s ease",
+  };
+
+  const cardStyle: React.CSSProperties = {
+    background: isDark
+      ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
+      : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%)",
+    border: isDark
+      ? "1px solid rgba(255,255,255,0.14)"
+      : "1px solid rgba(0,0,0,0.1)",
+    borderRadius: 20,
+    padding: "28px 24px 24px",
+    backdropFilter: "blur(20px) saturate(180%)",
+    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+    boxShadow: isDark
+      ? "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)"
+      : "0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
+    textDecoration: "none",
+    color: "inherit",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    gap: 12,
+    minHeight: 220,
+    transition: "background 0.5s ease, border-color 0.5s ease",
+  };
+
   return (
     <main style={pageBg}>
       <SiteHeader />
@@ -67,7 +78,9 @@ export default function ShopPage() {
             letterSpacing: 0.5,
             lineHeight: 1.15,
             margin: 0,
-            background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+            background: isDark
+              ? "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)"
+              : "linear-gradient(180deg, #111111 0%, #444444 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -77,10 +90,11 @@ export default function ShopPage() {
         </h1>
         <p
           style={{
-            color: "rgba(255,255,255,0.7)",
+            color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
             fontSize: 15,
             margin: "10px 0 0",
             letterSpacing: 0.3,
+            transition: "color 0.5s ease",
           }}
         >
           {t("subheading")}
@@ -113,13 +127,14 @@ export default function ShopPage() {
               rel="noopener noreferrer"
               style={cardStyle}
             >
-              <FlagCircle code={c.code} size={88} />
+              <FlagCircle code={c.code} size={88} isDark={isDark} />
               <div
                 style={{
                   fontSize: 20,
                   fontWeight: 700,
-                  color: "#fff",
+                  color: isDark ? "#fff" : "#111",
                   letterSpacing: 0.3,
+                  transition: "color 0.5s ease",
                 }}
               >
                 {c.name}
@@ -127,9 +142,10 @@ export default function ShopPage() {
               <div
                 style={{
                   fontSize: 13,
-                  color: "rgba(255,255,255,0.65)",
+                  color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.55)",
                   lineHeight: 1.5,
                   flex: 1,
+                  transition: "color 0.5s ease",
                 }}
               >
                 {tagline}
@@ -140,7 +156,8 @@ export default function ShopPage() {
                   fontSize: 13,
                   fontWeight: 700,
                   letterSpacing: 0.5,
-                  color: "#fff",
+                  color: isDark ? "#fff" : "#111",
+                  transition: "color 0.5s ease",
                 }}
               >
                 {t("visitCta")}
@@ -155,7 +172,7 @@ export default function ShopPage() {
   );
 }
 
-function FlagCircle({ code, size }: { code: string; size: number }) {
+function FlagCircle({ code, size, isDark }: { code: string; size: number; isDark: boolean }) {
   return (
     <span
       style={{
@@ -164,9 +181,12 @@ function FlagCircle({ code, size }: { code: string; size: number }) {
         height: size,
         borderRadius: "50%",
         overflow: "hidden",
-        background: "#222",
-        border: "2px solid rgba(255,255,255,0.18)",
+        background: isDark ? "#222" : "#e8e8e8",
+        border: isDark
+          ? "2px solid rgba(255,255,255,0.18)"
+          : "2px solid rgba(0,0,0,0.1)",
         flexShrink: 0,
+        transition: "background 0.5s ease, border-color 0.5s ease",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
