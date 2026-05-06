@@ -6,6 +6,7 @@ import { encodeDesign } from "@/lib/invoiceSerialization";
 import type { DesignState } from "@/lib/invoiceSerialization";
 import MiniBackpack from "@/components/MiniBackpack";
 import PreorderModal from "@/components/PreorderModal";
+import SaveDesignModal from "@/components/SaveDesignModal";
 
 type TopDesign = {
   design_json: DesignState;
@@ -32,7 +33,7 @@ function DesignCard({
   launched?: boolean;
 }) {
   const [showPreorder, setShowPreorder] = useState(false);
-  const href = `/studio?d=${encodeURIComponent(encodeDesign(design))}`;
+  const [showVoteModal, setShowVoteModal] = useState(false);
 
   return (
     <>
@@ -100,6 +101,7 @@ function DesignCard({
             onClick={() => setShowPreorder(true)}
             style={{
               display: "block",
+              width: "100%",
               padding: "9px 18px",
               borderRadius: 999,
               border: "1px solid rgba(255,215,100,0.5)",
@@ -114,27 +116,35 @@ function DesignCard({
             Preorder — save 10% →
           </button>
         ) : (
-          <a
-            href={href}
+          <button
+            onClick={() => setShowVoteModal(true)}
             style={{
               display: "block",
-              padding: "8px 16px",
+              width: "100%",
+              padding: "9px 16px",
               borderRadius: 999,
-              border: "1px solid rgba(255,255,255,0.22)",
-              background: "transparent",
-              color: "rgba(255,255,255,0.75)",
+              border: "1px solid rgba(255,255,255,0.28)",
+              background: "rgba(255,255,255,0.07)",
+              color: "#fff",
               fontSize: 12,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: 0.5,
-              textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             Vote for this style →
-          </a>
+          </button>
         )}
       </div>
 
       {showPreorder && <PreorderModal onClose={() => setShowPreorder(false)} />}
+      {showVoteModal && (
+        <SaveDesignModal
+          design={design}
+          onClose={() => setShowVoteModal(false)}
+          nextPath="/studio"
+        />
+      )}
     </>
   );
 }

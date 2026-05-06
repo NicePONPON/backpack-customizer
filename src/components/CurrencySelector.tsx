@@ -65,15 +65,17 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
   const textColor = invert ? "#111" : "rgba(255,255,255,0.9)";
 
   return (
-    <div ref={ref} style={{ position: "relative" }}>
+    <div ref={ref} style={{ position: "relative", width: "100%" }}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
         style={{
-          display: "inline-flex",
+          display: "flex",
+          width: "100%",
           alignItems: "center",
+          justifyContent: "center",
           gap: 5,
           height: 28,
           borderRadius: 999,

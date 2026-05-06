@@ -22,7 +22,8 @@ export default function LanguageToggle() {
       role="group"
       aria-label={t("languageToggleLabel")}
       style={{
-        display: "inline-flex",
+        display: "flex",
+        width: "100%",
         alignItems: "center",
         height: 28,
         borderRadius: 999,
@@ -64,8 +65,8 @@ function Pill({
       onClick={onClick}
       aria-pressed={active}
       style={{
+        flex: 1,
         height: 22,
-        minWidth: 26,
         padding: "0 8px",
         borderRadius: 999,
         border: "none",

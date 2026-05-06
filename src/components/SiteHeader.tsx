@@ -83,13 +83,14 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
           />
         </Link>
 
-        {/* Right: language on top, currency below — stacked */}
+        {/* Right: language on top, currency below — stacked, equal width */}
         <div
           style={{
-            display: "grid",
-            gridTemplateRows: "auto auto",
-            justifyItems: "end",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
             gap: 5,
+            width: 88,
           }}
         >
           <LanguageToggle />
