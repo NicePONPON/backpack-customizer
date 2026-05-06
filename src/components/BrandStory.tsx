@@ -3,24 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return [ref, inView] as const;
-}
-
-// Two fixed snap points — no continuous drift as viewport resizes.
-// Initialises to the mobile value (SSR-safe; desktop snaps once on mount).
 function useIsWide(breakpoint = 560) {
   const [wide, setWide] = useState(false);
   useEffect(() => {
@@ -32,16 +14,47 @@ function useIsWide(breakpoint = 560) {
   return wide;
 }
 
+const TITLE_SIZE_WIDE = 38;
+const TITLE_SIZE_NARROW = 28;
+const BODY_SIZE = 16;
+
 export default function BrandStory() {
   const t = useTranslations("home.brandStory");
-  const [ref1, inView1] = useInView();
-  const [ref2, inView2] = useInView();
   const wide = useIsWide();
 
-  const fadeStyle = (inView: boolean, delay = 0): React.CSSProperties => ({
-    opacity: inView ? 1 : 0,
-    transform: inView ? "translateY(0)" : "translateY(14px)",
-    transition: `opacity 0.8s ease ${delay}s, transform 0.8s ease ${delay}s`,
+  // Scroll-driven highlight: track which paragraph is closest to viewport center.
+  const paraRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const [activeIdx, setActiveIdx] = useState(-1);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const vpCenter = window.innerHeight / 2;
+      let best = -1, bestDist = Infinity;
+      paraRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const elCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(elCenter - vpCenter);
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      });
+      setActiveIdx(best);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const setRef = (i: number) => (el: HTMLParagraphElement | null) => {
+    paraRefs.current[i] = el;
+  };
+
+  const bodyStyle = (i: number, extra?: React.CSSProperties): React.CSSProperties => ({
+    margin: 0,
+    fontSize: BODY_SIZE,
+    lineHeight: 1.85,
+    color: activeIdx === i ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.32)",
+    transition: "color 0.5s ease",
+    ...extra,
   });
 
   return (
@@ -57,10 +70,9 @@ export default function BrandStory() {
         textAlign: "center",
       }}
     >
-      {/* ── Beat 1: Headline ─────────────────────────────────────────── */}
-      <div ref={ref1} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      {/* ── Beat 1: Headline — always fully visible ───────────────────── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <p style={{
-          ...fadeStyle(inView1, 0),
           margin: 0, fontSize: 11, fontWeight: 600,
           letterSpacing: 3, textTransform: "uppercase",
           color: "rgba(255,255,255,0.38)",
@@ -69,9 +81,8 @@ export default function BrandStory() {
         </p>
 
         <h2 style={{
-          ...fadeStyle(inView1, 0.1),
           margin: 0,
-          fontSize: wide ? 46 : 30,
+          fontSize: wide ? TITLE_SIZE_WIDE : TITLE_SIZE_NARROW,
           fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5,
           paddingBottom: "0.1em",
           background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)",
@@ -83,53 +94,52 @@ export default function BrandStory() {
         </h2>
 
         <p style={{
-          ...fadeStyle(inView1, 0.2),
-          margin: 0, fontSize: 16,
-          color: "rgba(255,255,255,0.5)", letterSpacing: 0.3,
+          margin: 0, fontSize: BODY_SIZE,
+          color: "rgba(255,255,255,0.55)", letterSpacing: 0.3,
         }}>
           {t("act1.sub")}
         </p>
       </div>
 
-      {/* ── Beat 2: Essay ────────────────────────────────────────────── */}
-      <div
-        ref={ref2}
-        style={{ ...fadeStyle(inView2, 0), display: "flex", flexDirection: "column", gap: 20 }}
-      >
-        <p style={{ margin: 0, fontSize: 13, lineHeight: 1.9, color: "rgba(255,255,255,0.42)", whiteSpace: "pre-line" }}>
+      {/* ── Beat 2: Scroll-highlighted paragraphs ────────────────────── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <p ref={setRef(0)} style={bodyStyle(0, { whiteSpace: "pre-line" })}>
           {t("act2.problem")}
         </p>
 
-        <p style={{
-          margin: 0,
-          fontSize: wide ? 22 : 18,
-          fontWeight: 600, lineHeight: 1.3,
-          color: "rgba(255,255,255,0.92)", letterSpacing: -0.2,
-        }}>
+        <p ref={setRef(1)} style={bodyStyle(1, { fontWeight: 700, letterSpacing: -0.2 })}>
           {t("act2.bridge")}
         </p>
 
-        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.8, color: "rgba(255,255,255,0.58)" }}>
+        <p ref={setRef(2)} style={bodyStyle(2)}>
           {t("act2.resolution")}
         </p>
 
-        <p style={{ margin: 0, fontSize: 15, fontWeight: 500, color: "rgba(255,255,255,0.75)", letterSpacing: 0.3, lineHeight: 1.6 }}>
+        <p ref={setRef(3)} style={bodyStyle(3, { fontWeight: 500, letterSpacing: 0.3 })}>
           {t("pillars.one")}{"  ·  "}{t("pillars.two")}{"  ·  "}{t("pillars.three")}
         </p>
 
-        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.8, color: "rgba(255,255,255,0.55)" }}>
+        <p ref={setRef(4)} style={bodyStyle(4)}>
           {t("closing.p1")}
         </p>
 
-        <p style={{ margin: 0, fontSize: 13, lineHeight: 1.85, color: "rgba(255,255,255,0.4)" }}>
+        <p ref={setRef(5)} style={bodyStyle(5)}>
           {t("closing.p2")}
         </p>
 
-        <p style={{ margin: 0, fontSize: 13, fontStyle: "italic", color: "rgba(255,255,255,0.38)", lineHeight: 1.8 }}>
+        <p ref={setRef(6)} style={bodyStyle(6, { fontStyle: "italic" })}>
           {t("closing.p3")}
         </p>
 
-        <p style={{ margin: "8px 0 0", fontSize: 10, fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: "rgba(255,255,255,0.22)" }}>
+        <p
+          ref={setRef(7)}
+          style={{
+            margin: "8px 0 0", fontSize: 10, fontWeight: 600,
+            letterSpacing: 3.5, textTransform: "uppercase",
+            color: activeIdx === 7 ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.18)",
+            transition: "color 0.5s ease",
+          }}
+        >
           {t("closing.origin")}
         </p>
       </div>
