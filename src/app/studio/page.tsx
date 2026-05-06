@@ -18,10 +18,12 @@ import {
 import { COLOR_GROUPS } from "@/lib/bagReference";
 import { decodeDesign, encodeDesign } from "@/lib/invoiceSerialization";
 import type { EmbroideryColor, EmbroideryFont, EmbroideryPosition, EmbroideryLineSize } from "@/components/EmbroideryControls";
+import BagDimensionGuides from "@/components/BagDimensionGuides";
 
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
 const BASE_W = 420;
+const SIZE_SCALE: Record<"14" | "16", number> = { "14": 14 / 16, "16": 1 };
 
 const ALL_GROUPS = [
   "FRONT_BACK_SIDE", "FRONT_MAIN_BOTTOM", "FRONT_MAIN_TOP",
@@ -233,7 +235,7 @@ export default function StudioPage() {
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: BASE_W,
+            maxWidth: BASE_W * SIZE_SCALE[size],
             aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
         >
@@ -256,13 +258,14 @@ export default function StudioPage() {
             pngSrc="/texture/Front-Overlay.png"
             calibration={FRONT_CALIBRATION}
           />
+          <BagDimensionGuides size={size} />
         </div>
 
         <div
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: BASE_W,
+            maxWidth: BASE_W * SIZE_SCALE[size],
             aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
