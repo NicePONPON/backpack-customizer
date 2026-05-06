@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "@/lib/ThemeContext";
 
 export type FeatureItem = {
   videoSrc: string;
@@ -17,24 +18,25 @@ export type FeatureCardData = {
 
 const SMOOTH_EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
 
-const cardBase: React.CSSProperties = {
-  background:
-    "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
-  border: "1px solid rgba(255,255,255,0.14)",
-  borderRadius: 20,
-  backdropFilter: "blur(20px) saturate(180%)",
-  WebkitBackdropFilter: "blur(20px) saturate(180%)",
-  boxShadow:
-    "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
-  overflow: "hidden",
-};
-
-export default function FeatureExpandableCard({
-  data,
-}: {
-  data: FeatureCardData;
-}) {
+export default function FeatureExpandableCard({ data }: { data: FeatureCardData }) {
   const [expanded, setExpanded] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const cardBase: React.CSSProperties = {
+    background: isDark
+      ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
+      : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%)",
+    border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(0,0,0,0.1)",
+    borderRadius: 20,
+    backdropFilter: "blur(20px) saturate(180%)",
+    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+    boxShadow: isDark
+      ? "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)"
+      : "0 4px 20px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9)",
+    overflow: "hidden",
+    transition: "background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease",
+  };
 
   return (
     <div style={cardBase}>
@@ -63,24 +65,26 @@ export default function FeatureExpandableCard({
               fontSize: 14,
               fontWeight: 700,
               letterSpacing: 1.5,
-              color: "#fff",
+              color: isDark ? "#fff" : "#111",
               textTransform: "uppercase",
               marginBottom: 8,
+              transition: "color 0.5s ease",
             }}
           >
             {data.title}
           </div>
           <div
             style={{
-              color: "rgba(255,255,255,0.7)",
+              color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
               fontSize: 14,
               lineHeight: 1.55,
+              transition: "color 0.5s ease",
             }}
           >
             {data.summary}
           </div>
         </div>
-        <Arrow expanded={expanded} />
+        <Arrow expanded={expanded} isDark={isDark} />
       </button>
 
       <AnimatePresence initial={false}>
@@ -93,11 +97,14 @@ export default function FeatureExpandableCard({
             transition={{ duration: 0.4, ease: SMOOTH_EASE }}
             style={{
               overflow: "hidden",
-              background:
-                "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
+              background: isDark
+                ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
+                : "linear-gradient(135deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.01) 100%)",
               backdropFilter: "blur(20px) saturate(180%)",
               WebkitBackdropFilter: "blur(20px) saturate(180%)",
-              borderTop: "1px solid rgba(255,255,255,0.14)",
+              borderTop: isDark
+                ? "1px solid rgba(255,255,255,0.14)"
+                : "1px solid rgba(0,0,0,0.08)",
             }}
           >
             <div
@@ -109,12 +116,7 @@ export default function FeatureExpandableCard({
               }}
             >
               {data.items.map((item, i) => (
-                <FeatureRow
-                  key={item.videoSrc}
-                  item={item}
-                  active={expanded}
-                  index={i}
-                />
+                <FeatureRow key={item.videoSrc} item={item} active={expanded} index={i} isDark={isDark} />
               ))}
             </div>
           </motion.div>
@@ -124,7 +126,7 @@ export default function FeatureExpandableCard({
   );
 }
 
-function Arrow({ expanded }: { expanded: boolean }) {
+function Arrow({ expanded, isDark }: { expanded: boolean; isDark: boolean }) {
   return (
     <motion.div
       animate={{ rotate: expanded ? 90 : 0 }}
@@ -138,13 +140,13 @@ function Arrow({ expanded }: { expanded: boolean }) {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 999,
-        background: "rgba(255,255,255,0.06)",
-        border: "1px solid rgba(255,255,255,0.12)",
+        background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+        border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)",
       }}
       aria-hidden
     >
       <svg width="10" height="12" viewBox="0 0 10 12">
-        <path d="M1 1 L9 6 L1 11 Z" fill="rgba(255,255,255,0.55)" />
+        <path d="M1 1 L9 6 L1 11 Z" fill={isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.45)"} />
       </svg>
     </motion.div>
   );
@@ -154,10 +156,12 @@ function FeatureRow({
   item,
   active,
   index,
+  isDark,
 }: {
   item: FeatureItem;
   active: boolean;
   index: number;
+  isDark: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -168,11 +172,7 @@ function FeatureRow({
       v.play().catch(() => {});
     } else {
       v.pause();
-      try {
-        v.currentTime = 0;
-      } catch {
-        /* some browsers throw if metadata isn't loaded yet */
-      }
+      try { v.currentTime = 0; } catch { /* metadata not loaded */ }
     }
   }, [active]);
 
@@ -180,11 +180,7 @@ function FeatureRow({
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.35,
-        ease: SMOOTH_EASE,
-        delay: 0.05 + index * 0.06,
-      }}
+      transition={{ duration: 0.35, ease: SMOOTH_EASE, delay: 0.05 + index * 0.06 }}
       style={{
         display: "grid",
         gridTemplateColumns: "minmax(96px, 120px) 1fr",
@@ -204,7 +200,7 @@ function FeatureRow({
           aspectRatio: "1 / 1",
           objectFit: "cover",
           borderRadius: 12,
-          boxShadow: "0 6px 18px rgba(0,0,0,0.45)",
+          boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
           background: "#000",
           display: "block",
         }}
@@ -214,9 +210,10 @@ function FeatureRow({
           style={{
             fontSize: 13,
             fontWeight: 700,
-            color: "#fff",
+            color: isDark ? "#fff" : "#111",
             letterSpacing: 0.2,
             marginBottom: 6,
+            transition: "color 0.5s ease",
           }}
         >
           {item.title}
@@ -225,7 +222,8 @@ function FeatureRow({
           style={{
             fontSize: 13,
             lineHeight: 1.55,
-            color: "rgba(255,255,255,0.72)",
+            color: isDark ? "rgba(255,255,255,0.72)" : "rgba(0,0,0,0.6)",
+            transition: "color 0.5s ease",
           }}
         >
           {item.description}

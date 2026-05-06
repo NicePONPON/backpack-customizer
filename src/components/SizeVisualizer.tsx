@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
+import { useTheme } from "@/lib/ThemeContext";
 
 type Props = {
   // Drives which calibration set is used. `null` hides the bag overlays
@@ -56,6 +57,8 @@ const SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
   const t = useTranslations("size");
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [tuneMode, setTuneMode] = useState(false);
   const [calibration, setCalibration] = useState<
     Record<"14" | "16", SizeCalibration>
@@ -87,7 +90,8 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
           fontWeight: 600,
           letterSpacing: 1.6,
           textTransform: "uppercase",
-          color: "rgba(255,255,255,0.55)",
+          color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.45)",
+          transition: "color 0.5s ease",
         }}
       >
         {t("howItWears")}
@@ -120,8 +124,8 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
             objectFit: "contain",
             display: "block",
             userSelect: "none",
-            opacity: 0.9,
-            mixBlendMode: "multiply",
+            opacity: isDark ? 0.75 : 0.9,
+            mixBlendMode: isDark ? "screen" : "multiply",
           }}
         />
 
@@ -171,11 +175,12 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
               top: 0,
               transform: "translateX(-50%)",
               textAlign: "center",
-              color: "rgba(255,255,255,0.78)",
+              color: isDark ? "rgba(255,255,255,0.78)" : "rgba(0,0,0,0.6)",
               fontSize: 12,
               fontWeight: 600,
               letterSpacing: 0.6,
               whiteSpace: "nowrap",
+              transition: "color 0.5s ease",
             }}
           >
             <div>{h.cm} cm</div>
@@ -183,8 +188,9 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
               style={{
                 fontSize: 10,
                 fontWeight: 500,
-                color: "rgba(255,255,255,0.5)",
+                color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.38)",
                 marginTop: 1,
+                transition: "color 0.5s ease",
               }}
             >
               {h.ftIn}

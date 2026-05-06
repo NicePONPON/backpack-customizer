@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import { useTheme } from "@/lib/ThemeContext";
 
 export type GalleryImage = { src: string; sizeClass: "14" | "16" };
 
@@ -51,6 +52,8 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     const item = ITEMS[activeIdx];
@@ -151,13 +154,18 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
                 scrollSnapAlign: "center",
                 borderRadius: 24,
                 overflow: "hidden",
-                border: "1px solid rgba(255,255,255,0.14)",
+                border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(0,0,0,0.08)",
                 cursor: "pointer",
-                background:
-                  "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
+                  : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(255,255,255,0.8) 100%)",
                 boxShadow: active
-                  ? "0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18)"
-                  : "0 8px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.14)",
+                  ? isDark
+                    ? "0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18)"
+                    : "0 16px 48px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,1)"
+                  : isDark
+                    ? "0 8px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.14)"
+                    : "0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)",
                 transform: active ? "scale(1)" : "scale(0.9)",
                 opacity: active ? 1 : 0.5,
                 transition: `transform 0.6s ${SMOOTH_EASE}, opacity 0.6s ${SMOOTH_EASE}, box-shadow 0.6s ${SMOOTH_EASE}`,
@@ -234,7 +242,7 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
             width: 220,
             height: 4,
             borderRadius: 999,
-            background: "rgba(255,255,255,0.18)",
+            background: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.12)",
             overflow: "hidden",
           }}
         >
@@ -246,7 +254,7 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
               height: "100%",
               width: `${((activeIdx + 1) / ITEMS.length) * 100}%`,
               borderRadius: 999,
-              background: "rgba(255,255,255,0.88)",
+              background: isDark ? "rgba(255,255,255,0.88)" : "rgba(0,0,0,0.55)",
               transition: `width 0.4s ${SMOOTH_EASE}`,
             }}
           />
