@@ -106,7 +106,11 @@ export default function BackSVG({
         pathsRef.current = paths;
 
         applyColors(paths, colors);
-        applyTransform(svg, wrapper, svgTransform);
+        // Apply transform using the original full viewBox dimensions so the
+        // center-pivot math is correct, then crop the viewBox to remove the
+        // empty ~31% below the bag content (content ends at y≈604).
+        applyTransform(wrapper, svgTransform);
+        svg.setAttribute("viewBox", "0 0 622.13 606");
       });
     return () => {
       cancelled = true;
@@ -121,8 +125,8 @@ export default function BackSVG({
 
   // Update wrapper transform on slider change.
   useEffect(() => {
-    if (svgRef.current && wrapperRef.current) {
-      applyTransform(svgRef.current, wrapperRef.current, svgTransform);
+    if (wrapperRef.current) {
+      applyTransform(wrapperRef.current, svgTransform);
     }
   }, [svgTransform]);
 
@@ -166,14 +170,15 @@ function applyColors(
   });
 }
 
-function applyTransform(
-  svg: SVGSVGElement,
-  wrapper: SVGGElement,
-  cal: Calibration,
-) {
-  const vb = svg.viewBox.baseVal;
+// Use the original full viewBox dimensions (not the cropped one) so that the
+// center-pivot in buildCalibrationTransform stays correct even after the
+// viewBox is narrowed to 606 height for bottom-crop.
+const BACK_ORIGINAL_VB_W = 622.13;
+const BACK_ORIGINAL_VB_H = 881.02;
+
+function applyTransform(wrapper: SVGGElement, cal: Calibration) {
   wrapper.setAttribute(
     "transform",
-    buildCalibrationTransform(cal, vb.width, vb.height),
+    buildCalibrationTransform(cal, BACK_ORIGINAL_VB_W, BACK_ORIGINAL_VB_H),
   );
 }

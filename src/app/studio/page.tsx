@@ -40,6 +40,7 @@ export default function StudioPage() {
   const [zipperUpgrade, setZipperUpgrade] = useState(false);
   const [zipperColor, setZipperColor] = useState<string>(ZIPPER_COLORS[0].value);
   const [showSaveModal, setShowSaveModal] = useState(false);
+  const [isGiftOpen, setIsGiftOpen] = useState(false);
   const [savedToast, setSavedToast] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -174,8 +175,9 @@ export default function StudioPage() {
           textAlign: "center",
         }}
       >
-        {/* Gift icon — SF-style square badge */}
+        {/* Gift icon — tappable, lid opens on click */}
         <div
+          onClick={() => setIsGiftOpen(v => !v)}
           style={{
             width: 56,
             height: 56,
@@ -186,21 +188,37 @@ export default function StudioPage() {
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 2,
+            cursor: "pointer",
+            userSelect: "none",
           }}
         >
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            {/* bow left */}
-            <path d="M14 10 C11 5 4 5 6 9 C7 11 12 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
-            {/* bow right */}
-            <path d="M14 10 C17 5 24 5 22 9 C21 11 16 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
-            {/* lid */}
-            <rect x="3" y="10" width="22" height="6" rx="3" fill="rgba(255,215,100,0.55)" stroke="rgba(255,215,100,0.7)" strokeWidth="1"/>
-            {/* box body */}
+          <svg
+            width="28" height="28" viewBox="0 0 28 28" fill="none"
+            style={{ overflow: "visible" }}
+          >
+            {/* Lid group — rotates up when open, pivoting at hinge (14, 16) */}
+            <g style={{
+              transform: isGiftOpen
+                ? "translate(14px,16px) rotate(-42deg) translate(-14px,-16px) translateY(-6px)"
+                : "translate(0,0)",
+              transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
+            }}>
+              {/* bow left */}
+              <path d="M14 10 C11 5 4 5 6 9 C7 11 12 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
+              {/* bow right */}
+              <path d="M14 10 C17 5 24 5 22 9 C21 11 16 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
+              {/* lid rect */}
+              <rect x="3" y="10" width="22" height="6" rx="3" fill="rgba(255,215,100,0.55)" stroke="rgba(255,215,100,0.7)" strokeWidth="1"/>
+              {/* horizontal ribbon on lid */}
+              <rect x="3" y="13" width="22" height="3" rx="1" fill="rgba(255,215,100,0.55)"/>
+              {/* vertical ribbon — lid portion only */}
+              <rect x="12.5" y="10" width="3" height="6" rx="1" fill="rgba(255,215,100,0.85)"/>
+            </g>
+
+            {/* Box body — stays fixed */}
             <rect x="4" y="16" width="20" height="10" rx="3" fill="rgba(255,215,100,0.18)" stroke="rgba(255,215,100,0.6)" strokeWidth="1"/>
-            {/* vertical ribbon */}
-            <rect x="12.5" y="10" width="3" height="16" rx="1" fill="rgba(255,215,100,0.85)"/>
-            {/* horizontal ribbon on lid */}
-            <rect x="3" y="13" width="22" height="3" rx="1" fill="rgba(255,215,100,0.55)"/>
+            {/* vertical ribbon — body portion */}
+            <rect x="12.5" y="16" width="3" height="10" rx="1" fill="rgba(255,215,100,0.85)"/>
           </svg>
         </div>
 
@@ -251,7 +269,7 @@ export default function StudioPage() {
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
             </svg>
           </span>
-          Follow @computexsystems.co
+          Follow us on Instagram
         </a>
       </div>
 

@@ -314,7 +314,7 @@ export default function CustomizePage() {
             position: "relative",
             width: "100%",
             maxWidth: BASE_CONTAINER_WIDTH,
-            aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
+            aspectRatio: `${BACK_VIEWBOX.w} / 606`,
           }}
         >
           <div
@@ -338,6 +338,7 @@ export default function CustomizePage() {
               pngSrc={BACK_TEXTURE_SRC}
               calibration={backCalibration}
               debug={calibrationTarget === "back" && debugOverlay}
+              preserveAspectRatio="xMidYMin slice"
             />
           </div>
         </div>
