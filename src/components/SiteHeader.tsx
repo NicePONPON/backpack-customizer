@@ -81,9 +81,11 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
             }}
           />
         </Link>
-        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 8 }}>
-          <CurrencySelector invert={invert} />
-          <LanguageToggle />
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5 }}>
+            <LanguageToggle />
+            <CurrencySelector invert={invert} />
+          </div>
         </div>
       </header>
       {showSubNav && <SubNav invert={invert} />}
