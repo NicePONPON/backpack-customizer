@@ -17,27 +17,37 @@ function useIsWide(breakpoint = 560) {
 const TITLE_SIZE_WIDE = 38;
 const TITLE_SIZE_NARROW = 28;
 const BODY_SIZE = 16;
+const PARA_COUNT = 8;
+
+// Exponential decay: center paragraph = 0.92, fades symmetrically outward.
+// SCALE (px) controls how fast it fades — lower = steeper.
+const OPACITY_MAX = 0.92;
+const OPACITY_MIN = 0.22;
+const SCALE = 160;
+
+function distToOpacity(dist: number) {
+  return OPACITY_MIN + (OPACITY_MAX - OPACITY_MIN) * Math.exp(-dist / SCALE);
+}
 
 export default function BrandStory() {
   const t = useTranslations("home.brandStory");
   const wide = useIsWide();
 
-  // Scroll-driven highlight: track which paragraph is closest to viewport center.
   const paraRefs = useRef<(HTMLParagraphElement | null)[]>([]);
-  const [activeIdx, setActiveIdx] = useState(-1);
+  const [opacities, setOpacities] = useState<number[]>(
+    Array(PARA_COUNT).fill(OPACITY_MIN)
+  );
 
   useEffect(() => {
     const onScroll = () => {
       const vpCenter = window.innerHeight / 2;
-      let best = -1, bestDist = Infinity;
-      paraRefs.current.forEach((el, i) => {
-        if (!el) return;
+      const next = paraRefs.current.map((el) => {
+        if (!el) return OPACITY_MIN;
         const rect = el.getBoundingClientRect();
-        const elCenter = rect.top + rect.height / 2;
-        const dist = Math.abs(elCenter - vpCenter);
-        if (dist < bestDist) { bestDist = dist; best = i; }
+        const dist = Math.abs(rect.top + rect.height / 2 - vpCenter);
+        return distToOpacity(dist);
       });
-      setActiveIdx(best);
+      setOpacities(next);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
@@ -52,8 +62,8 @@ export default function BrandStory() {
     margin: 0,
     fontSize: BODY_SIZE,
     lineHeight: 1.85,
-    color: activeIdx === i ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.32)",
-    transition: "color 0.5s ease",
+    color: `rgba(255,255,255,${opacities[i] ?? OPACITY_MIN})`,
+    transition: "color 0.4s ease",
     ...extra,
   });
 
@@ -136,8 +146,8 @@ export default function BrandStory() {
           style={{
             margin: "8px 0 0", fontSize: 10, fontWeight: 600,
             letterSpacing: 3.5, textTransform: "uppercase",
-            color: activeIdx === 7 ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.18)",
-            transition: "color 0.5s ease",
+            color: `rgba(255,255,255,${(opacities[7] ?? OPACITY_MIN) * 0.55})`,
+            transition: "color 0.4s ease",
           }}
         >
           {t("closing.origin")}
