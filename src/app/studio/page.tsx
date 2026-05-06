@@ -22,7 +22,6 @@ import type { EmbroideryColor, EmbroideryFont, EmbroideryPosition, EmbroideryLin
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
 const BASE_W = 420;
-const SIZE_SCALE: Record<"14" | "16", number> = { "14": 14 / 16, "16": 1 };
 
 const ALL_GROUPS = [
   "FRONT_BACK_SIDE", "FRONT_MAIN_BOTTOM", "FRONT_MAIN_TOP",
@@ -238,34 +237,25 @@ export default function StudioPage() {
             aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              transform: `scale(${SIZE_SCALE[size]})`,
-              transformOrigin: "center center",
-            }}
-          >
-            <FrontSVG
-              colors={colors}
-              setSelectedPart={setSelectedPart}
-              embroideryLines={embroideryLines}
-              embroideryLineCount={embroideryLineCount}
-              embroideryColor={embroideryColor}
-              embroideryPosition={embroideryPosition}
-              embroideryFont={embroideryFont}
-              embroideryLineSizes={embroideryLineSizes}
-              zipperUpgrade={zipperUpgrade}
-              zipperColor={zipperColor}
-              zipperCalibration={ZIPPER_CALIBRATION}
-            />
-            <PngOverlayLayer
-              viewBoxW={FRONT_VIEWBOX.w}
-              viewBoxH={FRONT_VIEWBOX.h}
-              pngSrc="/texture/Front-Overlay.png"
-              calibration={FRONT_CALIBRATION}
-            />
-          </div>
+          <FrontSVG
+            colors={colors}
+            setSelectedPart={setSelectedPart}
+            embroideryLines={embroideryLines}
+            embroideryLineCount={embroideryLineCount}
+            embroideryColor={embroideryColor}
+            embroideryPosition={embroideryPosition}
+            embroideryFont={embroideryFont}
+            embroideryLineSizes={embroideryLineSizes}
+            zipperUpgrade={zipperUpgrade}
+            zipperColor={zipperColor}
+            zipperCalibration={ZIPPER_CALIBRATION}
+          />
+          <PngOverlayLayer
+            viewBoxW={FRONT_VIEWBOX.w}
+            viewBoxH={FRONT_VIEWBOX.h}
+            pngSrc="/texture/Front-Overlay.png"
+            calibration={FRONT_CALIBRATION}
+          />
         </div>
 
         <div
@@ -276,26 +266,17 @@ export default function StudioPage() {
             aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              transform: `scale(${SIZE_SCALE[size]})`,
-              transformOrigin: "center center",
-            }}
-          >
-            <BackSVG
-              colors={colors}
-              setSelectedPart={setSelectedPart}
-              svgTransform={BACK_SVG_TRANSFORM}
-            />
-            <PngOverlayLayer
-              viewBoxW={BACK_VIEWBOX.w}
-              viewBoxH={BACK_VIEWBOX.h}
-              pngSrc="/texture/Back-Overlay.png"
-              calibration={BACK_CALIBRATION}
-            />
-          </div>
+          <BackSVG
+            colors={colors}
+            setSelectedPart={setSelectedPart}
+            svgTransform={BACK_SVG_TRANSFORM}
+          />
+          <PngOverlayLayer
+            viewBoxW={BACK_VIEWBOX.w}
+            viewBoxH={BACK_VIEWBOX.h}
+            pngSrc="/texture/Back-Overlay.png"
+            calibration={BACK_CALIBRATION}
+          />
         </div>
       </div>
 
