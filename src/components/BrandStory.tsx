@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useTheme } from "@/lib/ThemeContext";
 
 function useIsWide(breakpoint = 560) {
   const [wide, setWide] = useState(false);
@@ -29,9 +30,15 @@ function distToOpacity(dist: number) {
   return OPACITY_MIN + (OPACITY_MAX - OPACITY_MIN) * Math.exp(-dist / SCALE);
 }
 
+function toRgba(isDark: boolean, alpha: number) {
+  return isDark ? `rgba(255,255,255,${alpha})` : `rgba(0,0,0,${alpha})`;
+}
+
 export default function BrandStory() {
   const t = useTranslations("home.brandStory");
   const wide = useIsWide();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const paraRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const [opacities, setOpacities] = useState<number[]>(
@@ -62,7 +69,7 @@ export default function BrandStory() {
     margin: 0,
     fontSize: BODY_SIZE,
     lineHeight: 1.85,
-    color: `rgba(255,255,255,${opacities[i] ?? OPACITY_MIN})`,
+    color: toRgba(isDark, opacities[i] ?? OPACITY_MIN),
     transition: "color 0.4s ease",
     ...extra,
   });
@@ -85,7 +92,8 @@ export default function BrandStory() {
         <p style={{
           margin: 0, fontSize: 11, fontWeight: 600,
           letterSpacing: 3, textTransform: "uppercase",
-          color: "rgba(255,255,255,0.38)",
+          color: toRgba(isDark, 0.38),
+          transition: "color 0.5s ease",
         }}>
           {t("act1.label")}
         </p>
@@ -95,17 +103,21 @@ export default function BrandStory() {
           fontSize: wide ? TITLE_SIZE_WIDE : TITLE_SIZE_NARROW,
           fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5,
           paddingBottom: "0.1em",
-          background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)",
+          background: isDark
+            ? "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)"
+            : "linear-gradient(180deg, #111111 0%, #555555 100%)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
+          transition: "background 0.5s ease",
         }}>
           {t("act1.headline")}
         </h2>
 
         <p style={{
           margin: 0, fontSize: BODY_SIZE,
-          color: "rgba(255,255,255,0.55)", letterSpacing: 0.3,
+          color: toRgba(isDark, 0.55), letterSpacing: 0.3,
+          transition: "color 0.5s ease",
         }}>
           {t("act1.sub")}
         </p>
@@ -146,7 +158,7 @@ export default function BrandStory() {
           style={{
             margin: "8px 0 0", fontSize: 10, fontWeight: 600,
             letterSpacing: 3.5, textTransform: "uppercase",
-            color: `rgba(255,255,255,${(opacities[7] ?? OPACITY_MIN) * 0.55})`,
+            color: toRgba(isDark, (opacities[7] ?? OPACITY_MIN) * 0.55),
             transition: "color 0.4s ease",
           }}
         >

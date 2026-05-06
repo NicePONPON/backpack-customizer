@@ -9,35 +9,48 @@ import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
 import BrandStory from "@/components/BrandStory";
-
-const pageBg: React.CSSProperties = {
-  minHeight: "100vh",
-  background: "linear-gradient(#555555, #222222)",
-  backgroundAttachment: "fixed",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  padding: "0 24px 48px",
-  gap: 48,
-  color: "#fff",
-};
+import { useTheme } from "@/lib/ThemeContext";
 
 const sectionStyle: React.CSSProperties = {
   width: "100%",
   maxWidth: 960,
 };
 
-const sectionHeaderStyle: React.CSSProperties = {
-  textAlign: "center",
-  fontSize: 22,
-  fontWeight: 700,
-  letterSpacing: 2,
-  margin: "0 0 24px",
-  color: "#fff",
-};
-
 export default function HomePage() {
   const t = useTranslations("home");
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const pageBg: React.CSSProperties = {
+    minHeight: "100vh",
+    background: isDark
+      ? "linear-gradient(#555555, #222222)"
+      : "linear-gradient(#f0f0f0, #e8e8e8)",
+    backgroundAttachment: "fixed",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "0 24px 48px",
+    gap: 48,
+    color: isDark ? "#fff" : "#111",
+    transition: "background 0.5s ease, color 0.5s ease",
+  };
+
+  const sectionHeaderStyle: React.CSSProperties = {
+    textAlign: "center",
+    fontSize: 22,
+    fontWeight: 700,
+    letterSpacing: 2,
+    margin: "0 0 24px",
+    color: isDark ? "#fff" : "#111",
+    transition: "color 0.5s ease",
+  };
+
+  const heroH1Gradient = isDark
+    ? "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)"
+    : "linear-gradient(180deg, #111111 0%, #444444 100%)";
+
+  const heroSubColor = isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
 
   const FEATURE_CARDS: FeatureCardData[] = [
     {
@@ -116,22 +129,24 @@ export default function HomePage() {
             letterSpacing: 0.5,
             lineHeight: 1.1,
             margin: 0,
-            background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+            background: heroH1Gradient,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
+            transition: "background 0.5s ease",
           }}
         >
           {t("hero.tagline")}
         </h1>
         <p
           style={{
-            color: "rgba(255,255,255,0.7)",
+            color: heroSubColor,
             fontSize: 16,
             fontWeight: 400,
             letterSpacing: 0.3,
             margin: "8px 0 0",
             maxWidth: 560,
+            transition: "color 0.5s ease",
           }}
         >
           {t("hero.subline")}
@@ -142,9 +157,6 @@ export default function HomePage() {
             width: "100%",
             maxWidth: 480,
             aspectRatio: "1 / 1",
-            // Generous gap so the floating animation (segments can translate
-            // up to ~22px above their resting position) never clips toward
-            // the slogan above.
             marginTop: 16,
           }}
         >
