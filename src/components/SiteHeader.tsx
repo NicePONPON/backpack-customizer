@@ -88,9 +88,9 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-end",
             gap: 5,
             width: 88,
+            justifySelf: "end",
           }}
         >
           <LanguageToggle />
