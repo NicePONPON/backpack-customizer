@@ -231,55 +231,75 @@ export default function StudioPage() {
           width: "100%",
         }}
       >
+        {/* Front — fixed 420px container, content scales inside */}
         <div
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: BASE_W * SIZE_SCALE[size],
+            maxWidth: BASE_W,
             aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
         >
-          <FrontSVG
-            colors={colors}
-            setSelectedPart={setSelectedPart}
-            embroideryLines={embroideryLines}
-            embroideryLineCount={embroideryLineCount}
-            embroideryColor={embroideryColor}
-            embroideryPosition={embroideryPosition}
-            embroideryFont={embroideryFont}
-            embroideryLineSizes={embroideryLineSizes}
-            zipperUpgrade={zipperUpgrade}
-            zipperColor={zipperColor}
-            zipperCalibration={ZIPPER_CALIBRATION}
-          />
-          <PngOverlayLayer
-            viewBoxW={FRONT_VIEWBOX.w}
-            viewBoxH={FRONT_VIEWBOX.h}
-            pngSrc="/texture/Front-Overlay.png"
-            calibration={FRONT_CALIBRATION}
-          />
-          <BagDimensionGuides size={size} />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              transform: `scale(${SIZE_SCALE[size]})`,
+              transformOrigin: "center center",
+            }}
+          >
+            <FrontSVG
+              colors={colors}
+              setSelectedPart={setSelectedPart}
+              embroideryLines={embroideryLines}
+              embroideryLineCount={embroideryLineCount}
+              embroideryColor={embroideryColor}
+              embroideryPosition={embroideryPosition}
+              embroideryFont={embroideryFont}
+              embroideryLineSizes={embroideryLineSizes}
+              zipperUpgrade={zipperUpgrade}
+              zipperColor={zipperColor}
+              zipperCalibration={ZIPPER_CALIBRATION}
+            />
+            <PngOverlayLayer
+              viewBoxW={FRONT_VIEWBOX.w}
+              viewBoxH={FRONT_VIEWBOX.h}
+              pngSrc="/texture/Front-Overlay.png"
+              calibration={FRONT_CALIBRATION}
+            />
+            <BagDimensionGuides size={size} />
+          </div>
         </div>
 
+        {/* Back — fixed 420px container, content scales inside */}
         <div
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: BASE_W * SIZE_SCALE[size],
+            maxWidth: BASE_W,
             aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
           }}
         >
-          <BackSVG
-            colors={colors}
-            setSelectedPart={setSelectedPart}
-            svgTransform={BACK_SVG_TRANSFORM}
-          />
-          <PngOverlayLayer
-            viewBoxW={BACK_VIEWBOX.w}
-            viewBoxH={BACK_VIEWBOX.h}
-            pngSrc="/texture/Back-Overlay.png"
-            calibration={BACK_CALIBRATION}
-          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              transform: `scale(${SIZE_SCALE[size]})`,
+              transformOrigin: "center center",
+            }}
+          >
+            <BackSVG
+              colors={colors}
+              setSelectedPart={setSelectedPart}
+              svgTransform={BACK_SVG_TRANSFORM}
+            />
+            <PngOverlayLayer
+              viewBoxW={BACK_VIEWBOX.w}
+              viewBoxH={BACK_VIEWBOX.h}
+              pngSrc="/texture/Back-Overlay.png"
+              calibration={BACK_CALIBRATION}
+            />
+          </div>
         </div>
       </div>
 
