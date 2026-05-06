@@ -92,7 +92,7 @@ export default function StudioPage() {
         flexDirection: "column",
         alignItems: "center",
         padding: "0 24px 64px",
-        gap: 32,
+        gap: 40,
       }}
     >
       <SiteHeader />
@@ -118,8 +118,58 @@ export default function StudioPage() {
           Make What You Want
         </h1>
         <p style={{ margin: "12px 0 0", fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 500, marginInline: "auto" }}>
-          Pick your colors. Submit your design. The most popular style at the end of the season gets made — and everyone who voted gets first access.
+          Pick your colors. Submit your vote. The most popular style gets made next season.
         </p>
+      </div>
+
+      {/* PRIZE BANNER */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 680,
+          background: "linear-gradient(135deg, rgba(255,215,100,0.12) 0%, rgba(255,180,50,0.06) 100%)",
+          border: "1px solid rgba(255,215,100,0.35)",
+          borderRadius: 20,
+          padding: "22px 28px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 28 }}>🎁</div>
+        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "rgba(255,215,100,0.95)", letterSpacing: 0.5 }}>
+          Win a free custom backpack
+        </h2>
+        <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, maxWidth: 460 }}>
+          The designer of this season's #1 voted style receives a complimentary handmade backpack in their winning colorway — on us.
+        </p>
+      </div>
+
+      {/* THIS SEASON'S TOP STYLES */}
+      <div style={{ width: "100%", maxWidth: 960 }}>
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <p style={{ margin: "0 0 6px", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
+            Current standings
+          </p>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
+            THIS SEASON'S TOP STYLES
+          </h2>
+          <p style={{ margin: "8px 0 0", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
+            Click "Vote for this style" to cast your vote, or scroll down to design your own.
+          </p>
+        </div>
+        <CommunityGallery topStylesOnly />
+      </div>
+
+      {/* DIVIDER */}
+      <div style={{ width: "100%", maxWidth: 680, display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+        <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+          Or design your own
+        </span>
+        <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
       </div>
 
       {/* SIZE */}
@@ -155,7 +205,6 @@ export default function StudioPage() {
           width: "100%",
         }}
       >
-        {/* Front */}
         <div
           style={{
             position: "relative",
@@ -194,7 +243,6 @@ export default function StudioPage() {
           </div>
         </div>
 
-        {/* Back */}
         <div
           style={{
             position: "relative",
@@ -226,25 +274,15 @@ export default function StudioPage() {
         </div>
       </div>
 
-      <p style={{ margin: "-20px 0 0", fontSize: 12, color: "rgba(255,255,255,0.3)", letterSpacing: 0.3, textAlign: "center" }}>
+      <p style={{ margin: "-28px 0 0", fontSize: 12, color: "rgba(255,255,255,0.3)", letterSpacing: 0.3, textAlign: "center" }}>
         Tap a panel to select it, then pick a color below
       </p>
 
       {/* COLOR PALETTE */}
       <div style={{ width: "100%", maxWidth: 680 }}>
-        <h2
-          style={{
-            color: "#fff",
-            textAlign: "center",
-            fontSize: 18,
-            fontWeight: 700,
-            letterSpacing: 2,
-            margin: "0 0 16px",
-          }}
-        >
+        <h2 style={{ color: "#fff", textAlign: "center", fontSize: 18, fontWeight: 700, letterSpacing: 2, margin: "0 0 16px" }}>
           COLORS
         </h2>
-
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {COLOR_GROUPS.map((group) => (
             <div
@@ -329,20 +367,8 @@ export default function StudioPage() {
         </p>
       </div>
 
-      {/* COMMUNITY GALLERY */}
-      <div style={{ width: "100%", maxWidth: 960, marginTop: 24 }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div style={{ width: 40, height: 1, background: "rgba(255,255,255,0.15)", margin: "0 auto 24px" }} />
-          <p style={{ margin: "0 0 6px", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>
-            Community
-          </p>
-          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
-            WHAT PEOPLE ARE VOTING FOR
-          </h2>
-          <p style={{ margin: "8px 0 0", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
-            Click any style to load it into the customizer above, then make it your own.
-          </p>
-        </div>
+      {/* PREVIOUS SEASON */}
+      <div style={{ width: "100%", maxWidth: 960 }}>
         <CommunityGallery />
       </div>
 

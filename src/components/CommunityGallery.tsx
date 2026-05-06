@@ -141,7 +141,7 @@ function DesignCard({
 
 // ─── main component ─────────────────────────────────────────────────────────
 
-export default function CommunityGallery() {
+export default function CommunityGallery({ topStylesOnly = false }: { topStylesOnly?: boolean }) {
   const [topDesigns, setTopDesigns] = useState<TopDesign[]>([]);
   const [launched, setLaunched] = useState<LaunchedDesign | null>(null);
   const [seasonName, setSeasonName] = useState<string>("");
@@ -182,13 +182,13 @@ export default function CommunityGallery() {
     );
   }
 
-  const hasContent = launched || topDesigns.length > 0;
+  const hasContent = topStylesOnly ? topDesigns.length > 0 : (launched || topDesigns.length > 0);
   if (!hasContent) return null;
 
   return (
     <div style={{ width: "100%", maxWidth: 960, display: "flex", flexDirection: "column", gap: 48 }}>
 
-      {launched && (
+      {!topStylesOnly && launched && (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ textAlign: "center" }}>
             <p style={{ margin: "0 0 4px", fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
