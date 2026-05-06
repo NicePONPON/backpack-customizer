@@ -161,15 +161,19 @@ export default function StudioPage() {
             fontWeight: 700,
             letterSpacing: 0.5,
             lineHeight: 1.15,
-            background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            ...(isDark
+              ? {
+                  background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }
+              : { color: "#111", WebkitTextFillColor: "#111" }),
           }}
         >
           Make What You Want
         </h1>
-        <p style={{ margin: "12px 0 0", fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 500, marginInline: "auto" }}>
+        <p style={{ margin: "12px 0 0", fontSize: 14, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", lineHeight: 1.7, maxWidth: 500, marginInline: "auto", transition: "color 0.5s ease" }}>
           Pick your colors. Submit your vote. The most popular style gets made next season.
         </p>
       </div>

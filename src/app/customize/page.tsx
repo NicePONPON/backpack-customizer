@@ -216,11 +216,14 @@ export default function CustomizePage() {
             letterSpacing: 0.5,
             lineHeight: 1.15,
             margin: 0,
-            background:
-              "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            ...(isDark
+              ? {
+                  background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }
+              : { color: "#111", WebkitTextFillColor: "#111" }),
           }}
         >
           {tCustomize("intro.title")}

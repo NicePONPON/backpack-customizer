@@ -154,18 +154,20 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
                 scrollSnapAlign: "center",
                 borderRadius: 24,
                 overflow: "hidden",
-                border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(0,0,0,0.08)",
+                border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(255,255,255,0.8)",
                 cursor: "pointer",
                 background: isDark
                   ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
-                  : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(255,255,255,0.8) 100%)",
+                  : "rgba(255,255,255,0.65)",
+                backdropFilter: isDark ? undefined : "blur(24px) saturate(200%)",
+                WebkitBackdropFilter: isDark ? undefined : "blur(24px) saturate(200%)",
                 boxShadow: active
                   ? isDark
                     ? "0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18)"
-                    : "0 16px 48px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,1)"
+                    : "0 12px 40px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1)"
                   : isDark
                     ? "0 8px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.14)"
-                    : "0 4px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)",
+                    : "0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)",
                 transform: active ? "scale(1)" : "scale(0.9)",
                 opacity: active ? 1 : 0.5,
                 transition: `transform 0.6s ${SMOOTH_EASE}, opacity 0.6s ${SMOOTH_EASE}, box-shadow 0.6s ${SMOOTH_EASE}`,

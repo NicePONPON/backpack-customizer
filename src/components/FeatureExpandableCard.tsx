@@ -26,14 +26,14 @@ export default function FeatureExpandableCard({ data }: { data: FeatureCardData 
   const cardBase: React.CSSProperties = {
     background: isDark
       ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
-      : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%)",
-    border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(0,0,0,0.1)",
+      : "rgba(255,255,255,0.65)",
+    border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(255,255,255,0.85)",
     borderRadius: 20,
-    backdropFilter: "blur(20px) saturate(180%)",
-    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+    backdropFilter: "blur(24px) saturate(200%)",
+    WebkitBackdropFilter: "blur(24px) saturate(200%)",
     boxShadow: isDark
       ? "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)"
-      : "0 4px 20px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9)",
+      : "0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,1)",
     overflow: "hidden",
     transition: "background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease",
   };
@@ -98,13 +98,13 @@ export default function FeatureExpandableCard({ data }: { data: FeatureCardData 
             style={{
               overflow: "hidden",
               background: isDark
-                ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
-                : "linear-gradient(135deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.01) 100%)",
-              backdropFilter: "blur(20px) saturate(180%)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                ? "linear-gradient(135deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.15) 100%)"
+                : "rgba(255,255,255,0.5)",
+              backdropFilter: "blur(24px) saturate(200%)",
+              WebkitBackdropFilter: "blur(24px) saturate(200%)",
               borderTop: isDark
                 ? "1px solid rgba(255,255,255,0.14)"
-                : "1px solid rgba(0,0,0,0.08)",
+                : "1px solid rgba(255,255,255,0.6)",
             }}
           >
             <div

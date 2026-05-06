@@ -37,10 +37,10 @@ export default function ShopPage() {
   const cardStyle: React.CSSProperties = {
     background: isDark
       ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
-      : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%)",
+      : "rgba(255,255,255,0.65)",
     border: isDark
       ? "1px solid rgba(255,255,255,0.14)"
-      : "1px solid rgba(0,0,0,0.1)",
+      : "1px solid rgba(255,255,255,0.85)",
     borderRadius: 20,
     padding: "28px 24px 24px",
     backdropFilter: "blur(20px) saturate(180%)",
@@ -78,12 +78,14 @@ export default function ShopPage() {
             letterSpacing: 0.5,
             lineHeight: 1.15,
             margin: 0,
-            background: isDark
-              ? "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)"
-              : "linear-gradient(180deg, #111111 0%, #444444 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            ...(isDark
+              ? {
+                  background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }
+              : { color: "#111", WebkitTextFillColor: "#111" }),
           }}
         >
           {t("heading")}

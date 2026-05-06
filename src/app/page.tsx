@@ -46,11 +46,17 @@ export default function HomePage() {
     transition: "color 0.5s ease",
   };
 
-  const heroH1Gradient = isDark
-    ? "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)"
-    : "linear-gradient(180deg, #111111 0%, #444444 100%)";
-
   const heroSubColor = isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
+
+  // Gradient text can't CSS-transition — light mode uses plain color to avoid flash.
+  const heroH1Style: React.CSSProperties = isDark
+    ? {
+        background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+      }
+    : { color: "#111", WebkitTextFillColor: "#111" };
 
   const FEATURE_CARDS: FeatureCardData[] = [
     {
@@ -129,11 +135,7 @@ export default function HomePage() {
             letterSpacing: 0.5,
             lineHeight: 1.1,
             margin: 0,
-            background: heroH1Gradient,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            transition: "background 0.5s ease",
+            ...heroH1Style,
           }}
         >
           {t("hero.tagline")}

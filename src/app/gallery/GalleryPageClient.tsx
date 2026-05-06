@@ -69,10 +69,12 @@ export default function GalleryPageClient({ ads }: Props) {
           ...sectionStyle,
           background: isDark
             ? "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)"
-            : "linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%)",
+            : "rgba(255,255,255,0.65)",
+          backdropFilter: "blur(24px) saturate(200%)",
+          WebkitBackdropFilter: "blur(24px) saturate(200%)",
           border: isDark
             ? "1px solid rgba(255,255,255,0.12)"
-            : "1px solid rgba(0,0,0,0.1)",
+            : "1px solid rgba(255,255,255,0.85)",
           borderRadius: 22,
           padding: "32px 28px",
           textAlign: "center",

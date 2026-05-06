@@ -103,13 +103,14 @@ export default function BrandStory() {
           fontSize: wide ? TITLE_SIZE_WIDE : TITLE_SIZE_NARROW,
           fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5,
           paddingBottom: "0.1em",
-          background: isDark
-            ? "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)"
-            : "linear-gradient(180deg, #111111 0%, #555555 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-          transition: "background 0.5s ease",
+          ...(isDark
+            ? {
+                background: "linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }
+            : { color: "#111", WebkitTextFillColor: "#111" }),
         }}>
           {t("act1.headline")}
         </h2>
@@ -149,7 +150,7 @@ export default function BrandStory() {
           {t("closing.p2")}
         </p>
 
-        <p ref={setRef(6)} style={bodyStyle(6, { fontStyle: "italic" })}>
+        <p ref={setRef(6)} style={bodyStyle(6)}>
           {t("closing.p3")}
         </p>
 
