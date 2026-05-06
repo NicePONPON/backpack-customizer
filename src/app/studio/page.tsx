@@ -19,6 +19,9 @@ import { COLOR_GROUPS } from "@/lib/bagReference";
 import { decodeDesign, encodeDesign } from "@/lib/invoiceSerialization";
 import type { EmbroideryColor, EmbroideryFont, EmbroideryPosition, EmbroideryLineSize } from "@/components/EmbroideryControls";
 import BagDimensionGuides from "@/components/BagDimensionGuides";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import { designFingerprint } from "@/lib/designFingerprint";
 
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
@@ -38,6 +41,7 @@ export default function StudioPage() {
   const [zipperColor, setZipperColor] = useState<string>(ZIPPER_COLORS[0].value);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [savedToast, setSavedToast] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   // Embroidery state kept minimal for studio (no UI controls exposed)
   const embroideryLines: [string, string] = ["", ""];
@@ -65,6 +69,15 @@ export default function StudioPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   const handleColorClick = (color: string) => {
     if (!selectedPart) {
       setColors(() => {
@@ -81,6 +94,26 @@ export default function StudioPage() {
     size, colors,
     embroideryLines, embroideryLineCount, embroideryColor, embroideryPosition, embroideryFont, embroideryLineSizes,
     zipperUpgrade, zipperColor,
+  };
+
+  const saveVoteDirectly = async () => {
+    if (!user) return;
+    const supabase = createClient();
+    const { data: season } = await supabase
+      .from("seasons").select("id").eq("is_active", true).single();
+    if (!season) return;
+    await supabase.from("design_submissions").upsert(
+      {
+        user_id: user.id,
+        season_id: season.id,
+        design_json: design,
+        fingerprint: designFingerprint(design),
+        submitted_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,season_id" }
+    );
+    setSavedToast(true);
+    setTimeout(() => setSavedToast(false), 4000);
   };
 
   return (
@@ -127,49 +160,98 @@ export default function StudioPage() {
       <div
         style={{
           width: "100%",
-          maxWidth: 680,
-          background: "linear-gradient(135deg, rgba(255,215,100,0.12) 0%, rgba(255,180,50,0.06) 100%)",
-          border: "1px solid rgba(255,215,100,0.35)",
-          borderRadius: 20,
-          padding: "22px 28px",
+          maxWidth: 560,
+          background: "rgba(255,255,255,0.04)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          border: "1px solid rgba(255,255,255,0.09)",
+          borderRadius: 28,
+          padding: "32px 28px 28px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 8,
+          gap: 10,
           textAlign: "center",
         }}
       >
-        <div style={{ fontSize: 28 }}>🎁</div>
-        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "rgba(255,215,100,0.95)", letterSpacing: 0.5 }}>
+        {/* Gift icon — SF-style square badge */}
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 16,
+            background: "linear-gradient(145deg, rgba(255,215,100,0.22) 0%, rgba(255,175,40,0.12) 100%)",
+            border: "1px solid rgba(255,215,100,0.22)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 2,
+          }}
+        >
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            {/* bow left */}
+            <path d="M14 10 C11 5 4 5 6 9 C7 11 12 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
+            {/* bow right */}
+            <path d="M14 10 C17 5 24 5 22 9 C21 11 16 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
+            {/* lid */}
+            <rect x="3" y="10" width="22" height="6" rx="3" fill="rgba(255,215,100,0.55)" stroke="rgba(255,215,100,0.7)" strokeWidth="1"/>
+            {/* box body */}
+            <rect x="4" y="16" width="20" height="10" rx="3" fill="rgba(255,215,100,0.18)" stroke="rgba(255,215,100,0.6)" strokeWidth="1"/>
+            {/* vertical ribbon */}
+            <rect x="12.5" y="10" width="3" height="16" rx="1" fill="rgba(255,215,100,0.85)"/>
+            {/* horizontal ribbon on lid */}
+            <rect x="3" y="13" width="22" height="3" rx="1" fill="rgba(255,215,100,0.55)"/>
+          </svg>
+        </div>
+
+        <h2 style={{ margin: 0, fontSize: 19, fontWeight: 700, color: "#fff", letterSpacing: -0.2, lineHeight: 1.25 }}>
           Win a free custom backpack
         </h2>
-        <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, maxWidth: 460 }}>
-          The designer of this season's #1 voted style receives a complimentary handmade backpack in their winning colorway — on us.
+        <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.75, maxWidth: 360 }}>
+          The designer of this season&apos;s #1 voted style receives a complimentary handmade backpack in their winning colorway — on us.
         </p>
+
+        {/* Instagram CTA */}
         <a
-          href="https://instagram.com/computex_systems"
+          href="https://www.instagram.com/computexsystems.co/"
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            marginTop: 4,
+            marginTop: 10,
             display: "inline-flex",
             alignItems: "center",
-            gap: 7,
-            padding: "8px 18px",
+            gap: 9,
+            padding: "10px 20px 10px 12px",
             borderRadius: 999,
-            border: "1px solid rgba(255,215,100,0.4)",
-            background: "rgba(255,215,100,0.08)",
-            color: "rgba(255,215,100,0.9)",
-            fontSize: 12,
-            fontWeight: 700,
-            letterSpacing: 0.5,
+            background: "rgba(255,255,255,0.07)",
+            border: "1px solid rgba(255,255,255,0.12)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            color: "#fff",
+            fontSize: 13,
+            fontWeight: 600,
+            letterSpacing: 0.1,
             textDecoration: "none",
           }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-          </svg>
-          Follow us on Instagram
+          {/* IG gradient icon badge */}
+          <span
+            style={{
+              width: 26,
+              height: 26,
+              borderRadius: 8,
+              background: "linear-gradient(135deg, #f9a825 0%, #e8453c 45%, #b33aab 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+          </span>
+          Follow @computexsystems.co
         </a>
       </div>
 
@@ -277,7 +359,7 @@ export default function StudioPage() {
             position: "relative",
             width: "100%",
             maxWidth: BASE_W,
-            aspectRatio: `${BACK_VIEWBOX.w} / ${BACK_VIEWBOX.h}`,
+            aspectRatio: `${BACK_VIEWBOX.w} / 606`,
           }}
         >
           <div
@@ -298,6 +380,7 @@ export default function StudioPage() {
               viewBoxH={BACK_VIEWBOX.h}
               pngSrc="/texture/Back-Overlay.png"
               calibration={BACK_CALIBRATION}
+              preserveAspectRatio="xMidYMin slice"
             />
           </div>
         </div>
@@ -374,7 +457,7 @@ export default function StudioPage() {
       {/* SUBMIT CTA */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "100%", maxWidth: 420 }}>
         <button
-          onClick={() => setShowSaveModal(true)}
+          onClick={() => user ? saveVoteDirectly() : setShowSaveModal(true)}
           style={{
             width: "100%",
             padding: "16px 28px",
@@ -394,6 +477,22 @@ export default function StudioPage() {
         <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>
           One vote per email per season. You can update it anytime before the season closes.
         </p>
+        {user ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#a8e6a3", flexShrink: 0 }} />
+            {user.email}
+            <button
+              onClick={async () => { await createClient().auth.signOut(); setUser(null); }}
+              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.25)", fontSize: 11, cursor: "pointer", padding: 0, textDecoration: "underline" }}
+            >
+              Sign out
+            </button>
+          </div>
+        ) : (
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>
+            Sign in with Google or Apple to submit
+          </div>
+        )}
       </div>
 
       {/* PREVIOUS SEASON */}
