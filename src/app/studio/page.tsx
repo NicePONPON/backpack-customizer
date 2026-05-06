@@ -28,6 +28,17 @@ const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
 const BASE_W = 420;
 const SIZE_SCALE: Record<"14" | "16", number> = { "14": 14 / 16, "16": 1 };
 
+function useWindowWidth() {
+  const [w, setW] = useState(375);
+  useEffect(() => {
+    setW(window.innerWidth);
+    const handler = () => setW(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return w;
+}
+
 const ALL_GROUPS = [
   "FRONT_BACK_SIDE", "FRONT_MAIN_BOTTOM", "FRONT_MAIN_TOP",
   "BACK_MAIN", "BACK_STRAP", "BAND", "BOTTOM", "SIDE_PANEL", "SIDE",
@@ -41,6 +52,9 @@ export default function StudioPage() {
   const [zipperColor, setZipperColor] = useState<string>(ZIPPER_COLORS[0].value);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [isGiftOpen, setIsGiftOpen] = useState(false);
+  const vw = useWindowWidth();
+  const isMobile = vw < 540;
+  const isWide = vw >= 880;
   const [savedToast, setSavedToast] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -126,8 +140,8 @@ export default function StudioPage() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "0 24px 64px",
-        gap: 40,
+        padding: isMobile ? "0 16px 64px" : "0 24px 64px",
+        gap: isMobile ? 28 : 40,
       }}
     >
       <SiteHeader />
@@ -328,7 +342,7 @@ export default function StudioPage() {
       <div
         style={{
           display: "flex",
-          gap: 12,
+          gap: isWide ? 24 : 12,
           alignItems: "flex-start",
           flexWrap: "wrap",
           justifyContent: "center",
@@ -339,7 +353,7 @@ export default function StudioPage() {
         <div
           style={{
             position: "relative",
-            width: "100%",
+            width: isWide ? BASE_W : "100%",
             maxWidth: BASE_W,
             aspectRatio: `${FRONT_VIEWBOX.w} / ${FRONT_VIEWBOX.h}`,
           }}
@@ -379,7 +393,7 @@ export default function StudioPage() {
         <div
           style={{
             position: "relative",
-            width: "100%",
+            width: isWide ? BASE_W : "100%",
             maxWidth: BASE_W,
             aspectRatio: `${BACK_VIEWBOX.w} / 606`,
           }}
@@ -431,7 +445,7 @@ export default function StudioPage() {
               <div style={{ color: "rgba(255,255,255,0.5)", textAlign: "center", marginBottom: 10, fontWeight: 600, fontSize: 12, letterSpacing: 1 }}>
                 {group.titleKey.replace(/_/g, " ")}
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 10 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(4, 1fr)" : "repeat(6, 1fr)", gap: isMobile ? 8 : 10 }}>
                 {group.colors.map((color) => (
                   <div
                     key={color.value}
@@ -440,8 +454,8 @@ export default function StudioPage() {
                   >
                     <div
                       style={{
-                        width: 34,
-                        height: 34,
+                        width: isMobile ? 38 : 34,
+                        height: isMobile ? 38 : 34,
                         borderRadius: "50%",
                         background: color.value,
                         margin: "0 auto",
@@ -450,7 +464,7 @@ export default function StudioPage() {
                     />
                     <div
                       style={{
-                        fontSize: 10,
+                        fontSize: isMobile ? 9 : 10,
                         lineHeight: 1.25,
                         color: "#ccc",
                         marginTop: 5,
@@ -512,7 +526,7 @@ export default function StudioPage() {
           </div>
         ) : (
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>
-            Sign in with Google or Apple to submit
+            Sign in with Google to submit your vote
           </div>
         )}
       </div>

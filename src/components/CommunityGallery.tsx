@@ -88,10 +88,10 @@ function DesignCard({
         <MiniBackpack design={design} size={140} />
 
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.55)", letterSpacing: 0.3 }}>
+          <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.55)", letterSpacing: 0.2 }}>
             {design.size}" · {design.zipperUpgrade ? "Paracord zipper" : "Standard zipper"}
           </p>
-          <p style={{ margin: 0, fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: 0.3 }}>
+          <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.35)", letterSpacing: 0.2 }}>
             {count.toLocaleString()} {count === 1 ? "person" : "people"} chose this
           </p>
         </div>
@@ -231,8 +231,8 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: 14,
+              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+              gap: 12,
             }}
           >
             {topDesigns.map((d, i) => (
