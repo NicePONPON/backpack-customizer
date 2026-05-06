@@ -175,7 +175,9 @@ export default function StudioPage() {
           textAlign: "center",
         }}
       >
-        {/* Gift icon — tappable, lid opens on click */}
+        {/* Gift icon — tappable, lid opens on click.
+            The lid lives in its own <div> so CSS transition works on all mobile
+            browsers — iOS Safari doesn't reliably animate SVG <g> transforms. */}
         <div
           onClick={() => setIsGiftOpen(v => !v)}
           style={{
@@ -190,36 +192,38 @@ export default function StudioPage() {
             marginBottom: 2,
             cursor: "pointer",
             userSelect: "none",
+            position: "relative",
+            overflow: "visible",
           }}
         >
-          <svg
-            width="28" height="28" viewBox="0 0 28 28" fill="none"
-            style={{ overflow: "visible" }}
-          >
-            {/* Lid group — rotates up when open, pivoting at hinge (14, 16) */}
-            <g style={{
-              transform: isGiftOpen
-                ? "translate(14px,16px) rotate(-42deg) translate(-14px,-16px) translateY(-6px)"
-                : "translate(0,0)",
-              transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
-            }}>
-              {/* bow left */}
-              <path d="M14 10 C11 5 4 5 6 9 C7 11 12 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
-              {/* bow right */}
-              <path d="M14 10 C17 5 24 5 22 9 C21 11 16 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
-              {/* lid rect */}
-              <rect x="3" y="10" width="22" height="6" rx="3" fill="rgba(255,215,100,0.55)" stroke="rgba(255,215,100,0.7)" strokeWidth="1"/>
-              {/* horizontal ribbon on lid */}
-              <rect x="3" y="13" width="22" height="3" rx="1" fill="rgba(255,215,100,0.55)"/>
-              {/* vertical ribbon — lid portion only */}
-              <rect x="12.5" y="10" width="3" height="6" rx="1" fill="rgba(255,215,100,0.85)"/>
-            </g>
-
-            {/* Box body — stays fixed */}
+          {/* Box body — static */}
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
             <rect x="4" y="16" width="20" height="10" rx="3" fill="rgba(255,215,100,0.18)" stroke="rgba(255,215,100,0.6)" strokeWidth="1"/>
-            {/* vertical ribbon — body portion */}
             <rect x="12.5" y="16" width="3" height="10" rx="1" fill="rgba(255,215,100,0.85)"/>
           </svg>
+
+          {/* Lid — separate div so CSS transform+transition is reliable on iOS */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: isGiftOpen ? "translateY(-13px) rotate(-38deg)" : "translateY(0) rotate(0deg)",
+              transformOrigin: "50% 54%",
+              transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
+              pointerEvents: "none",
+            }}
+          >
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style={{ overflow: "visible" }}>
+              <path d="M14 10 C11 5 4 5 6 9 C7 11 12 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
+              <path d="M14 10 C17 5 24 5 22 9 C21 11 16 10 14 10Z" fill="rgba(255,215,100,0.9)"/>
+              <rect x="3" y="10" width="22" height="6" rx="3" fill="rgba(255,215,100,0.55)" stroke="rgba(255,215,100,0.7)" strokeWidth="1"/>
+              <rect x="3" y="13" width="22" height="3" rx="1" fill="rgba(255,215,100,0.55)"/>
+              <rect x="12.5" y="10" width="3" height="6" rx="1" fill="rgba(255,215,100,0.85)"/>
+            </svg>
+          </div>
         </div>
 
         <h2 style={{ margin: 0, fontSize: 19, fontWeight: 700, color: "#fff", letterSpacing: -0.2, lineHeight: 1.25 }}>
