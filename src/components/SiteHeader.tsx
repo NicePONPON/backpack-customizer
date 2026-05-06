@@ -49,10 +49,9 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
         style={{
           position: "relative",
           zIndex: 1,
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
-          // Vertical padding respects the iOS notch / dynamic island.
-          // Horizontal padding respects landscape safe-areas on notched phones.
           paddingTop: "max(14px, env(safe-area-inset-top))",
           paddingBottom: 14,
           paddingLeft: "max(20px, env(safe-area-inset-left))",
@@ -63,12 +62,14 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
           borderBottom,
         }}
       >
-        {/* Left spacer mirrors the toggle width so the logo stays centred */}
-        <div style={{ flex: 1 }} />
+        {/* Left: empty — mirrors right column to keep logo centred */}
+        <div />
+
+        {/* Centre: logo */}
         <Link
           href="/"
           aria-label={t("homeAriaLabel")}
-          style={{ display: "inline-flex", alignItems: "center", flexShrink: 0 }}
+          style={{ display: "inline-flex", alignItems: "center" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -81,11 +82,18 @@ export default function SiteHeader({ invert = false, showSubNav = true }: Props)
             }}
           />
         </Link>
-        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5 }}>
-            <LanguageToggle />
-            <CurrencySelector invert={invert} />
-          </div>
+
+        {/* Right: language on top, currency below — stacked */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateRows: "auto auto",
+            justifyItems: "end",
+            gap: 5,
+          }}
+        >
+          <LanguageToggle />
+          <CurrencySelector invert={invert} />
         </div>
       </header>
       {showSubNav && <SubNav invert={invert} />}
