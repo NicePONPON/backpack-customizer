@@ -22,6 +22,7 @@ import BagDimensionGuides from "@/components/BagDimensionGuides";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { designFingerprint } from "@/lib/designFingerprint";
+import { useTheme } from "@/lib/ThemeContext";
 
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
@@ -55,6 +56,8 @@ export default function StudioPage() {
   const vw = useWindowWidth();
   const isMobile = vw < 540;
   const isWide = vw >= 880;
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [savedToast, setSavedToast] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -135,7 +138,7 @@ export default function StudioPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(#555555, #222222)",
+        background: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#f0f0f0, #e8e8e8)",
         backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column",
