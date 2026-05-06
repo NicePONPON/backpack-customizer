@@ -19,6 +19,7 @@ export default function SubNav({ invert = false }: Props) {
     { href: "/", label: t("home") },
     { href: "/gallery", label: t("lookbook") },
     { href: "/customize", label: t("customize") },
+    { href: "/studio", label: t("studio") },
     { href: "/shop", label: t("shop") },
   ];
 

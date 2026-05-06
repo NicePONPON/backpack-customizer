@@ -7,6 +7,7 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const encodedDesign = searchParams.get("d");
+  const next = searchParams.get("next") ?? "/customize";
 
   if (code) {
     const supabase = await createClient();
@@ -43,5 +44,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/customize?saved=1`);
+  return NextResponse.redirect(`${origin}${next}?saved=1`);
 }

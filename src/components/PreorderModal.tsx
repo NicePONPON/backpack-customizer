@@ -1,56 +1,48 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { encodeDesign } from "@/lib/invoiceSerialization";
-import type { DesignState } from "@/lib/invoiceSerialization";
 
-type Props = {
-  design: DesignState;
-  onClose: () => void;
-  nextPath?: string;
-};
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Step = "input" | "sent" | "error";
 
-export default function SaveDesignModal({ design, onClose, nextPath = "/customize" }: Props) {
+export default function PreorderModal({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState<Step>("input");
   const [errorMsg, setErrorMsg] = useState("");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    const trimmed = email.trim();
+    if (!trimmed || !EMAIL_RE.test(trimmed)) return;
 
-    const supabase = createClient();
-    const encodedDesign = encodeDesign(design);
-    const redirectTo = `${window.location.origin}/auth/callback?d=${encodeURIComponent(encodedDesign)}&next=${encodeURIComponent(nextPath)}`;
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo: redirectTo, shouldCreateUser: true },
+    const res = await fetch("/api/preorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: trimmed }),
     });
 
-    if (error) {
-      setErrorMsg(error.message);
-      setStep("error");
-    } else {
+    if (res.ok) {
       setStep("sent");
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setErrorMsg((data as { error?: string }).error ?? "Something went wrong.");
+      setStep("error");
     }
   };
 
   const overlay: React.CSSProperties = {
     position: "fixed", inset: 0, zIndex: 300,
-    background: "rgba(0,0,0,0.65)",
+    background: "rgba(0,0,0,0.72)",
     display: "flex", alignItems: "center", justifyContent: "center",
     padding: "0 20px",
-    backdropFilter: "blur(4px)",
+    backdropFilter: "blur(6px)",
   };
 
   const card: React.CSSProperties = {
     width: "100%", maxWidth: 420,
-    background: "linear-gradient(135deg, rgba(30,30,30,0.98) 0%, rgba(20,20,20,0.98) 100%)",
-    border: "1px solid rgba(255,255,255,0.14)",
+    background: "linear-gradient(135deg, rgba(30,20,10,0.98) 0%, rgba(20,14,0,0.98) 100%)",
+    border: "1px solid rgba(255,215,100,0.25)",
     borderRadius: 20,
     padding: "32px 28px 28px",
     boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
@@ -63,11 +55,14 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
         {step === "input" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
+                Preorder
+              </div>
               <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>
-                Save your style
+                Lock in 10% off
               </h2>
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
-                Enter your email — we'll send a link to confirm and save your design. One submission per season.
+              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
+                Enter your email and we'll send your exclusive discount code. Use it when this style goes live.
               </p>
             </div>
 
@@ -81,7 +76,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
                 style={{
                   padding: "11px 14px",
                   borderRadius: 10,
-                  border: "1px solid rgba(255,255,255,0.18)",
+                  border: "1px solid rgba(255,215,100,0.3)",
                   background: "rgba(255,255,255,0.06)",
                   color: "#fff",
                   fontSize: 14,
@@ -96,7 +91,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
                   padding: "12px",
                   borderRadius: 10,
                   border: "none",
-                  background: "#fff",
+                  background: "rgba(255,215,100,0.9)",
                   color: "#111",
                   fontSize: 14,
                   fontWeight: 700,
@@ -104,7 +99,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
                   letterSpacing: 0.3,
                 }}
               >
-                Send me the link →
+                Send my discount code →
               </button>
             </form>
 
@@ -121,16 +116,14 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
           <>
             <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 12 }}>
               <div style={{ fontSize: 36 }}>✉️</div>
-              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>
-                Check your inbox
-              </h2>
+              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>Check your inbox</h2>
               <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
-                We sent a confirmation link to <strong style={{ color: "rgba(255,255,255,0.85)" }}>{email}</strong>. Click it to save your design — the link expires in 1 hour.
+                Your 10% preorder discount code is on its way to <strong style={{ color: "rgba(255,255,255,0.85)" }}>{email}</strong>.
               </p>
             </div>
             <button
               onClick={onClose}
-              style={{ padding: "11px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.18)", background: "transparent", color: "#fff", fontSize: 14, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "1px solid rgba(255,215,100,0.3)", background: "transparent", color: "#fff", fontSize: 14, cursor: "pointer" }}
             >
               Close
             </button>
@@ -145,7 +138,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
             </div>
             <button
               onClick={() => setStep("input")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "#fff", color: "#111", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#111", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
             >
               Try again
             </button>
