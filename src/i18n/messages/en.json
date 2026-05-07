@@ -47,7 +47,25 @@
     "notifyButtonIdle": "Notify me",
     "notifyButtonSubmitting": "Sending…",
     "notifySuccess": "Thanks — we'll let you know.",
-    "notifyErrorGeneric": "Something went wrong."
+    "notifyErrorGeneric": "Something went wrong.",
+    "galleryCta": {
+      "label": "Community Studio",
+      "heading": "Want to design your own?",
+      "desc": "Head to Studio to pick your colors, submit your vote, and see this season's top styles. The most popular design at season close gets made — and voters get first access.",
+      "cta": "Go to Studio →"
+    },
+    "community": {
+      "launchedBadge": "Launched",
+      "paracordZipper": "Paracord zipper",
+      "standardZipper": "Standard zipper",
+      "voteCount": "{count, plural, one {# person chose this} other {# people chose this}}",
+      "preorderCta": "Preorder — save 10% →",
+      "voteCta": "Vote for this style →",
+      "loading": "Loading community styles…",
+      "launchedHeading": "THE STYLE WE LAUNCHED",
+      "topStylesHeading": "THIS SEASON'S TOP STYLES",
+      "topStylesDesc": "The #1 style at season close will be our next launch."
+    }
   },
   "size": {
     "howItWears": "How it wears"

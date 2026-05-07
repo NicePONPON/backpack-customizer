@@ -47,7 +47,25 @@
     "notifyButtonIdle": "通知我",
     "notifyButtonSubmitting": "傳送中…",
     "notifySuccess": "謝謝 — 上市時會通知你。",
-    "notifyErrorGeneric": "發生錯誤，請稍後再試。"
+    "notifyErrorGeneric": "發生錯誤，請稍後再試。",
+    "galleryCta": {
+      "label": "社群工作室",
+      "heading": "想設計自己的款式嗎？",
+      "desc": "前往工作室選擇配色、提交投票，並查看本季最熱門款式。票選結束時最受歡迎的設計將正式推出，投票者享有優先購買資格。",
+      "cta": "前往工作室 →"
+    },
+    "community": {
+      "launchedBadge": "已上市",
+      "paracordZipper": "傘繩拉鍊",
+      "standardZipper": "標準拉鍊",
+      "voteCount": "{count} 人選了這款",
+      "preorderCta": "預訂 — 享九折優惠 →",
+      "voteCta": "為這款投票 →",
+      "loading": "載入社群款式中…",
+      "launchedHeading": "本季推出的款式",
+      "topStylesHeading": "本季最受歡迎款式",
+      "topStylesDesc": "票選第一名的款式將於本季結束後正式推出。"
+    }
   },
   "size": {
     "howItWears": "上身效果"

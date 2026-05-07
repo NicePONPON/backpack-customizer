@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { encodeDesign } from "@/lib/invoiceSerialization";
 import type { DesignState } from "@/lib/invoiceSerialization";
@@ -32,6 +33,7 @@ function DesignCard({
   count: number;
   launched?: boolean;
 }) {
+  const t = useTranslations("gallery.community");
   const [showPreorder, setShowPreorder] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
 
@@ -67,7 +69,7 @@ function DesignCard({
               borderRadius: 999,
             }}
           >
-            Launched
+            {t("launchedBadge")}
           </div>
         )}
 
@@ -89,10 +91,10 @@ function DesignCard({
 
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
           <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.55)", letterSpacing: 0.2 }}>
-            {design.size}" · {design.zipperUpgrade ? "Paracord zipper" : "Standard zipper"}
+            {design.size}" · {design.zipperUpgrade ? t("paracordZipper") : t("standardZipper")}
           </p>
           <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.35)", letterSpacing: 0.2 }}>
-            {count.toLocaleString()} {count === 1 ? "person" : "people"} chose this
+            {t("voteCount", { count })}
           </p>
         </div>
 
@@ -113,7 +115,7 @@ function DesignCard({
               cursor: "pointer",
             }}
           >
-            Preorder — save 10% →
+            {t("preorderCta")}
           </button>
         ) : (
           <button
@@ -132,7 +134,7 @@ function DesignCard({
               cursor: "pointer",
             }}
           >
-            Vote for this style →
+            {t("voteCta")}
           </button>
         )}
       </div>
@@ -152,6 +154,7 @@ function DesignCard({
 // ─── main component ─────────────────────────────────────────────────────────
 
 export default function CommunityGallery({ topStylesOnly = false }: { topStylesOnly?: boolean }) {
+  const t = useTranslations("gallery.community");
   const [topDesigns, setTopDesigns] = useState<TopDesign[]>([]);
   const [launched, setLaunched] = useState<LaunchedDesign | null>(null);
   const [seasonName, setSeasonName] = useState<string>("");
@@ -187,7 +190,7 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
   if (loading) {
     return (
       <div style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: 13, padding: "32px 0" }}>
-        Loading community styles…
+        {t("loading")}
       </div>
     );
   }
@@ -205,7 +208,7 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
               {launched.season_name}
             </p>
             <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
-              THE STYLE WE LAUNCHED
+              {t("launchedHeading")}
             </h2>
           </div>
           <div style={{ maxWidth: 280, alignSelf: "center", width: "100%" }}>
@@ -221,10 +224,10 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
               {seasonName}
             </p>
             <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
-              THIS SEASON'S TOP STYLES
+              {t("topStylesHeading")}
             </h2>
             <p style={{ margin: "8px 0 0", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
-              The #1 style at season close will be our next launch.
+              {t("topStylesDesc")}
             </p>
           </div>
 

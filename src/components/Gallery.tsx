@@ -33,17 +33,10 @@ const ITEMS: GalleryItem[] = [
   },
 ];
 
-const COLOR_LABELS: Record<string, string> = {
-  ivorydune: "Ivory Dune",
-  frostgrey: "Frost Gray",
+const COLOR_SWATCH_KEYS: Record<string, string> = {
+  ivorydune: "ivoryDune",
+  frostgrey: "frostGray",
 };
-
-function imageLabel(src: string): string {
-  const file = src.split("/").pop()!.replace(/\.png$/i, "");
-  const [size, colorRaw] = file.split("-");
-  const color = COLOR_LABELS[colorRaw] ?? colorRaw;
-  return `${size}" ${color}`;
-}
 
 const SMOOTH_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 const CARD_W = "clamp(140px, 38vw, 220px)";
@@ -54,6 +47,15 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
   const [activeIdx, setActiveIdx] = useState(0);
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const tColors = useTranslations("colors");
+
+  const imageLabel = (src: string): string => {
+    const file = src.split("/").pop()!.replace(/\.png$/i, "");
+    const [size, colorRaw] = file.split("-");
+    const swatchKey = COLOR_SWATCH_KEYS[colorRaw];
+    const color = swatchKey ? tColors(`swatches.${swatchKey}`) : colorRaw;
+    return `${size}" ${color}`;
+  };
 
   useEffect(() => {
     const item = ITEMS[activeIdx];

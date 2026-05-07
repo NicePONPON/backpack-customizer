@@ -86,13 +86,13 @@ export default function GalleryPageClient({ ads }: Props) {
         }}
       >
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
-          Community Studio
+          {t("galleryCta.label")}
         </p>
         <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, letterSpacing: 0.5, color: isDark ? "#fff" : "#222222", lineHeight: 1.2, transition: "color 0.5s ease" }}>
-          Want to design your own?
+          {t("galleryCta.heading")}
         </h2>
         <p style={{ margin: 0, fontSize: 14, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", lineHeight: 1.7, maxWidth: 440, transition: "color 0.5s ease" }}>
-          Head to Studio to pick your colors, submit your vote, and see this season&apos;s top styles. The most popular design at season close gets made — and voters get first access.
+          {t("galleryCta.desc")}
         </p>
         <a
           href="/studio"
@@ -111,7 +111,7 @@ export default function GalleryPageClient({ ads }: Props) {
             transition: "background 0.5s ease, color 0.5s ease",
           }}
         >
-          Go to Studio →
+          {t("galleryCta.cta")}
         </a>
       </section>
 
