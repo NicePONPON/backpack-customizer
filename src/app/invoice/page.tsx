@@ -48,7 +48,7 @@ function formatToday(): string {
 
 const pageBg: React.CSSProperties = {
   minHeight: "100vh",
-  background: "linear-gradient(#555555, #222222)",
+  backgroundImage: "linear-gradient(#555555, #222222)",
   backgroundAttachment: "fixed",
   padding: "24px 16px 120px",
   color: "#fff",

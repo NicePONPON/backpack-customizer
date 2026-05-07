@@ -30,10 +30,9 @@ export async function POST(req: Request) {
   const resend = new Resend(apiKey);
 
   try {
-    // Send discount code to the customer
-    await resend.emails.send({
+    const r1 = await resend.emails.send({
       from: SANDBOX_FROM,
-      to: OPS_RECIPIENT, // sandbox: route to ops until domain verified
+      to: OPS_RECIPIENT,
       subject: `Your preorder discount code — ${PREORDER_CODE}`,
       html: `
         <p>Hi there,</p>
@@ -43,18 +42,25 @@ export async function POST(req: Request) {
         <p style="color:#888;font-size:12px;">Preorder email: ${email}</p>
       `,
     });
+    if (r1.error) {
+      console.error("[preorder] discount email rejected:", JSON.stringify(r1.error));
+      return NextResponse.json({ error: "Could not send your discount code. Please try again later." }, { status: 502 });
+    }
 
-    // Notify ops
-    await resend.emails.send({
+    // Notify ops (best-effort — don't fail the customer request if this one fails)
+    const r2 = await resend.emails.send({
       from: SANDBOX_FROM,
       to: OPS_RECIPIENT,
       subject: `New preorder — ${email}`,
       html: `<p>New preorder interest from: <b>${email}</b></p>`,
     });
+    if (r2.error) {
+      console.error("[preorder] ops notification rejected:", JSON.stringify(r2.error));
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[preorder] send failed:", err);
-    return NextResponse.json({ error: "Send failed" }, { status: 500 });
+    console.error("[preorder] unexpected error:", err);
+    return NextResponse.json({ error: "Could not send your discount code. Please try again later." }, { status: 500 });
   }
 }

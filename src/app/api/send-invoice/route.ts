@@ -64,9 +64,9 @@ export async function POST(req: Request) {
     });
 
     if (result.error) {
-      console.error("[send-invoice] Resend rejected:", result.error);
+      console.error("[send-invoice] Resend rejected:", JSON.stringify(result.error));
       return NextResponse.json(
-        { error: result.error.message },
+        { error: "Email delivery failed." },
         { status: 502 },
       );
     }

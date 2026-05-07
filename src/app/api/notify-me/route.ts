@@ -49,9 +49,9 @@ export async function POST(req: Request) {
     });
 
     if (result.error) {
-      console.error("[notify-me] Resend rejected:", result.error);
+      console.error("[notify-me] Resend rejected:", JSON.stringify(result.error));
       return NextResponse.json(
-        { error: result.error.message },
+        { error: "Could not save your sign-up. Please try again later." },
         { status: 502 },
       );
     }
