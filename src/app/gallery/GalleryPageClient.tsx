@@ -7,6 +7,7 @@ import SizeVisualizer from "@/components/SizeVisualizer";
 import type { AdImage } from "@/lib/loadAdvertisements";
 import CommunityGallery from "@/components/CommunityGallery";
 import { useTheme } from "@/lib/ThemeContext";
+import ArrowIcon from "@/components/ArrowIcon";
 
 const sectionStyle: React.CSSProperties = {
   width: "100%",
@@ -97,7 +98,9 @@ export default function GalleryPageClient({ ads }: Props) {
         <a
           href="/studio"
           style={{
-            display: "inline-block",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
             marginTop: 4,
             padding: "13px 28px",
             borderRadius: 999,
@@ -112,6 +115,7 @@ export default function GalleryPageClient({ ads }: Props) {
           }}
         >
           {t("galleryCta.cta")}
+          <ArrowIcon size={14} />
         </a>
       </section>
 

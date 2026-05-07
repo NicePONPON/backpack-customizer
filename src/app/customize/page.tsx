@@ -34,6 +34,7 @@ import { COLOR_GROUPS } from "@/lib/bagReference";
 import { encodeDesign, decodeDesign } from "@/lib/invoiceSerialization";
 import SaveDesignModal from "@/components/SaveDesignModal";
 import { useTheme } from "@/lib/ThemeContext";
+import ArrowIcon from "@/components/ArrowIcon";
 
 const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
 const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
@@ -573,12 +574,15 @@ export default function CustomizePage() {
             letterSpacing: 0.5,
             textDecoration: "none",
             boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
-            display: "block",
-            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
             transition: "background 0.5s ease, color 0.5s ease",
           }}
         >
           {tCustomize("actions.reviewDesign")}
+          <ArrowIcon size={16} />
         </Link>
         <button
           onClick={() => setShowSaveModal(true)}

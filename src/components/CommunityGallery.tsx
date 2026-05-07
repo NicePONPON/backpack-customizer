@@ -8,6 +8,7 @@ import type { DesignState } from "@/lib/invoiceSerialization";
 import MiniBackpack from "@/components/MiniBackpack";
 import PreorderModal from "@/components/PreorderModal";
 import SaveDesignModal from "@/components/SaveDesignModal";
+import ArrowIcon from "@/components/ArrowIcon";
 
 type TopDesign = {
   design_json: DesignState;
@@ -102,7 +103,10 @@ function DesignCard({
           <button
             onClick={() => setShowPreorder(true)}
             style={{
-              display: "block",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
               width: "100%",
               padding: "9px 18px",
               borderRadius: 999,
@@ -116,12 +120,16 @@ function DesignCard({
             }}
           >
             {t("preorderCta")}
+            <ArrowIcon size={12} />
           </button>
         ) : (
           <button
             onClick={() => setShowVoteModal(true)}
             style={{
-              display: "block",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
               width: "100%",
               padding: "9px 16px",
               borderRadius: 999,
@@ -135,6 +143,7 @@ function DesignCard({
             }}
           >
             {t("voteCta")}
+            <ArrowIcon size={12} />
           </button>
         )}
       </div>

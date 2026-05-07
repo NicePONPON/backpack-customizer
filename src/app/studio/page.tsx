@@ -24,6 +24,7 @@ import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { designFingerprint } from "@/lib/designFingerprint";
 import { useTheme } from "@/lib/ThemeContext";
+import ArrowIcon from "@/components/ArrowIcon";
 
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
@@ -524,10 +525,14 @@ export default function StudioPage() {
             border: "none",
             cursor: "pointer",
             boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
             transition: "background 0.5s ease, color 0.5s ease",
           }}
         >
           {t("submitVote")}
+          <ArrowIcon size={16} />
         </button>
         <p style={{ margin: 0, fontSize: 12, color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", textAlign: "center", transition: "color 0.5s ease" }}>
           {t("voteHelpText")}
