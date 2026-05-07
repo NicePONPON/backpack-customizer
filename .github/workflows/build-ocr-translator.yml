@@ -1,0 +1,87 @@
+name: Build OCR Translator for Windows
+
+on:
+  workflow_dispatch:          # manual trigger from the Actions tab
+  push:
+    branches: [main]
+    paths:
+      - 'ocr_translator/**'
+      - '.github/workflows/build-ocr-translator.yml'
+
+permissions:
+  contents: write             # needed to create/update releases
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('ocr_translator/requirements.txt') }}-torch-cpu
+
+      - name: Install CPU-only PyTorch
+        run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install app dependencies + PyInstaller
+        run: pip install -r ocr_translator/requirements.txt pyinstaller
+
+      - name: Build with PyInstaller
+        working-directory: ocr_translator
+        run: python build.py
+
+      - name: Zip build output
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path "ocr_translator\dist\OCRTranslator\*" `
+            -DestinationPath "OCRTranslator-Windows.zip"
+
+      - name: Upload artifact (Actions tab — 30-day archive)
+        uses: actions/upload-artifact@v4
+        with:
+          name: OCRTranslator-Windows
+          path: OCRTranslator-Windows.zip
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Delete existing release + tag so we can replace cleanly.
+          # 2>$null suppresses errors on the first run when neither exists yet.
+          gh release delete ocr-translator-latest --yes 2>$null
+          git push --delete origin ocr-translator-latest 2>$null
+
+          $notes = @"
+## OCR Translator for Windows
+
+Auto-built from the latest ``main`` source.
+
+### How to install
+1. Download **OCRTranslator-Windows.zip** below
+2. Extract the zip to any folder — e.g. ``C:\OCRTranslator\``
+3. Double-click **OCRTranslator.exe** — that's it
+
+### First launch
+On your first Capture, EasyOCR downloads ~180 MB of model files in the background.
+Models are cached at ``%APPDATA%\ocr_translator\models`` — every launch after that is instant.
+"@
+          $notes | Out-File -FilePath release-notes.md -Encoding utf8
+
+          gh release create ocr-translator-latest `
+            --title "OCR Translator — Latest Build" `
+            --notes-file release-notes.md `
+            --latest `
+            "OCRTranslator-Windows.zip"
