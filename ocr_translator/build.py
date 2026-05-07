@@ -59,11 +59,15 @@ def main() -> None:
         "--collect-all", "easyocr",
         "--collect-all", "deep_translator",
         "--collect-all", "PIL",
-        # PyTorch sub-modules used by EasyOCR
+        "--collect-all", "torch",
+        "--collect-all", "torchvision",
+        "--collect-all", "cv2",
+        # Explicit hidden imports for torch internals used by EasyOCR
         "--hidden-import", "torch",
         "--hidden-import", "torchvision",
         "--hidden-import", "torch.nn",
         "--hidden-import", "torch.nn.functional",
+        "--hidden-import", "cv2",
     ]
 
     # Include the easyocr package data (config JSON files, etc.)
