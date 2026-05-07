@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "@/lib/ThemeContext";
 
 const VIEWBOX = { w: 992.13, h: 992.13 };
 
@@ -25,7 +26,6 @@ const ARROW_GUIDES: Record<"14" | "16", ArrowGuide> = {
   },
 };
 
-const STROKE = "rgba(255,255,255,0.78)";
 const STROKE_WIDTH = 3.5;
 const ARROW_HEAD = 16;
 const SMOOTH_EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
@@ -35,6 +35,8 @@ export default function BagDimensionGuides({
 }: {
   size: "14" | "16";
 }) {
+  const { theme } = useTheme();
+  const stroke = theme === "dark" ? "rgba(255,255,255,0.78)" : "rgba(0,0,0,0.5)";
   const dims = SIZE_DIMENSIONS[size];
   const guide = ARROW_GUIDES[size];
 
@@ -60,6 +62,7 @@ export default function BagDimensionGuides({
             y1={guide.width.y}
             x2={guide.width.x2}
             y2={guide.width.y}
+            stroke={stroke}
           />
           <DimensionLabel
             x={(guide.width.x1 + guide.width.x2) / 2}
@@ -72,6 +75,7 @@ export default function BagDimensionGuides({
             y1={guide.height.y1}
             x2={guide.height.x}
             y2={guide.height.y2}
+            stroke={stroke}
           />
           <DimensionLabel
             x={guide.height.x}
@@ -90,11 +94,13 @@ function DoubleArrow({
   y1,
   x2,
   y2,
+  stroke,
 }: {
   x1: number;
   y1: number;
   x2: number;
   y2: number;
+  stroke: string;
 }) {
   const horizontal = y1 === y2;
   const head = (cx: number, cy: number, dir: 1 | -1) => {
@@ -106,7 +112,7 @@ function DoubleArrow({
 
   return (
     <g
-      stroke={STROKE}
+      stroke={stroke}
       strokeWidth={STROKE_WIDTH}
       strokeLinecap="round"
       strokeLinejoin="round"
