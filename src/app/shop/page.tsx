@@ -21,7 +21,7 @@ export default function ShopPage() {
 
   const pageBg: React.CSSProperties = {
     minHeight: "100vh",
-    background: isDark
+    backgroundImage: isDark
       ? "linear-gradient(#555555, #222222)"
       : "linear-gradient(#ffffff, #FDFAF3)",
     backgroundAttachment: "fixed",
@@ -31,7 +31,7 @@ export default function ShopPage() {
     padding: "0 24px 48px",
     gap: 32,
     color: isDark ? "#fff" : "#222222",
-    transition: "background 0.5s ease, color 0.5s ease",
+    transition: "background-image 0.5s ease, color 0.5s ease",
   };
 
   const cardStyle: React.CSSProperties = {
