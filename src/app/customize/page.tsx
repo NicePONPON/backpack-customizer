@@ -557,44 +557,50 @@ export default function CustomizePage() {
           width: "100%",
           maxWidth: 720,
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
           gap: 12,
-          flexWrap: "wrap",
           marginTop: 12,
         }}
       >
+        <Link
+          href={invoiceHref}
+          style={{
+            padding: "15px 40px",
+            borderRadius: 999,
+            background: isDark ? "#fff" : "#222222",
+            color: isDark ? "#222222" : "#fff",
+            fontWeight: 700,
+            fontSize: 16,
+            letterSpacing: 0.5,
+            textDecoration: "none",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            transition: "background 0.5s ease, color 0.5s ease",
+          }}
+        >
+          {tCustomize("actions.reviewDesign")}
+          <span style={{ fontSize: 20, fontWeight: 900, lineHeight: 1 }}>⟶</span>
+        </Link>
         <button
           onClick={() => setShowSaveModal(true)}
           style={{
-            padding: "14px 28px",
+            padding: "11px 28px",
             borderRadius: 999,
             background: "transparent",
-            color: "#fff",
-            fontWeight: 700,
-            fontSize: 15,
+            color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.45)",
+            fontWeight: 600,
+            fontSize: 13,
             letterSpacing: 0.5,
-            border: "1.5px solid rgba(255,255,255,0.55)",
+            border: isDark ? "1px solid rgba(255,255,255,0.3)" : "1px solid rgba(0,0,0,0.2)",
             cursor: "pointer",
+            transition: "color 0.5s ease, border-color 0.5s ease",
           }}
         >
           Save my style
         </button>
-        <Link
-          href={invoiceHref}
-          style={{
-            padding: "14px 34px",
-            borderRadius: 999,
-            background: "#fff",
-            color: "#222222",
-            fontWeight: 700,
-            fontSize: 15,
-            letterSpacing: 0.5,
-            textDecoration: "none",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
-          }}
-        >
-          {tCustomize("actions.reviewDesign")}
-        </Link>
       </div>
 
       {(calibrationTarget === "front" || calibrationTarget === "back") && (

@@ -21,10 +21,9 @@ const SIZE_SCALE: Record<"14" | "16", number> = {
   "16": 1,
 };
 
-// BACK_CALIBRATION squishes the back PNG vertically (scaleY ≈ 0.715), so
-// the rendered back bag reads smaller than the front at the same container
-// width. Scale the back container up so both bags look equal visual size.
-const BACK_VISUAL_SCALE = 1 / 0.715;
+// Back SVG viewBox is cropped to 606 height (from 881.02) to remove empty
+// bottom space. Use the same aspect ratio as the customize page container.
+const BACK_CROPPED_H = 606;
 
 const noop = () => {};
 
@@ -51,12 +50,7 @@ export default function InvoiceBagPreview({
   showLabels = false,
 }: Props) {
   const scale = SIZE_SCALE[design.size];
-  const backWidth = width * BACK_VISUAL_SCALE;
-  // Back container matches front's square size; the oversized back render
-  // is positioned flush with the top of the clip window so the bag's head
-  // stays visible (the clipped strip at the bottom is empty padding from
-  // BACK_CALIBRATION.scaleY).
-  const backOverflow = (backWidth - width) / 2;
+  const backHeight = Math.round(width * (BACK_CROPPED_H / BACK_VIEWBOX.w));
 
   return (
     <div
@@ -118,17 +112,14 @@ export default function InvoiceBagPreview({
           style={{
             position: "relative",
             width,
-            height: width,
+            height: backHeight,
             overflow: "hidden",
           }}
         >
           <div
             style={{
               position: "absolute",
-              top: 0,
-              left: -backOverflow,
-              width: backWidth,
-              height: backWidth,
+              inset: 0,
               transform: `scale(${scale})`,
               transformOrigin: "center center",
             }}
@@ -143,6 +134,7 @@ export default function InvoiceBagPreview({
               viewBoxH={BACK_VIEWBOX.h}
               pngSrc={BACK_TEXTURE_SRC}
               calibration={BACK_CALIBRATION}
+              preserveAspectRatio="xMidYMin slice"
               debug={false}
             />
           </div>

@@ -86,7 +86,7 @@ Two independent calibrations:
 - `BACK_CALIBRATION` — positions the Back PNG overlay (scaleY: 0.715, translateY: -116). Keeps the texture on top of the colored SVG.
 - `FRONT_CALIBRATION` — positions the Front PNG overlay (scaleX/Y: 1.03, translateX/Y: ~15/4).
 
-If you change `BACK_CALIBRATION.scaleY`, update `BACK_VISUAL_SCALE` in `InvoiceBagPreview.tsx` to match (`1 / scaleY`).
+The back container in `InvoiceBagPreview.tsx` uses `aspectRatio: BACK_VIEWBOX.w / BACK_CROPPED_H` (622.13 / 606) matching the customize page — no manual scale factor needed.
 
 ### Size toggle
 
@@ -154,4 +154,4 @@ FX rates in `CURRENCIES[*].rateFromSZL` are placeholders — `TODO: finalize wit
 
 ### Invoice bag preview — back-clip trick
 
-`InvoiceBagPreview.tsx` renders front + back side by side. The back is rendered into an oversized inner div (`width * BACK_VISUAL_SCALE` where `BACK_VISUAL_SCALE = 1 / BACK_CALIBRATION.scaleY ≈ 1.399`), clipped by a square outer container with `overflow: hidden`. `top: 0` (not centered) keeps the bag head visible — centering would crop it. The row uses `alignItems: flex-end` for shared baseline.
+`InvoiceBagPreview.tsx` renders front + back side by side. Front container is square (`width × width`). Back container uses `width × (606/622.13 * width)` to match the cropped viewBox aspect ratio from the customize page — same rendering as customize page so calibration values stay correct. Back `PngOverlayLayer` uses `preserveAspectRatio="xMidYMin slice"`. Row uses `alignItems: flex-end` for shared baseline.
