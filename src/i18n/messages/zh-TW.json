@@ -238,5 +238,25 @@
       "ZA": "由南非經銷商提供全國配送。",
       "US": "由美國電商夥伴銷售。"
     }
+  },
+  "studio": {
+    "label": "社群工作室",
+    "heading": "打造你想要的樣子",
+    "subheading": "選擇你的配色。投下你的票。最受歡迎的款式將在下一季生產。",
+    "prizeHeading": "贏得一只免費訂製後背包",
+    "prizeDesc": "本季票選第一名的設計師，將獲贈一只以其得獎配色手工製作的後背包，完全免費。",
+    "followInstagram": "追蹤我們的 Instagram",
+    "standingsLabel": "本季排名",
+    "topStylesHeading": "本季最熱門款式",
+    "topStylesDesc": "點選「為此款式投票」即可投票，或繼續往下設計屬於你的款式。",
+    "divider": "或自己設計",
+    "sizeLaptop": "{size} 吋筆電",
+    "tapHint": "點選包包任意部位以選取，再於下方挑選顏色",
+    "colorsHeading": "配色",
+    "submitVote": "提交我的投票 →",
+    "voteHelpText": "每個電子郵件每季限投一票。季末結算前可隨時更新。",
+    "signInHint": "請以 Google 帳號登入以提交投票",
+    "signOut": "登出",
+    "savedToast": "✓ 你的投票已成功儲存"
   }
 }

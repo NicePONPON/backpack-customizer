@@ -92,7 +92,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
                   borderRadius: 10,
                   border: "none",
                   background: "rgba(255,215,100,0.9)",
-                  color: "#111",
+                  color: "#222222",
                   fontSize: 14,
                   fontWeight: 700,
                   cursor: "pointer",
@@ -138,7 +138,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
             </div>
             <button
               onClick={() => setStep("input")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#111", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#222222", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
             >
               Try again
             </button>

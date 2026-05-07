@@ -4,14 +4,32 @@ import { createContext, useContext, useState } from "react";
 
 type Theme = "dark" | "light";
 
+const COOKIE = "SITE_THEME";
+const ONE_YEAR = 60 * 60 * 24 * 365;
+
+function readThemeCookie(): Theme {
+  if (typeof document === "undefined") return "dark";
+  const match = document.cookie.match(/(?:^|;\s*)SITE_THEME=([^;]+)/);
+  return match?.[1] === "light" ? "light" : "dark";
+}
+
+function saveThemeCookie(theme: Theme) {
+  document.cookie = `${COOKIE}=${theme}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
+}
+
 const ThemeContext = createContext<{
   theme: Theme;
   toggle: () => void;
 }>({ theme: "dark", toggle: () => {} });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
-  const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+  const [theme, setTheme] = useState<Theme>(readThemeCookie);
+  const toggle = () =>
+    setTheme((t) => {
+      const next = t === "dark" ? "light" : "dark";
+      saveThemeCookie(next);
+      return next;
+    });
   return (
     <ThemeContext.Provider value={{ theme, toggle }}>
       {children}

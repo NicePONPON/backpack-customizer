@@ -238,5 +238,25 @@
       "ZA": "Shipping nationwide via our South African distributor.",
       "US": "Available on our United States e-commerce partner."
     }
+  },
+  "studio": {
+    "label": "Community Studio",
+    "heading": "Make What You Want",
+    "subheading": "Pick your colors. Submit your vote. The most popular style gets made next season.",
+    "prizeHeading": "Win a free custom backpack",
+    "prizeDesc": "The designer of this season's #1 voted style receives a complimentary handmade backpack in their winning colorway — on us.",
+    "followInstagram": "Follow us on Instagram",
+    "standingsLabel": "Current standings",
+    "topStylesHeading": "THIS SEASON'S TOP STYLES",
+    "topStylesDesc": "Click \"Vote for this style\" to cast your vote, or scroll down to design your own.",
+    "divider": "Or design your own",
+    "sizeLaptop": "{size}\" laptop",
+    "tapHint": "Tap a panel to select it, then pick a color below",
+    "colorsHeading": "COLORS",
+    "submitVote": "Submit my vote →",
+    "voteHelpText": "One vote per email per season. You can update it anytime before the season closes.",
+    "signInHint": "Sign in with Google to submit your vote",
+    "signOut": "Sign out",
+    "savedToast": "✓ Your vote has been saved for this season"
   }
 }

@@ -29,7 +29,7 @@ export default function GalleryPageClient({ ads }: Props) {
     fontWeight: 700,
     letterSpacing: 2,
     margin: "0 0 24px",
-    color: isDark ? "#fff" : "#111",
+    color: isDark ? "#fff" : "#222222",
     transition: "color 0.5s ease",
   };
 
@@ -88,7 +88,7 @@ export default function GalleryPageClient({ ads }: Props) {
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
           Community Studio
         </p>
-        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, letterSpacing: 0.5, color: isDark ? "#fff" : "#111", lineHeight: 1.2, transition: "color 0.5s ease" }}>
+        <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, letterSpacing: 0.5, color: isDark ? "#fff" : "#222222", lineHeight: 1.2, transition: "color 0.5s ease" }}>
           Want to design your own?
         </h2>
         <p style={{ margin: 0, fontSize: 14, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", lineHeight: 1.7, maxWidth: 440, transition: "color 0.5s ease" }}>
@@ -101,8 +101,8 @@ export default function GalleryPageClient({ ads }: Props) {
             marginTop: 4,
             padding: "13px 28px",
             borderRadius: 999,
-            background: isDark ? "#fff" : "#111",
-            color: isDark ? "#111" : "#fff",
+            background: isDark ? "#fff" : "#222222",
+            color: isDark ? "#222222" : "#fff",
             fontWeight: 700,
             fontSize: 14,
             letterSpacing: 0.5,
@@ -146,35 +146,6 @@ function AppleAdScroll({ ads }: { ads: AdImage[] }) {
           onVisible={() => setActiveIdx(i)}
         />
       ))}
-
-      {/* Progress dots anchored below all sections, centered */}
-      {ads.length > 1 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 8,
-            padding: "20px 0",
-            background: "transparent",
-          }}
-          aria-hidden
-        >
-          {ads.map((_, i) => (
-            <div
-              key={i}
-              style={{
-                width: i === activeIdx ? 20 : 6,
-                height: 6,
-                borderRadius: 999,
-                background: i === activeIdx ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)",
-                boxShadow: "0 1px 4px rgba(0,0,0,0.4)",
-                transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease",
-              }}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -216,119 +187,110 @@ function AppleAdSection({
   const isFirst = index === 0;
   const isLast = index === total - 1;
 
+  // 80px of empty padding on each inter-section edge — the fade happens entirely
+  // within that space so no image content is ever clipped by the gradient mask.
+  const FADE = 80;
+  const paddingTop = isFirst ? 0 : FADE;
+  const paddingBottom = isLast ? 0 : FADE;
+  const maskGradient = isFirst
+    ? `linear-gradient(to bottom, black 0, black calc(100% - ${FADE}px), transparent 100%)`
+    : isLast
+    ? `linear-gradient(to bottom, transparent 0, black ${FADE}px, black 100%)`
+    : `linear-gradient(to bottom, transparent 0, black ${FADE}px, black calc(100% - ${FADE}px), transparent 100%)`;
+
   return (
+    // Outer wrapper: owns the padding + mask so fading zones are pure empty space
     <div
       ref={ref}
       style={{
-        position: "relative",
-        height: "100svh",
-        overflow: "hidden",
-        // Add a 1px border between sections so they feel distinct
-        borderBottom: isLast ? "none" : "1px solid rgba(0,0,0,0.15)",
+        paddingTop,
+        paddingBottom,
+        maskImage: maskGradient,
+        WebkitMaskImage: maskGradient,
       }}
     >
-      {/* Full-bleed image — zooms in on load, pulls back when revealed */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={ad.src}
-        alt={ad.alt}
-        draggable={false}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          transform: revealed ? "scale(1)" : "scale(1.06)",
-          transition: "transform 1.6s cubic-bezier(0.2, 0, 0, 1)",
-          willChange: "transform",
-          userSelect: "none",
-        }}
-      />
-
-      {/* Bottom scrim */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 30%, transparent 60%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Bottom info row: slide counter on left, scroll cue on right */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 32,
-          left: 32,
-          right: 32,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          opacity: revealed ? 1 : 0,
-          transform: revealed ? "translateY(0)" : "translateY(12px)",
-          transition: "opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s",
-          pointerEvents: "none",
-        }}
-      >
-        <p
+      {/* Inner container: clips the scale-reveal overflow */}
+      <div style={{ position: "relative", overflow: "hidden" }}>
+        {/* Full-width image — fades in and zooms to natural scale when revealed */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={ad.src}
+          alt={ad.alt}
+          draggable={false}
           style={{
-            margin: 0,
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: 3,
-            textTransform: "uppercase",
-            color: "rgba(255,255,255,0.6)",
+            display: "block",
+            width: "100%",
+            height: "auto",
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? "scale(1)" : "scale(1.06)",
+            transition: "opacity 1.2s ease, transform 1.6s cubic-bezier(0.2, 0, 0, 1)",
+            willChange: "transform, opacity",
+            userSelect: "none",
           }}
-        >
-          {index + 1} / {total}
-        </p>
+        />
 
-        {/* Scroll cue only on non-last slides */}
-        {!isLast && (
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-            <p style={{ margin: 0, fontSize: 10, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
-              scroll
-            </p>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              style={{
-                animation: "bob 2s ease-in-out infinite",
-              }}
-            >
-              <path d="M3 6l5 5 5-5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        )}
-      </div>
-
-      {/* Top label on first section */}
-      {isFirst && (
+        {/* Bottom scrim */}
         <div
           style={{
             position: "absolute",
-            top: 32,
-            left: 0,
-            right: 0,
+            inset: 0,
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 30%, transparent 60%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Bottom info row: slide counter */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 32,
+            left: 32,
+            right: 32,
             display: "flex",
-            justifyContent: "center",
+            alignItems: "center",
+            justifyContent: "space-between",
             opacity: revealed ? 1 : 0,
-            transition: "opacity 1s ease 0.6s",
+            transform: revealed ? "translateY(0)" : "translateY(12px)",
+            transition: "opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s",
             pointerEvents: "none",
           }}
         >
-          <p style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
-            Lookbook
+          <p
+            style={{
+              margin: 0,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.6)",
+            }}
+          >
+            {index + 1} / {total}
           </p>
         </div>
-      )}
 
-      <style>{`@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }`}</style>
+        {/* Top label on first section */}
+        {isFirst && (
+          <div
+            style={{
+              position: "absolute",
+              top: 32,
+              left: 0,
+              right: 0,
+              display: "flex",
+              justifyContent: "center",
+              opacity: revealed ? 1 : 0,
+              transition: "opacity 1s ease 0.6s",
+              pointerEvents: "none",
+            }}
+          >
+            <p style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
+              Lookbook
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

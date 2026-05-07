@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import FrontSVG from "@/components/FrontSVG";
 import BackSVG from "@/components/BackSVG";
 import PngOverlayLayer from "@/components/PngOverlayLayer";
@@ -58,6 +59,8 @@ export default function StudioPage() {
   const isWide = vw >= 880;
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const t = useTranslations("studio");
+  const tColors = useTranslations("colors");
   const [savedToast, setSavedToast] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -138,7 +141,7 @@ export default function StudioPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#ffffff, #FDFAF3)",
+        backgroundImage: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#ffffff, #FDFAF3)",
         backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column",
@@ -151,8 +154,8 @@ export default function StudioPage() {
 
       {/* HERO */}
       <div style={{ width: "100%", maxWidth: 680, textAlign: "center", marginTop: -8 }}>
-        <p style={{ margin: "0 0 10px", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.38)" }}>
-          Community Studio
+        <p style={{ margin: "0 0 10px", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
+          {t("label")}
         </p>
         <h1
           style={{
@@ -168,13 +171,13 @@ export default function StudioPage() {
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                 }
-              : { color: "#111", WebkitTextFillColor: "#111" }),
+              : { color: "#222222", WebkitTextFillColor: "#222222" }),
           }}
         >
-          Make What You Want
+          {t("heading")}
         </h1>
         <p style={{ margin: "12px 0 0", fontSize: 14, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", lineHeight: 1.7, maxWidth: 500, marginInline: "auto", transition: "color 0.5s ease" }}>
-          Pick your colors. Submit your vote. The most popular style gets made next season.
+          {t("subheading")}
         </p>
       </div>
 
@@ -183,10 +186,10 @@ export default function StudioPage() {
         style={{
           width: "100%",
           maxWidth: 560,
-          background: "rgba(255,255,255,0.04)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid rgba(255,255,255,0.09)",
+          background: isDark ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.65)",
+          backdropFilter: "blur(24px) saturate(180%)",
+          WebkitBackdropFilter: "blur(24px) saturate(180%)",
+          border: isDark ? "1px solid rgba(255,255,255,0.09)" : "1px solid rgba(255,255,255,0.85)",
           borderRadius: 28,
           padding: "32px 28px 28px",
           display: "flex",
@@ -194,6 +197,7 @@ export default function StudioPage() {
           alignItems: "center",
           gap: 10,
           textAlign: "center",
+          transition: "background 0.5s ease, border-color 0.5s ease",
         }}
       >
         {/* Gift icon — tappable, lid opens on click.
@@ -247,11 +251,11 @@ export default function StudioPage() {
           </div>
         </div>
 
-        <h2 style={{ margin: 0, fontSize: 19, fontWeight: 700, color: "#fff", letterSpacing: -0.2, lineHeight: 1.25 }}>
-          Win a free custom backpack
+        <h2 style={{ margin: 0, fontSize: 19, fontWeight: 700, color: isDark ? "#fff" : "#222222", letterSpacing: -0.2, lineHeight: 1.25, transition: "color 0.5s ease" }}>
+          {t("prizeHeading")}
         </h2>
-        <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.75, maxWidth: 360 }}>
-          The designer of this season&apos;s #1 voted style receives a complimentary handmade backpack in their winning colorway — on us.
+        <p style={{ margin: 0, fontSize: 13, color: isDark ? "rgba(255,255,255,0.48)" : "rgba(0,0,0,0.5)", lineHeight: 1.75, maxWidth: 360, transition: "color 0.5s ease" }}>
+          {t("prizeDesc")}
         </p>
 
         {/* Instagram CTA */}
@@ -266,15 +270,16 @@ export default function StudioPage() {
             gap: 9,
             padding: "10px 20px 10px 12px",
             borderRadius: 999,
-            background: "rgba(255,255,255,0.07)",
-            border: "1px solid rgba(255,255,255,0.12)",
+            background: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)",
+            border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
-            color: "#fff",
+            color: isDark ? "#fff" : "#222222",
             fontSize: 13,
             fontWeight: 600,
             letterSpacing: 0.1,
             textDecoration: "none",
+            transition: "color 0.5s ease, background 0.5s ease",
           }}
         >
           {/* IG gradient icon badge */}
@@ -294,21 +299,21 @@ export default function StudioPage() {
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
             </svg>
           </span>
-          Follow us on Instagram
+          {t("followInstagram")}
         </a>
       </div>
 
       {/* THIS SEASON'S TOP STYLES */}
       <div style={{ width: "100%", maxWidth: 960 }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <p style={{ margin: "0 0 6px", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
-            Current standings
+          <p style={{ margin: "0 0 6px", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
+            {t("standingsLabel")}
           </p>
-          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
-            THIS SEASON'S TOP STYLES
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
+            {t("topStylesHeading")}
           </h2>
-          <p style={{ margin: "8px 0 0", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
-            Click "Vote for this style" to cast your vote, or scroll down to design your own.
+          <p style={{ margin: "8px 0 0", fontSize: 13, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)", transition: "color 0.5s ease" }}>
+            {t("topStylesDesc")}
           </p>
         </div>
         <CommunityGallery topStylesOnly />
@@ -316,11 +321,11 @@ export default function StudioPage() {
 
       {/* DIVIDER */}
       <div style={{ width: "100%", maxWidth: 680, display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
-        <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", whiteSpace: "nowrap" }}>
-          Or design your own
+        <div style={{ flex: 1, height: 1, background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)", transition: "background 0.5s ease" }} />
+        <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)", textTransform: "uppercase", whiteSpace: "nowrap", transition: "color 0.5s ease" }}>
+          {t("divider")}
         </span>
-        <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.1)" }} />
+        <div style={{ flex: 1, height: 1, background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)", transition: "background 0.5s ease" }} />
       </div>
 
       {/* SIZE */}
@@ -332,15 +337,16 @@ export default function StudioPage() {
             style={{
               padding: "6px 18px",
               borderRadius: 999,
-              background: size === s ? "#fff" : "transparent",
-              color: size === s ? "#111" : "#fff",
+              background: size === s ? (isDark ? "#fff" : "#222222") : "transparent",
+              color: size === s ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
               fontWeight: 600,
-              border: "1px solid #fff",
+              border: isDark ? "1px solid #fff" : "1px solid #111",
               cursor: "pointer",
               fontSize: 14,
+              transition: "background 0.3s ease, color 0.3s ease",
             }}
           >
-            {s}" laptop
+            {t("sizeLaptop", { size: s })}
           </button>
         ))}
       </div>
@@ -429,28 +435,33 @@ export default function StudioPage() {
         </div>
       </div>
 
-      <p style={{ margin: "-28px 0 0", fontSize: 12, color: "rgba(255,255,255,0.3)", letterSpacing: 0.3, textAlign: "center" }}>
-        Tap a panel to select it, then pick a color below
+      <p style={{ margin: "-28px 0 0", fontSize: 12, color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", letterSpacing: 0.3, textAlign: "center", transition: "color 0.5s ease" }}>
+        {t("tapHint")}
       </p>
 
       {/* COLOR PALETTE */}
       <div style={{ width: "100%", maxWidth: 680 }}>
-        <h2 style={{ color: "#fff", textAlign: "center", fontSize: 18, fontWeight: 700, letterSpacing: 2, margin: "0 0 16px" }}>
-          COLORS
+        <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: 18, fontWeight: 700, letterSpacing: 2, margin: "0 0 16px", transition: "color 0.5s ease" }}>
+          {t("colorsHeading")}
         </h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {COLOR_GROUPS.map((group) => (
             <div
               key={group.titleKey}
               style={{
-                background: "linear-gradient(135deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.15) 100%)",
-                border: "1px solid rgba(255,255,255,0.12)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.15) 100%)"
+                  : "rgba(255,255,255,0.65)",
+                backdropFilter: isDark ? undefined : "blur(20px) saturate(180%)",
+                WebkitBackdropFilter: isDark ? undefined : "blur(20px) saturate(180%)",
+                border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(255,255,255,0.85)",
                 borderRadius: 18,
                 padding: "14px 18px 18px",
+                transition: "background 0.5s ease, border-color 0.5s ease",
               }}
             >
-              <div style={{ color: "rgba(255,255,255,0.5)", textAlign: "center", marginBottom: 10, fontWeight: 600, fontSize: 12, letterSpacing: 1 }}>
-                {group.titleKey.replace(/_/g, " ")}
+              <div style={{ color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", textAlign: "center", marginBottom: 10, fontWeight: 600, fontSize: 12, letterSpacing: 1, transition: "color 0.5s ease" }}>
+                {tColors(`groups.${group.titleKey}`)}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(4, 1fr)" : "repeat(6, 1fr)", gap: isMobile ? 8 : 10 }}>
                 {group.colors.map((color) => (
@@ -473,13 +484,14 @@ export default function StudioPage() {
                       style={{
                         fontSize: isMobile ? 9 : 10,
                         lineHeight: 1.25,
-                        color: "#ccc",
+                        color: isDark ? "#ccc" : "rgba(0,0,0,0.55)",
                         marginTop: 5,
                         wordBreak: "break-word",
                         overflowWrap: "anywhere",
+                        transition: "color 0.5s ease",
                       }}
                     >
-                      {color.key.replace(/_/g, " ")}
+                      {tColors(`swatches.${color.key}`)}
                     </div>
                   </div>
                 ))}
@@ -505,35 +517,36 @@ export default function StudioPage() {
             width: "100%",
             padding: "16px 28px",
             borderRadius: 999,
-            background: "#fff",
-            color: "#111",
+            background: isDark ? "#fff" : "#222222",
+            color: isDark ? "#222222" : "#fff",
             fontWeight: 700,
             fontSize: 16,
             letterSpacing: 0.5,
             border: "none",
             cursor: "pointer",
             boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+            transition: "background 0.5s ease, color 0.5s ease",
           }}
         >
-          Submit my vote →
+          {t("submitVote")}
         </button>
-        <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>
-          One vote per email per season. You can update it anytime before the season closes.
+        <p style={{ margin: 0, fontSize: 12, color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", textAlign: "center", transition: "color 0.5s ease" }}>
+          {t("voteHelpText")}
         </p>
         {user ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)", transition: "color 0.5s ease" }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#a8e6a3", flexShrink: 0 }} />
             {user.email}
             <button
               onClick={async () => { await createClient().auth.signOut(); setUser(null); }}
-              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.25)", fontSize: 11, cursor: "pointer", padding: 0, textDecoration: "underline" }}
+              style={{ background: "none", border: "none", color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)", fontSize: 11, cursor: "pointer", padding: 0, textDecoration: "underline" }}
             >
-              Sign out
+              {t("signOut")}
             </button>
           </div>
         ) : (
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>
-            Sign in with Google to submit your vote
+          <div style={{ fontSize: 12, color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
+            {t("signInHint")}
           </div>
         )}
       </div>
@@ -570,7 +583,7 @@ export default function StudioPage() {
             boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
           }}
         >
-          ✓ Your vote has been saved for this season
+          {t("savedToast")}
         </div>
       )}
     </main>

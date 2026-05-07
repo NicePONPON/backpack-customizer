@@ -435,7 +435,7 @@ function ComingSoonCardContent({
                     status === "submitting"
                       ? "rgba(255,255,255,0.5)"
                       : "#fff",
-                  color: "#111",
+                  color: "#222222",
                   fontSize: 11,
                   fontWeight: 700,
                   letterSpacing: 1.2,

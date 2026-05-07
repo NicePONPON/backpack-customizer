@@ -75,7 +75,7 @@ export default function ShareDock() {
     {
       key: "x",
       label: t("platformX"),
-      color: "#000000",
+      color: "#222222",
       iconPath: X_ICON_PATH,
       iconViewBox: "0 0 24 24",
       shareUrl: (url) =>
@@ -102,7 +102,7 @@ export default function ShareDock() {
     {
       key: "tiktok",
       label: t("platformTiktok"),
-      color: "#000000",
+      color: "#222222",
       iconPath: TIKTOK_ICON_PATH,
       iconViewBox: "0 0 24 24",
       shareUrl: null,

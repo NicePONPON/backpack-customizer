@@ -87,7 +87,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
                 style={{
                   ...oauthBtnBase,
                   background: "#fff",
-                  color: "#111",
+                  color: "#222222",
                   border: "1px solid rgba(0,0,0,0.12)",
                 }}
               >
@@ -119,7 +119,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
             </div>
             <button
               onClick={() => setStep("idle")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "#fff", color: "#111", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "none", background: "#fff", color: "#222222", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
             >
               Try again
             </button>

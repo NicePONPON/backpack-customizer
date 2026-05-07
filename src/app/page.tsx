@@ -32,7 +32,7 @@ export default function HomePage() {
     alignItems: "center",
     padding: "0 24px 48px",
     gap: 48,
-    color: isDark ? "#fff" : "#111",
+    color: isDark ? "#fff" : "#222222",
     transition: "background 0.5s ease, color 0.5s ease",
   };
 
@@ -42,7 +42,7 @@ export default function HomePage() {
     fontWeight: 700,
     letterSpacing: 2,
     margin: "0 0 24px",
-    color: isDark ? "#fff" : "#111",
+    color: isDark ? "#fff" : "#222222",
     transition: "color 0.5s ease",
   };
 
@@ -56,7 +56,7 @@ export default function HomePage() {
         WebkitTextFillColor: "transparent",
         backgroundClip: "text",
       }
-    : { color: "#111", WebkitTextFillColor: "#111" };
+    : { color: "#222222", WebkitTextFillColor: "#222222" };
 
   const FEATURE_CARDS: FeatureCardData[] = [
     {

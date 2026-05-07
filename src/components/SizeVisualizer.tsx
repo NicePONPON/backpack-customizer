@@ -125,7 +125,7 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
             display: "block",
             userSelect: "none",
             opacity: isDark ? 0.75 : 0.9,
-            mixBlendMode: isDark ? "screen" : "multiply",
+            mixBlendMode: "multiply",
           }}
         />
 

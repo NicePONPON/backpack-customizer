@@ -47,6 +47,17 @@ const SIZE_SCALE: Record<"14" | "16", number> = {
   "16": 1,
 };
 
+function useWindowWidth() {
+  const [w, setW] = useState(375);
+  useEffect(() => {
+    setW(window.innerWidth);
+    const handler = () => setW(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return w;
+}
+
 // Every paintable logical group — kept in sync with GROUP_PREFIXES in
 // FrontSVG / BackSVG. Painting the whole bag at once (the pre-selection
 // preview) writes all of these.
@@ -71,6 +82,7 @@ export default function CustomizePage() {
   const tBagGuide = useTranslations("bagGuide");
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const isMobile = useWindowWidth() < 540;
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
   const [colors, setColors] = useState<Record<string, string>>({});
   const [size, setSize] = useState<"14" | "16">("14");
@@ -186,15 +198,15 @@ export default function CustomizePage() {
     <main
       style={{
         minHeight: "100vh",
-        background: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#ffffff, #FDFAF3)",
+        backgroundImage: isDark ? "linear-gradient(#555555, #222222)" : "linear-gradient(#ffffff, #FDFAF3)",
         backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "0 24px 48px",
+        padding: isMobile ? "0 16px 48px" : "0 24px 48px",
         gap: 28,
-        color: isDark ? "#fff" : "#111",
-        transition: "background 0.5s ease, color 0.5s ease",
+        color: isDark ? "#fff" : "#222222",
+        transition: "background-image 0.5s ease, color 0.5s ease",
       }}
     >
       <SiteHeader />
@@ -223,18 +235,19 @@ export default function CustomizePage() {
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                 }
-              : { color: "#111", WebkitTextFillColor: "#111" }),
+              : { color: "#222222", WebkitTextFillColor: "#222222" }),
           }}
         >
           {tCustomize("intro.title")}
         </h1>
         <p
           style={{
-            color: "rgba(255,255,255,0.65)",
+            color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.5)",
             fontSize: 15,
             fontWeight: 400,
             letterSpacing: 0.3,
             margin: "10px 0 0",
+            transition: "color 0.5s ease",
           }}
         >
           {tCustomize("intro.subtitle")}
@@ -250,11 +263,12 @@ export default function CustomizePage() {
             style={{
               padding: "6px 18px",
               borderRadius: 999,
-              background: size === s ? "#fff" : "transparent",
-              color: size === s ? "#111" : "#fff",
+              background: size === s ? (isDark ? "#fff" : "#222222") : "transparent",
+              color: size === s ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
               fontWeight: 600,
-              border: "1px solid #fff",
+              border: isDark ? "1px solid #fff" : "1px solid #111",
               cursor: "pointer",
+              transition: "background 0.3s ease, color 0.3s ease",
             }}
           >
             {s === "14"
@@ -358,17 +372,17 @@ export default function CustomizePage() {
           width: "100%",
           maxWidth: 720,
           textAlign: "center",
-          marginTop: -120,
         }}
       >
         <p
           style={{
-            color: "rgba(255,255,255,0.5)",
+            color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)",
             fontSize: 13,
             fontWeight: 400,
             letterSpacing: 0.4,
             margin: 0,
             animation: "pulse-hint 2.4s ease-in-out 0.8s 3",
+            transition: "color 0.5s ease",
           }}
         >
           {tBagGuide("hint")}
@@ -388,12 +402,13 @@ export default function CustomizePage() {
       <div style={{ width: "100%", maxWidth: 720, marginTop: 0 }}>
         <h2
           style={{
-            color: "#fff",
+            color: isDark ? "#fff" : "#222222",
             textAlign: "center",
             fontSize: 22,
             fontWeight: 700,
             letterSpacing: 2,
             margin: "8px 0 20px",
+            transition: "color 0.5s ease",
           }}
         >
           {tCustomize("sections.color")}
@@ -404,24 +419,28 @@ export default function CustomizePage() {
             <div
               key={group.titleKey}
               style={{
-                background:
-                  "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)",
-                border: "1px solid rgba(255,255,255,0.14)",
-                borderRadius: 20,
-                padding: "16px 20px 20px",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 100%)"
+                  : "rgba(255,255,255,0.65)",
                 backdropFilter: "blur(20px) saturate(180%)",
                 WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                boxShadow:
-                  "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
+                border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(255,255,255,0.85)",
+                borderRadius: 20,
+                padding: "16px 20px 20px",
+                boxShadow: isDark
+                  ? "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18)"
+                  : "0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)",
+                transition: "background 0.5s ease, border-color 0.5s ease",
               }}
             >
               <div
                 style={{
-                  color: "#fff",
+                  color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
                   textAlign: "center",
                   marginBottom: 12,
                   fontWeight: 600,
                   letterSpacing: 0.5,
+                  transition: "color 0.5s ease",
                 }}
               >
                 {tColors(`groups.${group.titleKey}`)}
@@ -430,8 +449,8 @@ export default function CustomizePage() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(6, 1fr)",
-                  gap: 10,
+                  gridTemplateColumns: isMobile ? "repeat(4, 1fr)" : "repeat(6, 1fr)",
+                  gap: isMobile ? 8 : 10,
                 }}
               >
                 {group.colors.map((color) => (
@@ -446,21 +465,23 @@ export default function CustomizePage() {
                   >
                     <div
                       style={{
-                        width: 36,
-                        height: 36,
+                        width: isMobile ? 38 : 36,
+                        height: isMobile ? 38 : 36,
                         borderRadius: "50%",
                         background: color.value,
                         margin: "0 auto",
+                        border: "1.5px solid rgba(0,0,0,0.08)",
                       }}
                     />
                     <div
                       style={{
-                        fontSize: 11,
+                        fontSize: isMobile ? 9 : 11,
                         lineHeight: 1.25,
-                        color: "#e4e4e4",
+                        color: isDark ? "#e4e4e4" : "rgba(0,0,0,0.55)",
                         marginTop: 6,
                         wordBreak: "break-word",
                         overflowWrap: "anywhere",
+                        transition: "color 0.5s ease",
                       }}
                     >
                       {tColors(`swatches.${color.key}`)}
@@ -564,7 +585,7 @@ export default function CustomizePage() {
             padding: "14px 34px",
             borderRadius: 999,
             background: "#fff",
-            color: "#111",
+            color: "#222222",
             fontWeight: 700,
             fontSize: 15,
             letterSpacing: 0.5,

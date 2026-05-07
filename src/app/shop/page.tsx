@@ -30,7 +30,7 @@ export default function ShopPage() {
     alignItems: "center",
     padding: "0 24px 48px",
     gap: 32,
-    color: isDark ? "#fff" : "#111",
+    color: isDark ? "#fff" : "#222222",
     transition: "background 0.5s ease, color 0.5s ease",
   };
 
@@ -85,7 +85,7 @@ export default function ShopPage() {
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                 }
-              : { color: "#111", WebkitTextFillColor: "#111" }),
+              : { color: "#222222", WebkitTextFillColor: "#222222" }),
           }}
         >
           {t("heading")}
@@ -134,7 +134,7 @@ export default function ShopPage() {
                 style={{
                   fontSize: 20,
                   fontWeight: 700,
-                  color: isDark ? "#fff" : "#111",
+                  color: isDark ? "#fff" : "#222222",
                   letterSpacing: 0.3,
                   transition: "color 0.5s ease",
                 }}
@@ -158,7 +158,7 @@ export default function ShopPage() {
                   fontSize: 13,
                   fontWeight: 700,
                   letterSpacing: 0.5,
-                  color: isDark ? "#fff" : "#111",
+                  color: isDark ? "#fff" : "#222222",
                   transition: "color 0.5s ease",
                 }}
               >
