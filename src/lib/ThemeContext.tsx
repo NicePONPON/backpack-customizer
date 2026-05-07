@@ -22,8 +22,8 @@ const ThemeContext = createContext<{
   toggle: () => void;
 }>({ theme: "dark", toggle: () => {} });
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(readThemeCookie);
+export function ThemeProvider({ children, initialTheme }: { children: React.ReactNode; initialTheme?: Theme }) {
+  const [theme, setTheme] = useState<Theme>(initialTheme ?? readThemeCookie);
   const toggle = () =>
     setTheme((t) => {
       const next = t === "dark" ? "light" : "dark";

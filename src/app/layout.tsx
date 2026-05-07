@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/lib/ThemeContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "@/i18n/getLocale";
 import { loadMessages } from "@/i18n/loadMessages";
+import { cookies } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,6 +66,8 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = loadMessages(locale);
+  const cookieStore = await cookies();
+  const initialTheme = cookieStore.get("SITE_THEME")?.value === "light" ? "light" : "dark";
 
   return (
     <html
@@ -78,7 +81,7 @@ export default async function RootLayout({
           now={new Date()}
           timeZone="UTC"
         >
-          <ThemeProvider>
+          <ThemeProvider initialTheme={initialTheme}>
             {children}
             <ShareDock />
           </ThemeProvider>
