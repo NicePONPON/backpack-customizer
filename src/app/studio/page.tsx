@@ -510,7 +510,7 @@ export default function StudioPage() {
       />
 
       {/* SUBMIT CTA */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "fit-content" }}>
         <button
           onClick={() => user ? saveVoteDirectly() : setShowSaveModal(true)}
           style={{
