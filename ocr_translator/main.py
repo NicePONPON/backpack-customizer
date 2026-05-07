@@ -11,7 +11,6 @@ if sys.platform == "win32":
         pass  # Non-fatal: older Windows or awareness already set
 
 from PyQt6.QtWidgets import QApplication
-from PyQt6.QtCore import Qt
 
 from settings import Settings
 from overlay import OverlayWindow
