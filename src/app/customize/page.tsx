@@ -566,7 +566,8 @@ export default function CustomizePage() {
         <Link
           href={invoiceHref}
           style={{
-            padding: "15px 40px",
+            width: "100%",
+            padding: "15px 0",
             borderRadius: 999,
             background: isDark ? "#fff" : "#222222",
             color: isDark ? "#222222" : "#fff",
@@ -577,22 +578,22 @@ export default function CustomizePage() {
             boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
             display: "flex",
             alignItems: "center",
-            gap: 10,
+            justifyContent: "center",
             transition: "background 0.5s ease, color 0.5s ease",
           }}
         >
           {tCustomize("actions.reviewDesign")}
-          <span style={{ fontSize: 20, fontWeight: 900, lineHeight: 1 }}>⟶</span>
         </Link>
         <button
           onClick={() => setShowSaveModal(true)}
           style={{
-            padding: "11px 28px",
+            width: "100%",
+            padding: "15px 0",
             borderRadius: 999,
             background: "transparent",
             color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.45)",
             fontWeight: 600,
-            fontSize: 13,
+            fontSize: 16,
             letterSpacing: 0.5,
             border: isDark ? "1px solid rgba(255,255,255,0.3)" : "1px solid rgba(0,0,0,0.2)",
             cursor: "pointer",
