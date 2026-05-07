@@ -52,15 +52,15 @@
       "label": "Community Studio",
       "heading": "Want to design your own?",
       "desc": "Head to Studio to pick your colors, submit your vote, and see this season's top styles. The most popular design at season close gets made — and voters get first access.",
-      "cta": "Go to Studio →"
+      "cta": "Go to Studio"
     },
     "community": {
       "launchedBadge": "Launched",
       "paracordZipper": "Paracord zipper",
       "standardZipper": "Standard zipper",
       "voteCount": "{count, plural, one {# person chose this} other {# people chose this}}",
-      "preorderCta": "Preorder — save 10% →",
-      "voteCta": "Vote for this style →",
+      "preorderCta": "Preorder — save 10%",
+      "voteCta": "Vote for this style",
       "loading": "Loading community styles…",
       "launchedHeading": "THE STYLE WE LAUNCHED",
       "topStylesHeading": "THIS SEASON'S TOP STYLES",
@@ -151,7 +151,7 @@
       "sixteenInch": "16 inch"
     },
     "actions": {
-      "reviewDesign": "Review your design →"
+      "reviewDesign": "Review your design"
     }
   },
   "embroidery": {
@@ -249,7 +249,7 @@
   "shop": {
     "heading": "Choose your region",
     "subheading": "We'll route you to the local distributor or retail platform that ships to your region.",
-    "visitCta": "Visit local store →",
+    "visitCta": "Visit local store",
     "regionTagline": {
       "TW": "Available through our Taiwan retail partners.",
       "SZ": "Local pickup and delivery across Eswatini.",
@@ -271,7 +271,7 @@
     "sizeLaptop": "{size}\" laptop",
     "tapHint": "Tap a panel to select it, then pick a color below",
     "colorsHeading": "COLORS",
-    "submitVote": "Submit my vote →",
+    "submitVote": "Submit my vote",
     "voteHelpText": "One vote per email per season. You can update it anytime before the season closes.",
     "signInHint": "Sign in with Google to submit your vote",
     "signOut": "Sign out",

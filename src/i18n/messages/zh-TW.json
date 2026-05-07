@@ -52,15 +52,15 @@
       "label": "社群工作室",
       "heading": "想設計自己的款式嗎？",
       "desc": "前往工作室選擇配色、提交投票，並查看本季最熱門款式。票選結束時最受歡迎的設計將正式推出，投票者享有優先購買資格。",
-      "cta": "前往工作室 →"
+      "cta": "前往工作室"
     },
     "community": {
       "launchedBadge": "已上市",
       "paracordZipper": "傘繩拉鍊",
       "standardZipper": "標準拉鍊",
       "voteCount": "{count} 人選了這款",
-      "preorderCta": "預訂 — 享九折優惠 →",
-      "voteCta": "為這款投票 →",
+      "preorderCta": "預訂 — 享九折優惠",
+      "voteCta": "為這款投票",
       "loading": "載入社群款式中…",
       "launchedHeading": "本季推出的款式",
       "topStylesHeading": "本季最受歡迎款式",
@@ -151,7 +151,7 @@
       "sixteenInch": "16 吋"
     },
     "actions": {
-      "reviewDesign": "預覽你的設計 →"
+      "reviewDesign": "預覽你的設計"
     }
   },
   "embroidery": {
@@ -249,7 +249,7 @@
   "shop": {
     "heading": "選擇你的地區",
     "subheading": "我們會將你導向當地的經銷夥伴或負責配送你所在地區的零售平台。",
-    "visitCta": "前往當地門市 →",
+    "visitCta": "前往當地門市",
     "regionTagline": {
       "TW": "由台灣零售夥伴銷售。",
       "SZ": "於史瓦帝尼提供本地取貨與配送。",
@@ -271,7 +271,7 @@
     "sizeLaptop": "{size} 吋筆電",
     "tapHint": "點選包包任意部位以選取，再於下方挑選顏色",
     "colorsHeading": "配色",
-    "submitVote": "提交我的投票 →",
+    "submitVote": "提交我的投票",
     "voteHelpText": "每個電子郵件每季限投一票。季末結算前可隨時更新。",
     "signInHint": "請以 Google 帳號登入以提交投票",
     "signOut": "登出",
