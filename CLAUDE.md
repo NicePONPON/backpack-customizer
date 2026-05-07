@@ -13,10 +13,9 @@ No test suite is configured.
 
 ## Deployment
 
-- **Vercel project**: `backpack-customizer-v2.vercel.app`
-- **Vercel watches**: `claude-test` branch (not `main`)
-- To deploy: `git push origin main:claude-test` (pushes main → claude-test so Vercel picks it up)
-- Both branches should stay in sync; commit to `main`, then push to `claude-test` to deploy
+- **Production URL**: `backpack-customizer-v2.vercel.app` (Vercel project: `backpack-customizer-v2`, watches `main` branch)
+- To deploy: `git push origin main`
+- The `backpack-customizer` Vercel project watches `claude-test` and creates **preview-only** deployments — not the production URL
 
 ## Stack
 
