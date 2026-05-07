@@ -28,7 +28,14 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
     });
 
     if (error) {
-      setErrorMsg(error.message);
+      const isProviderDisabled =
+        error.message.includes("provider is not enabled") ||
+        error.message.includes("Unsupported provider");
+      setErrorMsg(
+        isProviderDisabled
+          ? "Google sign-in is not available right now. Please try again later or contact support."
+          : "Sign-in failed. Please try again."
+      );
       setStep("error");
     }
   };
