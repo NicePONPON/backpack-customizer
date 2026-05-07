@@ -565,7 +565,7 @@ export default function CustomizePage() {
           href={invoiceHref}
           style={{
             width: "100%",
-            padding: "15px 0",
+            padding: "15px 40px",
             borderRadius: 999,
             background: isDark ? "#fff" : "#222222",
             color: isDark ? "#222222" : "#fff",
@@ -586,7 +586,7 @@ export default function CustomizePage() {
           onClick={() => setShowSaveModal(true)}
           style={{
             width: "100%",
-            padding: "15px 0",
+            padding: "15px 40px",
             borderRadius: 999,
             background: "transparent",
             color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.45)",

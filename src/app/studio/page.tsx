@@ -515,7 +515,7 @@ export default function StudioPage() {
           onClick={() => user ? saveVoteDirectly() : setShowSaveModal(true)}
           style={{
             width: "100%",
-            padding: "16px 28px",
+            padding: "16px 40px",
             borderRadius: 999,
             background: isDark ? "#fff" : "#222222",
             color: isDark ? "#222222" : "#fff",
