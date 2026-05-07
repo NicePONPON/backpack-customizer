@@ -554,13 +554,11 @@ export default function CustomizePage() {
       {/* REVIEW / QUOTE */}
       <div
         style={{
-          width: "100%",
-          maxWidth: 720,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           gap: 12,
           marginTop: 12,
+          width: "fit-content",
         }}
       >
         <Link
