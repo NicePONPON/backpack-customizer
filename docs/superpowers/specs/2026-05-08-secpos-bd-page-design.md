@@ -46,7 +46,7 @@ Vertical skyscraper cross-section layout. Each floor = one chain scale tier. Flo
 ### 3. Contact Card
 
 - Triggered by scrolling past the product floors
-- Background transitions from near-black (`#0d0d1a`) to soft white (`#f8f8fc`) via CSS scroll-driven animation (`animation-timeline: scroll()`) — gradual, not abrupt
+- Background transitions from near-black (`#0d0d1a`) to soft white (`#f8f8fc`) as user scrolls into the section — implemented via JS `IntersectionObserver` + CSS class toggle (not `animation-timeline: scroll()`, which is unsupported in Safari)
 - Contact card centered, white background, rounded corners, subtle shadow
 - Contents:
   - Name: **Chris Chen 陳泓宇**
@@ -93,6 +93,18 @@ secpos-bd/
 4. Optional: set custom domain in Vercel project settings
 
 ---
+
+## Mobile-First Requirements
+
+The page will be shared via NFC business card — the majority of visitors arrive on a phone. All design decisions are mobile-first:
+
+- Viewport meta tag: `<meta name="viewport" content="width=device-width, initial-scale=1">`
+- Hero text sized for mobile (`clamp()` fluid type scale)
+- Building floors stack vertically as single-column cards on screens < 480px
+- Product logos sized to render clearly at 80–120px on mobile
+- Contact info uses large tap targets (min 44px height) for phone/email links
+- No hover-only interactions — all CTAs work on touch
+- Page tested at 375px (iPhone SE) and 390px (iPhone 14) widths
 
 ## Out of Scope
 
