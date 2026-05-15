@@ -91,11 +91,11 @@ Per-currency defaults (suggestions; operator can override per transaction):
 
 | Currency | Default rate | Note |
 |---|---|---|
-| NTD | 5% | Taiwan business tax |
-| CNY | 1% | Per operator; product category may require override |
-| SZL | 17% | Eswatini VAT |
-| ZAR | 17% | South Africa (pending operator final confirmation; commonly cited as 15%) |
-| USD | 0% | Default for export / unspecified; override if domestic US |
+| NTD | 5% | Taiwan business tax (營業稅) |
+| CNY | 1% | China small-scale-taxpayer rate; general taxpayers are 13% on goods — override per transaction if dealing with a general-rate supplier |
+| SZL | 15% | Eswatini VAT standard rate (verified 2026) |
+| ZAR | 15% | South Africa VAT standard rate (verified 2026 — the proposed 15.5% / 16% increases were reversed in April 2025) |
+| USD | 0% | Default for export / unspecified; override per transaction if subject to a US state sales tax |
 
 Rates are stored on each transaction at save time → **frozen for audit**. Reprinting an old PO years later always shows the rate that was in force at the time. National rate changes only affect new transactions.
 
@@ -202,11 +202,11 @@ New constants file `src/lib/taxRates.ts`:
 import type { CurrencyCode } from "./money";
 
 export const DEFAULT_TAX_BASIS_POINTS: Record<CurrencyCode, number> = {
-  NTD: 500,
-  CNY: 100,
-  SZL: 1700,
-  ZAR: 1700,
-  USD: 0,
+  NTD: 500,   // Taiwan 5% business tax
+  CNY: 100,   // China small-scale-taxpayer 1%; general taxpayers are 13% — operator overrides per transaction
+  SZL: 1500,  // Eswatini 15% VAT
+  ZAR: 1500,  // South Africa 15% VAT
+  USD: 0,     // Default for export / unspecified
 };
 
 export function formatTaxRate(basisPoints: number): string {
