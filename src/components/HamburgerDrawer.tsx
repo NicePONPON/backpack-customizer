@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -40,6 +41,15 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
   const { theme, toggle } = useTheme();
   const isLight = theme === "light";
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [isOpen, onClose]);
+
   const links = [
     { href: "/", label: t("home") },
     { href: "/gallery", label: t("lookbook") },
@@ -52,6 +62,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
     <>
       {/* Overlay — click to close */}
       <div
+        role="presentation"
         onClick={onClose}
         style={{
           position: "fixed",
