@@ -1,21 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import LanguageToggle from "./LanguageToggle";
 import CurrencySelector from "./CurrencySelector";
-import SubNav from "./SubNav";
+import HamburgerDrawer from "./HamburgerDrawer";
 import { useTheme } from "@/lib/ThemeContext";
 
 const LOGO_SRC = "/logo/logo.png";
 
 type Props = {
-  // Some pages (the customizer) sit on a dark gradient where the white logo
-  // works as-is. Lighter pages (the invoice) need it inverted to black.
   invert?: boolean;
-  // The invoice page renders inside an export-captured A4 frame and doesn't
-  // want a sub-nav baked into the screenshot. Defaults to showing it.
-  showSubNav?: boolean;
 };
 
 function SunIcon() {
@@ -42,102 +38,122 @@ function MoonIcon() {
   );
 }
 
-export default function SiteHeader({ invert: invertProp, showSubNav = true }: Props) {
+export default function SiteHeader({ invert: invertProp }: Props) {
   const t = useTranslations("header");
   const { theme, toggle } = useTheme();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // Pages that pass `invert` explicitly (invoice) override the theme.
-  // All other pages follow the global theme toggle.
   const isLight = invertProp !== undefined ? invertProp : theme === "light";
 
   const backdrop = isLight ? "rgba(255,255,255,0.7)" : "rgba(20,20,20,0.55)";
   const borderBottom = isLight
     ? "1px solid rgba(0,0,0,0.08)"
     : "1px solid rgba(255,255,255,0.08)";
-  const iconColor = isLight ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.6)";
+  const iconColor = isLight ? "rgba(51,51,51,0.7)" : "rgba(255,255,255,0.6)";
+  const hamburgerColor = isLight ? "#333" : "rgba(255,255,255,0.8)";
 
   return (
-    <div
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        marginLeft: "calc(50% - 50vw)",
-        marginRight: "calc(50% - 50vw)",
-        width: "100vw",
-      }}
-    >
-      <header
+    <>
+      <div
         style={{
-          position: "relative",
-          zIndex: 1,
-          display: "grid",
-          gridTemplateColumns: "1fr auto 1fr",
-          alignItems: "center",
-          paddingTop: "max(14px, env(safe-area-inset-top))",
-          paddingBottom: 14,
-          paddingLeft: "max(20px, env(safe-area-inset-left))",
-          paddingRight: "max(20px, env(safe-area-inset-right))",
-          background: backdrop,
-          backdropFilter: "blur(16px) saturate(160%)",
-          WebkitBackdropFilter: "blur(16px) saturate(160%)",
-          borderBottom,
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+          width: "100vw",
         }}
       >
-        {/* Left: theme toggle */}
-        <button
-          onClick={toggle}
-          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        <header
           style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 6,
-            borderRadius: 8,
-            color: iconColor,
-            display: "flex",
+            position: "relative",
+            zIndex: 1,
+            display: "grid",
+            gridTemplateColumns: "1fr auto 1fr",
             alignItems: "center",
-            justifyContent: "center",
-            transition: "color 0.3s ease, opacity 0.3s ease",
-            justifySelf: "start",
+            paddingTop: "max(14px, env(safe-area-inset-top))",
+            paddingBottom: 14,
+            paddingLeft: "max(20px, env(safe-area-inset-left))",
+            paddingRight: "max(20px, env(safe-area-inset-right))",
+            background: backdrop,
+            backdropFilter: "blur(16px) saturate(160%)",
+            WebkitBackdropFilter: "blur(16px) saturate(160%)",
+            borderBottom,
           }}
         >
-          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        </button>
-
-        {/* Centre: logo */}
-        <Link
-          href="/"
-          aria-label={t("homeAriaLabel")}
-          style={{ display: "inline-flex", alignItems: "center" }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={LOGO_SRC}
-            alt="Computex Systems"
+          {/* Left: hamburger */}
+          <button
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open navigation menu"
             style={{
-              height: 56,
-              objectFit: "contain",
-              filter: isLight ? "brightness(0)" : undefined,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 6,
+              display: "flex",
+              flexDirection: "column",
+              gap: 5,
+              justifySelf: "start",
             }}
-          />
-        </Link>
+          >
+            <span style={{ display: "block", width: 22, height: 1.5, background: hamburgerColor }} />
+            <span style={{ display: "block", width: 22, height: 1.5, background: hamburgerColor }} />
+            <span style={{ display: "block", width: 22, height: 1.5, background: hamburgerColor }} />
+          </button>
 
-        {/* Right: language on top, currency below */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 5,
-            width: 88,
-            justifySelf: "end",
-          }}
-        >
-          <LanguageToggle />
-          <CurrencySelector invert={isLight} />
-        </div>
-      </header>
-      {showSubNav && <SubNav invert={isLight} />}
-    </div>
+          {/* Centre: logo */}
+          <Link
+            href="/"
+            aria-label={t("homeAriaLabel")}
+            style={{ display: "inline-flex", alignItems: "center" }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_SRC}
+              alt="Computex Systems"
+              style={{
+                height: 56,
+                objectFit: "contain",
+                filter: isLight ? "brightness(0)" : undefined,
+              }}
+            />
+          </Link>
+
+          {/* Right: theme toggle + language + currency */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              justifySelf: "end",
+            }}
+          >
+            <button
+              onClick={toggle}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 4,
+                borderRadius: 8,
+                color: iconColor,
+                display: "flex",
+                alignItems: "center",
+                transition: "color 0.3s ease",
+              }}
+            >
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </button>
+            <div style={{ display: "flex", flexDirection: "column", gap: 5, width: 88 }}>
+              <LanguageToggle />
+              <CurrencySelector invert={isLight} />
+            </div>
+          </div>
+        </header>
+      </div>
+
+      <HamburgerDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    </>
   );
 }
