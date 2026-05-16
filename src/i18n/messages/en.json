@@ -73,7 +73,9 @@
   "home": {
     "hero": {
       "tagline": "Built for the way you carry.",
-      "subline": "Modern everyday backpacks engineered for durability, designed without compromise."
+      "subline": "Modern everyday backpacks engineered for durability, designed without compromise.",
+      "shopNow": "Shop Now",
+      "learnMore": "Learn More"
     },
     "brandStory": {
       "act1": {
