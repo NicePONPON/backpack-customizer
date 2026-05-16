@@ -1,14 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
-import IntroVideo from "@/components/IntroVideo";
 import FeatureExpandableCard, {
   type FeatureCardData,
 } from "@/components/FeatureExpandableCard";
 import BrandStory from "@/components/BrandStory";
+import ArrowIcon from "@/components/ArrowIcon";
 import { useTheme } from "@/lib/ThemeContext";
 
 const sectionStyle: React.CSSProperties = {
@@ -23,17 +24,17 @@ export default function HomePage() {
 
   const pageBg: React.CSSProperties = {
     minHeight: "100vh",
-    background: isDark
+    backgroundImage: isDark
       ? "linear-gradient(#555555, #222222)"
       : "linear-gradient(#ffffff, #FDFAF3)",
     backgroundAttachment: "fixed",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "0 24px 48px",
+    padding: "0 0 48px",
     gap: 48,
-    color: isDark ? "#fff" : "#222222",
-    transition: "background 0.5s ease, color 0.5s ease",
+    color: isDark ? "#fff" : "#333",
+    transition: "color 0.5s ease",
   };
 
   const sectionHeaderStyle: React.CSSProperties = {
@@ -42,21 +43,17 @@ export default function HomePage() {
     fontWeight: 700,
     letterSpacing: 2,
     margin: "0 0 24px",
-    color: isDark ? "#fff" : "#222222",
+    color: isDark ? "#fff" : "#333",
     transition: "color 0.5s ease",
   };
 
-  const heroSubColor = isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
+  const heroWarmBg = isDark
+    ? "linear-gradient(145deg, #2a2520 0%, #1e1c18 50%, #232118 100%)"
+    : "linear-gradient(145deg, #e8e4db 0%, #ede9e0 35%, #edeae3 65%, #e9e5dc 100%)";
 
-  // Gradient text can't CSS-transition — light mode uses plain color to avoid flash.
-  const heroH1Style: React.CSSProperties = isDark
-    ? {
-        background: "linear-gradient(180deg, #ffffff 0%, #c9c9c9 100%)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        backgroundClip: "text",
-      }
-    : { color: "#222222", WebkitTextFillColor: "#222222" };
+  const eyebrowColor = isDark ? "rgba(255,255,255,0.38)" : "rgba(51,51,51,0.45)";
+  const titleColor = isDark ? "#f0f0ee" : "#333";
+  const subColor = isDark ? "rgba(255,255,255,0.48)" : "rgba(51,51,51,0.48)";
 
   const FEATURE_CARDS: FeatureCardData[] = [
     {
@@ -66,9 +63,7 @@ export default function HomePage() {
         {
           videoSrc: "/gif/Reinforce Stitching.mp4",
           title: t("whyThisBag.durability.reinforcedStitching.title"),
-          description: t(
-            "whyThisBag.durability.reinforcedStitching.description"
-          ),
+          description: t("whyThisBag.durability.reinforcedStitching.description"),
         },
         {
           videoSrc: "/gif/Machine Washable.mp4",
@@ -113,64 +108,146 @@ export default function HomePage() {
 
   return (
     <main style={pageBg}>
-      <IntroVideo />
       <SiteHeader />
 
-      {/* HERO */}
+      {/* HERO — full-bleed animation, content centered over it */}
       <section
         style={{
-          ...sectionStyle,
+          position: "relative",
+          width: "100%",
+          height: 600,
+          overflow: "hidden",
+          backgroundImage: heroWarmBg,
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
-          textAlign: "center",
-          gap: 8,
-          marginTop: -8,
+          justifyContent: "center",
+          marginTop: -48,
         }}
       >
-        <h1
-          style={{
-            fontSize: 44,
-            fontWeight: 700,
-            letterSpacing: 0.5,
-            lineHeight: 1.1,
-            margin: 0,
-            ...heroH1Style,
-          }}
-        >
-          {t("hero.tagline")}
-        </h1>
-        <p
-          style={{
-            color: heroSubColor,
-            fontSize: 16,
-            fontWeight: 400,
-            letterSpacing: 0.3,
-            margin: "8px 0 0",
-            maxWidth: 560,
-            transition: "color 0.5s ease",
-          }}
-        >
-          {t("hero.subline")}
-        </p>
-
+        {/* Bag animation — oversized so it bleeds past all 4 edges */}
         <div
           style={{
-            width: "100%",
-            maxWidth: 480,
-            aspectRatio: "1 / 1",
-            marginTop: 16,
+            position: "absolute",
+            inset: "-10%",
+            width: "120%",
+            height: "120%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <HeroBagVisual />
         </div>
+
+        {/* Floating content — no card or frame */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            textAlign: "center",
+            padding: "0 32px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <p
+            style={{
+              fontSize: 9,
+              fontWeight: 700,
+              letterSpacing: 3,
+              color: eyebrowColor,
+              textTransform: "uppercase",
+              marginBottom: 18,
+              margin: "0 0 18px",
+            }}
+          >
+            Designed in Taiwan
+          </p>
+          <h1
+            style={{
+              fontSize: 38,
+              fontWeight: 800,
+              lineHeight: 1.06,
+              color: titleColor,
+              letterSpacing: -1.5,
+              margin: "0 0 16px",
+              transition: "color 0.5s ease",
+            }}
+          >
+            {t("hero.tagline")}
+          </h1>
+          <p
+            style={{
+              fontSize: 13,
+              color: subColor,
+              lineHeight: 1.65,
+              maxWidth: 260,
+              margin: "0 0 36px",
+              transition: "color 0.5s ease",
+            }}
+          >
+            {t("hero.subline")}
+          </p>
+          <div style={{ display: "flex", gap: 10 }}>
+            <Link
+              href="/shop"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "14px 28px",
+                background: isDark ? "#f0f0ee" : "#333",
+                color: isDark ? "#333" : "#fff",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                border: "none",
+                borderRadius: 6,
+                cursor: "pointer",
+                textDecoration: "none",
+                transition: "background 0.3s ease, color 0.3s ease",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {t("hero.shopNow")}
+              <ArrowIcon size={14} />
+            </Link>
+            <a
+              href="#brand-story"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "14px 28px",
+                background: "transparent",
+                color: isDark ? "rgba(240,240,238,0.85)" : "#333",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                border: isDark ? "1.5px solid rgba(255,255,255,0.3)" : "1.5px solid rgba(51,51,51,0.3)",
+                borderRadius: 6,
+                cursor: "pointer",
+                textDecoration: "none",
+                transition: "color 0.3s ease, border-color 0.3s ease",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {t("hero.learnMore")}
+            </a>
+          </div>
+        </div>
       </section>
 
-      {/* BRAND STORY */}
-      <BrandStory />
+      {/* BRAND STORY — anchor for "Learn More" */}
+      <div id="brand-story" style={{ width: "100%", padding: "0 24px" }}>
+        <BrandStory />
+      </div>
 
       {/* VALUE PILLARS */}
-      <section style={sectionStyle}>
+      <section style={{ ...sectionStyle, padding: "0 24px" }}>
         <h2 style={sectionHeaderStyle}>{t("whyThisBag.heading")}</h2>
         <div
           style={{
