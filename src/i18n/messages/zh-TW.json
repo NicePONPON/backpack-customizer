@@ -18,8 +18,9 @@
   },
   "footer": {
     "copyright": "© 2026 {company}。版權所有。",
-    "tagline": "為當代日常通勤而設計與打造。",
-    "defaultCompany": "安彭國際貿易有限公司"
+    "tagline": "設計於台灣，行遍天下。",
+    "defaultCompany": "安彭國際貿易有限公司",
+    "africaCompany": "非洲：Computex Systems Investments (PTY) LTD，史瓦帝尼"
   },
   "intro": {
     "skipHint": "點兩下可跳過"

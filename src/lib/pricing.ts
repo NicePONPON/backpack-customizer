@@ -33,25 +33,39 @@ export type CurrencyCode = "SZL" | "TWD" | "ZAR" | "USD";
 
 export type CompanyInfo = {
   name: string;
+  brand: string;
   tagline: string;
   country: string;
 };
 
-export const COMPANY_LOCAL: CompanyInfo = {
+// Eswatini entity — trades as Computex Systems locally
+export const COMPANY_ESWATINI: CompanyInfo = {
   name: "Computex Systems Investments (PTY) LTD",
-  tagline: "Modern everyday carry",
+  brand: "Computex Systems",
+  tagline: "Built for the way you carry.",
   country: "Eswatini",
 };
 
+// South Africa — same African brand, ZAR billing
+export const COMPANY_ZA: CompanyInfo = {
+  name: "Computex Systems Investments (PTY) LTD",
+  brand: "Computex Systems",
+  tagline: "Built for the way you carry.",
+  country: "South Africa",
+};
+
+// Taiwan parent + all other international markets — ANPENG entity, Computex brand
 export const COMPANY_INTL: CompanyInfo = {
-  name: "Anpeng International Trading (PTY) LTD",
-  tagline: "Modern everyday carry",
+  name: "安彭國際貿易有限公司 ANPENG International Trading Co., Ltd.",
+  brand: "Computex Systems",
+  tagline: "Built for the way you carry.",
   country: "Taiwan",
 };
 
-// SZL is the local entity; everything else routes through the Taiwan parent.
 export function companyForCurrency(code: CurrencyCode): CompanyInfo {
-  return code === "SZL" ? COMPANY_LOCAL : COMPANY_INTL;
+  if (code === "SZL") return COMPANY_ESWATINI;
+  if (code === "ZAR") return COMPANY_ZA;
+  return COMPANY_INTL;
 }
 
 export type CurrencyMeta = {

@@ -94,7 +94,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
       color: "#25D366",
       icon: <WhatsAppIcon size={18} />,
       buildUrl: (url) =>
-        `https://wa.me/?text=${encodeURIComponent(`Check out my custom Computex backpack! ${url}`)}`,
+        `https://wa.me/?text=${encodeURIComponent(`Check out my custom ANPENG × Computex backpack! ${url}`)}`,
     },
     {
       key: "facebook",
@@ -110,7 +110,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
       color: isLight ? "#111" : "#fff",
       icon: <XIcon size={18} />,
       buildUrl: (url) =>
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent("Check out my custom Computex backpack design!")}&url=${encodeURIComponent(url)}`,
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent("Check out my custom ANPENG × Computex backpack design!")}&url=${encodeURIComponent(url)}`,
     },
   ];
 
@@ -123,7 +123,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
       if (nav.share) {
         try {
           await nav.share({
-            title: "My Custom Computex Backpack",
+            title: "My Custom ANPENG × Computex Backpack",
             text: "Check out my custom backpack design! @computexsystems.co",
             url: designShareUrl,
           });
@@ -249,7 +249,8 @@ export default function SiteFooter({ companyName, invert }: Props) {
         />
         <div style={{ color: textColor, textAlign: "center" }}>
           <div>{t("copyright", { company })}</div>
-          <div>{t("tagline")}</div>
+          <div style={{ marginTop: 2 }}>{t("africaCompany")}</div>
+          <div style={{ marginTop: 6 }}>{t("tagline")}</div>
         </div>
       </div>
     </footer>

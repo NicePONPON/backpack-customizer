@@ -18,8 +18,9 @@
   },
   "footer": {
     "copyright": "© 2026 {company}. All rights reserved.",
-    "tagline": "Designed and engineered for modern everyday carry.",
-    "defaultCompany": "安彭國際貿易有限公司 ANPENG International Trading Co., Ltd."
+    "tagline": "Designed in Taiwan. Carried worldwide.",
+    "defaultCompany": "安彭國際貿易有限公司 ANPENG International Trading Co., Ltd.",
+    "africaCompany": "Africa: Computex Systems Investments (PTY) LTD, Eswatini"
   },
   "intro": {
     "skipHint": "Double-tap to skip"
