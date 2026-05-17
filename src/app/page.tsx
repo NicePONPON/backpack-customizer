@@ -273,8 +273,8 @@ export default function HomePage() {
       </div>
 
       {/* VALUE PILLARS — editorial alternating layout */}
-      <section style={{ width: "100%", maxWidth: 1080 }}>
-        <h2 style={{ ...sectionHeaderStyle, padding: "0 24px 32px" }}>{t("whyThisBag.heading")}</h2>
+      <section style={{ ...sectionStyle, padding: "0 24px" }}>
+        <h2 style={{ ...sectionHeaderStyle, marginBottom: 32 }}>{t("whyThisBag.heading")}</h2>
         <FeatureEditorialSection pillars={FEATURE_PILLARS} />
       </section>
 

@@ -55,7 +55,7 @@ function EditorialBlock({
         display: "flex",
         flexDirection: reverse ? "row-reverse" : "row",
         width: "100%",
-        minHeight: 420,
+        minHeight: 280,
         borderBottom: `1px solid ${dividerColor}`,
         opacity: revealed ? 1 : 0,
         transform: revealed ? "translateY(0)" : "translateY(32px)",
