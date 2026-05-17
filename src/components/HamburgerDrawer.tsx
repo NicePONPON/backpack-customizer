@@ -85,7 +85,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
             style={{
               height: 40,
               objectFit: "contain",
-              filter: isLight ? "brightness(0) brightness(0.2)" : undefined,
+              filter: isLight ? "brightness(0) brightness(0.35)" : undefined,
             }}
           />
           <button
@@ -154,7 +154,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
             style={{
               height: 32,
               objectFit: "contain",
-              filter: isLight ? "brightness(0) brightness(0.2)" : undefined,
+              filter: isLight ? "brightness(0) brightness(0.35)" : undefined,
               opacity: isLight ? 1 : 0.2,
               display: "flex",
             }}
