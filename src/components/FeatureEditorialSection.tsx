@@ -126,7 +126,7 @@ function EditorialBlock({
         </h3>
         <p
           style={{
-            fontSize: 13,
+            fontSize: 15,
             color: descColor,
             lineHeight: 1.75,
             margin: 0,
