@@ -47,9 +47,10 @@ export default function HomePage() {
     transition: "color 0.5s ease",
   };
 
-  const eyebrowColor = isDark ? "rgba(255,255,255,0.38)" : "rgba(51,51,51,0.45)";
-  const titleColor = isDark ? "#f0f0ee" : "#333";
-  const subColor = isDark ? "rgba(255,255,255,0.48)" : "rgba(51,51,51,0.48)";
+  // Hero text always light — it sits over the video + dark scrim
+  const eyebrowColor = "rgba(255,255,255,0.55)";
+  const titleColor = "#fff";
+  const subColor = "rgba(255,255,255,0.7)";
 
   const FEATURE_CARDS: FeatureCardData[] = [
     {
@@ -119,18 +120,33 @@ export default function HomePage() {
           marginTop: -48,
         }}
       >
-        {/* Bag animation fills the entire viewport — no gradient behind it */}
+        {/* Video fills the entire viewport as background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        >
+          <source src="/gif/Backpack-EasyCareEasyLife3.mp4" type="video/mp4" />
+        </video>
+
+        {/* Dark scrim so text stays readable over the video */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            background: isDark
+              ? "rgba(0,0,0,0.45)"
+              : "rgba(0,0,0,0.25)",
           }}
-        >
-          <HeroBagVisual />
-        </div>
+        />
 
         {/* Floating content — no card or frame */}
         <div
@@ -190,8 +206,8 @@ export default function HomePage() {
                 alignItems: "center",
                 gap: 8,
                 padding: "14px 28px",
-                background: isDark ? "#f0f0ee" : "#333",
-                color: isDark ? "#333" : "#fff",
+                background: "#fff",
+                color: "#333",
                 fontSize: 11,
                 fontWeight: 700,
                 letterSpacing: 1.5,
@@ -215,12 +231,12 @@ export default function HomePage() {
                 gap: 8,
                 padding: "14px 28px",
                 background: "transparent",
-                color: isDark ? "rgba(240,240,238,0.85)" : "#333",
+                color: "rgba(255,255,255,0.9)",
                 fontSize: 11,
                 fontWeight: 700,
                 letterSpacing: 1.5,
                 textTransform: "uppercase",
-                border: isDark ? "1.5px solid rgba(255,255,255,0.3)" : "1.5px solid rgba(51,51,51,0.3)",
+                border: "1.5px solid rgba(255,255,255,0.5)",
                 borderRadius: 6,
                 cursor: "pointer",
                 textDecoration: "none",
@@ -237,6 +253,18 @@ export default function HomePage() {
       {/* BRAND STORY — anchor for "Learn More" */}
       <div id="brand-story" style={{ width: "100%", padding: "0 24px" }}>
         <BrandStory />
+      </div>
+
+      {/* COLORWAY EXPLORER — the segregated colorful backpack visual */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 480,
+          aspectRatio: "1 / 1",
+          padding: "0 24px",
+        }}
+      >
+        <HeroBagVisual />
       </div>
 
       {/* VALUE PILLARS */}

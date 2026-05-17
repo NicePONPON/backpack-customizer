@@ -67,7 +67,7 @@ export default async function RootLayout({
   const locale = await getLocale();
   const messages = loadMessages(locale);
   const cookieStore = await cookies();
-  const initialTheme = cookieStore.get("SITE_THEME")?.value === "light" ? "light" : "dark";
+  const initialTheme = cookieStore.get("SITE_THEME")?.value === "dark" ? "dark" : "light";
 
   return (
     <html
