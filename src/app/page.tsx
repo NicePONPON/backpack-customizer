@@ -5,9 +5,7 @@ import { useTranslations } from "next-intl";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import HeroBagVisual from "@/components/HeroBagVisual";
-import FeatureExpandableCard, {
-  type FeatureCardData,
-} from "@/components/FeatureExpandableCard";
+import FeatureEditorialSection from "@/components/FeatureEditorialSection";
 import BrandStory from "@/components/BrandStory";
 import ArrowIcon from "@/components/ArrowIcon";
 import { useTheme } from "@/lib/ThemeContext";
@@ -52,10 +50,9 @@ export default function HomePage() {
   const titleColor = "#fff";
   const subColor = "rgba(255,255,255,0.7)";
 
-  const FEATURE_CARDS: FeatureCardData[] = [
+  const FEATURE_PILLARS = [
     {
-      title: t("whyThisBag.durability.title"),
-      summary: t("whyThisBag.durability.summary"),
+      pillar: t("whyThisBag.durability.title"),
       items: [
         {
           videoSrc: "/gif/Reinforce Stitching.mp4",
@@ -70,8 +67,7 @@ export default function HomePage() {
       ],
     },
     {
-      title: t("whyThisBag.design.title"),
-      summary: t("whyThisBag.design.summary"),
+      pillar: t("whyThisBag.design.title"),
       items: [
         {
           videoSrc: "/gif/Reinforced Laptop Compartment.mp4",
@@ -86,8 +82,7 @@ export default function HomePage() {
       ],
     },
     {
-      title: t("whyThisBag.quality.title"),
-      summary: t("whyThisBag.quality.summary"),
+      pillar: t("whyThisBag.quality.title"),
       items: [
         {
           videoSrc: "/gif/Shockproof Foam Armor.mp4",
@@ -277,21 +272,10 @@ export default function HomePage() {
         <BrandStory />
       </div>
 
-      {/* VALUE PILLARS */}
-      <section style={{ ...sectionStyle, padding: "0 24px" }}>
-        <h2 style={sectionHeaderStyle}>{t("whyThisBag.heading")}</h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 16,
-            alignItems: "start",
-          }}
-        >
-          {FEATURE_CARDS.map((card) => (
-            <FeatureExpandableCard key={card.title} data={card} />
-          ))}
-        </div>
+      {/* VALUE PILLARS — editorial alternating layout */}
+      <section style={{ width: "100%", maxWidth: 1080 }}>
+        <h2 style={{ ...sectionHeaderStyle, padding: "0 24px 32px" }}>{t("whyThisBag.heading")}</h2>
+        <FeatureEditorialSection pillars={FEATURE_PILLARS} />
       </section>
 
       <SiteFooter />
