@@ -5,6 +5,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useTheme } from "@/lib/ThemeContext";
+import CurrencySelector from "./CurrencySelector";
+
+function SunIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="4" />
+      <line x1="12" y1="2" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="22" />
+      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" /><line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+      <line x1="2" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="22" y2="12" />
+      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" /><line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
 
 type Props = {
   isOpen: boolean;
@@ -14,7 +35,7 @@ type Props = {
 export default function HamburgerDrawer({ isOpen, onClose }: Props) {
   const pathname = usePathname();
   const t = useTranslations("nav");
-  const { theme } = useTheme();
+  const { theme, toggle } = useTheme();
   const isLight = theme === "light";
 
   useEffect(() => {
@@ -34,9 +55,11 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
     { href: "/shop", label: t("shop") },
   ];
 
+  const divider = isLight ? "1px solid #f0f0f0" : "1px solid rgba(255,255,255,0.08)";
+
   return (
     <>
-      {/* Overlay — click to close */}
+      {/* Overlay */}
       <div
         role="presentation"
         onClick={onClose}
@@ -68,27 +91,17 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
           boxShadow: isOpen ? "4px 0 32px rgba(0,0,0,0.18)" : "none",
         }}
       >
-        {/* Drawer header: logo + close */}
+        {/* Header: currency + close */}
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             padding: "18px 20px",
-            borderBottom: isLight ? "1px solid #f0f0f0" : "1px solid rgba(255,255,255,0.08)",
+            borderBottom: divider,
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo/logo.png"
-            alt="Computex Systems"
-            style={{
-              height: 40,
-              objectFit: "contain",
-              filter: isLight ? "brightness(0)" : undefined,
-              opacity: isLight ? 0.65 : 1,
-            }}
-          />
+          <CurrencySelector invert={isLight} />
           <button
             onClick={onClose}
             aria-label="Close menu"
@@ -126,7 +139,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
                   color: active
                     ? (isLight ? "#333" : "#fff")
                     : (isLight ? "rgba(51,51,51,0.5)" : "rgba(255,255,255,0.5)"),
-                  borderBottom: isLight ? "1px solid #f0f0f0" : "1px solid rgba(255,255,255,0.06)",
+                  borderBottom: divider,
                   textDecoration: "none",
                   letterSpacing: 0.2,
                   transition: "color 160ms ease",
@@ -139,27 +152,33 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
           })}
         </nav>
 
-        {/* Footer: company logo */}
+        {/* Footer: theme toggle only */}
         <div
           style={{
-            padding: 20,
-            borderTop: isLight ? "1px solid #f0f0f0" : "1px solid rgba(255,255,255,0.08)",
+            padding: "16px 20px",
+            borderTop: divider,
             display: "flex",
             alignItems: "center",
+            justifyContent: "flex-end",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo/logo.png"
-            alt="Computex Systems"
+          <button
+            onClick={toggle}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             style={{
-              height: 32,
-              objectFit: "contain",
-              filter: isLight ? "brightness(0)" : undefined,
-              opacity: isLight ? 0.65 : 0.2,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 8,
+              borderRadius: 8,
+              color: isLight ? "rgba(51,51,51,0.6)" : "rgba(255,255,255,0.5)",
               display: "flex",
+              alignItems: "center",
+              transition: "color 0.2s ease",
             }}
-          />
+          >
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          </button>
         </div>
       </div>
     </>
