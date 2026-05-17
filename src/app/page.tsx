@@ -129,7 +129,7 @@ export default function HomePage() {
             objectFit: "cover",
           }}
         >
-          <source src="/gif/plan.mp4" type="video/mp4" />
+          <source src="/gif/Plan.mp4" type="video/mp4" />
         </video>
 
         {/* Dark scrim so text stays readable over the video */}
