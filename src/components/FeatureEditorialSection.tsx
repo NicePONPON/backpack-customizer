@@ -65,7 +65,7 @@ function EditorialBlock({
       {/* Video side */}
       <div
         style={{
-          flex: "0 0 55%",
+          flex: "0 0 50%",
           overflow: "hidden",
           background: isDark ? "#1a1a1e" : "#f0ede8",
           position: "relative",
