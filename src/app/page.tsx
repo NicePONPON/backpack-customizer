@@ -47,10 +47,6 @@ export default function HomePage() {
     transition: "color 0.5s ease",
   };
 
-  const heroWarmBg = isDark
-    ? "linear-gradient(145deg, #2a2520 0%, #1e1c18 50%, #232118 100%)"
-    : "linear-gradient(145deg, #e8e4db 0%, #ede9e0 35%, #edeae3 65%, #e9e5dc 100%)";
-
   const eyebrowColor = isDark ? "rgba(255,255,255,0.38)" : "rgba(51,51,51,0.45)";
   const titleColor = isDark ? "#f0f0ee" : "#333";
   const subColor = isDark ? "rgba(255,255,255,0.48)" : "rgba(51,51,51,0.48)";
@@ -110,27 +106,24 @@ export default function HomePage() {
     <main style={pageBg}>
       <SiteHeader />
 
-      {/* HERO — full-bleed animation, content centered over it */}
+      {/* HERO — animation IS the background, fills full first-page viewport */}
       <section
         style={{
           position: "relative",
           width: "100%",
-          height: 600,
+          height: "100svh",
           overflow: "hidden",
-          backgroundImage: heroWarmBg,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           marginTop: -48,
         }}
       >
-        {/* Bag animation — oversized so it bleeds past all 4 edges */}
+        {/* Bag animation fills the entire viewport — no gradient behind it */}
         <div
           style={{
             position: "absolute",
-            inset: "-10%",
-            width: "120%",
-            height: "120%",
+            inset: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
