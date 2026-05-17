@@ -18,16 +18,29 @@ type Props = {
   pillars: FeaturePillar[];
 };
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
 function EditorialBlock({
   item,
   pillar,
   reverse,
   isDark,
+  isMobile,
 }: {
   item: FeatureItem;
   pillar: string;
   reverse: boolean;
   isDark: boolean;
+  isMobile: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
@@ -37,7 +50,7 @@ function EditorialBlock({
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setRevealed(true); },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -47,26 +60,30 @@ function EditorialBlock({
   const eyebrowColor = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)";
   const descColor = isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)";
   const dividerColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
+  const videoBg = isDark ? "#1a1a1e" : "#f0ede8";
 
   return (
     <div
       ref={ref}
       style={{
         display: "flex",
-        flexDirection: reverse ? "row-reverse" : "row",
+        flexDirection: isMobile ? "column" : (reverse ? "row-reverse" : "row"),
         width: "100%",
         alignItems: "stretch",
         borderBottom: `1px solid ${dividerColor}`,
         opacity: revealed ? 1 : 0,
-        transform: revealed ? "translateY(0)" : "translateY(32px)",
+        transform: revealed ? "translateY(0)" : "translateY(28px)",
         transition: "opacity 0.9s ease, transform 0.9s cubic-bezier(0.2,0,0,1)",
       }}
     >
       {/* Video side */}
       <div
         style={{
-          flex: "0 0 50%",
-          background: isDark ? "#1a1a1e" : "#f0ede8",
+          flex: isMobile ? "none" : "0 0 50%",
+          background: videoBg,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <video
@@ -91,8 +108,8 @@ function EditorialBlock({
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "48px 40px",
-          gap: 16,
+          padding: isMobile ? "24px 20px" : "40px 36px",
+          gap: isMobile ? 10 : 16,
         }}
       >
         <p
@@ -110,7 +127,7 @@ function EditorialBlock({
         </p>
         <h3
           style={{
-            fontSize: 26,
+            fontSize: isMobile ? 20 : 26,
             fontWeight: 800,
             letterSpacing: -0.8,
             color: textColor,
@@ -123,11 +140,10 @@ function EditorialBlock({
         </h3>
         <p
           style={{
-            fontSize: 15,
+            fontSize: isMobile ? 13 : 15,
             color: descColor,
-            lineHeight: 1.75,
+            lineHeight: 1.7,
             margin: 0,
-            maxWidth: 320,
             transition: "color 0.5s ease",
           }}
         >
@@ -141,6 +157,7 @@ function EditorialBlock({
 export default function FeatureEditorialSection({ pillars }: Props) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const isMobile = useIsMobile();
 
   const blocks: { item: FeatureItem; pillar: string; index: number }[] = [];
   pillars.forEach((p) => {
@@ -158,6 +175,7 @@ export default function FeatureEditorialSection({ pillars }: Props) {
           pillar={pillar}
           reverse={index % 2 !== 0}
           isDark={isDark}
+          isMobile={isMobile}
         />
       ))}
     </div>
