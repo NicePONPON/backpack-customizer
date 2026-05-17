@@ -152,34 +152,26 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
           })}
         </nav>
 
-        {/* Footer: theme toggle only */}
-        <div
+        {/* Footer: theme toggle — full row clickable */}
+        <button
+          onClick={toggle}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           style={{
-            padding: "16px 20px",
+            width: "100%",
+            padding: "18px 20px",
             borderTop: divider,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "center",
+            color: isLight ? "rgba(51,51,51,0.6)" : "rgba(255,255,255,0.5)",
+            transition: "color 0.2s ease",
           }}
         >
-          <button
-            onClick={toggle}
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 8,
-              borderRadius: 8,
-              color: isLight ? "rgba(51,51,51,0.6)" : "rgba(255,255,255,0.5)",
-              display: "flex",
-              alignItems: "center",
-              transition: "color 0.2s ease",
-            }}
-          >
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-          </button>
-        </div>
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+        </button>
       </div>
     </>
   );
