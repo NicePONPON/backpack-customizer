@@ -183,6 +183,21 @@ export default function CustomizePage() {
     return () => clearTimeout(t);
   }, [flashGroup, flashNonce]);
 
+  // Persist design to localStorage so other pages (footer) can share it.
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "computex_saved_design",
+        encodeDesign({
+          size, colors, embroideryLines, embroideryLineCount,
+          embroideryColor, embroideryPosition, embroideryFont,
+          embroideryLineSizes, zipperUpgrade, zipperColor,
+        }),
+      );
+    } catch { /* storage quota exceeded — silent */ }
+  }, [size, colors, embroideryLines, embroideryLineCount, embroideryColor,
+      embroideryPosition, embroideryFont, embroideryLineSizes, zipperUpgrade, zipperColor]);
+
   const handleShareToInstagram = async () => {
     if (!bagPreviewRef.current) return;
     setSharingToInstagram(true);
