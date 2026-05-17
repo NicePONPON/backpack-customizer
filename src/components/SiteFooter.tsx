@@ -244,7 +244,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
           style={{
             height: 36,
             opacity: isLight ? 0.55 : 0.45,
-            filter: isLight ? "none" : "invert(1)",
+            filter: isLight ? "invert(1)" : "none",
           }}
         />
         <div style={{ color: textColor, textAlign: "center" }}>
