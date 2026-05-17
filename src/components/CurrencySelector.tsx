@@ -65,7 +65,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
   const textColor = invert ? "#111" : "rgba(255,255,255,0.9)";
 
   return (
-    <div ref={ref} style={{ position: "relative", width: "100%" }}>
+    <div ref={ref} style={{ position: "relative", width: "fit-content" }}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -73,7 +73,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
         aria-expanded={open}
         style={{
           display: "flex",
-          width: "100%",
+          width: "auto",
           alignItems: "center",
           justifyContent: "center",
           gap: 5,
