@@ -138,6 +138,9 @@ function AppleAdScroll({ ads }: { ads: AdImage[] }) {
         marginInline: "calc(50% - 50vw)",
         width: "100vw",
         position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       {ads.map((ad, i) => (
@@ -207,6 +210,8 @@ function AppleAdSection({
     <div
       ref={ref}
       style={{
+        width: "100%",
+        maxWidth: 1080,
         paddingTop,
         paddingBottom,
         maskImage: maskGradient,
