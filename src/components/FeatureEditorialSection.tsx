@@ -165,6 +165,7 @@ export default function FeatureEditorialSection({ pillars }: Props) {
       blocks.push({ item, pillar: p.pillar, index: blocks.length });
     });
   });
+  blocks.reverse();
 
   return (
     <div style={{ width: "100%", overflow: "hidden" }}>
