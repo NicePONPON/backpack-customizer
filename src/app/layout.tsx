@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ShareDock from "@/components/ShareDock";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "@/i18n/getLocale";
@@ -83,7 +82,6 @@ export default async function RootLayout({
         >
           <ThemeProvider initialTheme={initialTheme}>
             {children}
-            <ShareDock />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import FrontSVG from "@/components/FrontSVG";
@@ -126,6 +126,9 @@ export default function CustomizePage() {
   const [zipperCalibration, setZipperCalibration] =
     useState<ZipperCalibration>(ZIPPER_CALIBRATION);
 
+  const [sharingToInstagram, setSharingToInstagram] = useState(false);
+  const bagPreviewRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const target = params.get("calibrate");
@@ -179,6 +182,45 @@ export default function CustomizePage() {
     const t = setTimeout(() => setFlashGroup(null), FLASH_DURATION_MS);
     return () => clearTimeout(t);
   }, [flashGroup, flashNonce]);
+
+  const handleShareToInstagram = async () => {
+    if (!bagPreviewRef.current) return;
+    setSharingToInstagram(true);
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(bagPreviewRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+      });
+      canvas.toBlob(async (blob) => {
+        if (!blob) { setSharingToInstagram(false); return; }
+        const file = new File([blob], "my-computex-design.png", { type: "image/png" });
+        const nav = navigator as Navigator & {
+          share?: (data: { files?: File[]; title?: string; text?: string }) => Promise<void>;
+          canShare?: (data: { files?: File[] }) => boolean;
+        };
+        if (nav.share && nav.canShare && nav.canShare({ files: [file] })) {
+          await nav.share({
+            files: [file],
+            title: "My Computex Custom Backpack",
+            text: "Check out my custom backpack design! @computexsystems.co",
+          });
+        } else {
+          // Desktop fallback: download the image
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "my-computex-design.png";
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+        setSharingToInstagram(false);
+      }, "image/png");
+    } catch {
+      setSharingToInstagram(false);
+    }
+  };
 
   const invoiceHref = `/invoice?d=${encodeURIComponent(
     encodeDesign({
@@ -291,6 +333,7 @@ export default function CustomizePage() {
         }}
       >
         <div
+          ref={bagPreviewRef}
           style={{
             position: "relative",
             width: "100%",
@@ -600,6 +643,37 @@ export default function CustomizePage() {
           }}
         >
           Save my style
+        </button>
+
+        {/* Share to Instagram */}
+        <button
+          onClick={handleShareToInstagram}
+          disabled={sharingToInstagram}
+          style={{
+            padding: "15px 40px",
+            borderRadius: 999,
+            background: sharingToInstagram
+              ? "rgba(228,64,95,0.5)"
+              : "linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
+            color: "#fff",
+            fontWeight: 700,
+            fontSize: 16,
+            letterSpacing: 0.5,
+            border: "none",
+            cursor: sharingToInstagram ? "default" : "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            transition: "opacity 0.3s ease",
+            opacity: sharingToInstagram ? 0.7 : 1,
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+          </svg>
+          {sharingToInstagram ? "Generating…" : "Share to Instagram"}
         </button>
       </div>
 
