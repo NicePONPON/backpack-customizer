@@ -250,21 +250,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* BRAND STORY — anchor for "Learn More" */}
-      <div id="brand-story" style={{ width: "100%", padding: "0 24px" }}>
-        <BrandStory />
-      </div>
-
-      {/* COLORWAY EXPLORER — the segregated colorful backpack visual */}
+      {/* COLORWAY EXPLORER — segregated colorful backpack, just below the video */}
       <div
         style={{
           width: "100%",
           maxWidth: 480,
           aspectRatio: "1 / 1",
           padding: "0 24px",
+          alignSelf: "center",
         }}
       >
         <HeroBagVisual />
+      </div>
+
+      {/* BRAND STORY — centered narrative, anchor for "Learn More" */}
+      <div
+        id="brand-story"
+        style={{
+          width: "100%",
+          maxWidth: 720,
+          padding: "0 24px",
+          textAlign: "center",
+          alignSelf: "center",
+        }}
+      >
+        <BrandStory />
       </div>
 
       {/* VALUE PILLARS */}
