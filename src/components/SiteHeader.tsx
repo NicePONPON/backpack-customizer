@@ -114,7 +114,7 @@ export default function SiteHeader({ invert: invertProp }: Props) {
               style={{
                 height: 56,
                 objectFit: "contain",
-                filter: isLight ? "brightness(0)" : undefined,
+                filter: isLight ? "brightness(0) brightness(0.267)" : undefined,
               }}
             />
           </Link>
