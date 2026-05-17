@@ -10,7 +10,7 @@ const ONE_YEAR = 60 * 60 * 24 * 365;
 function readThemeCookie(): Theme {
   if (typeof document === "undefined") return "light";
   const match = document.cookie.match(/(?:^|;\s*)SITE_THEME=([^;]+)/);
-  return match?.[1] === "dark" ? "dark" : "light";
+  return match?.[1] === "light" ? "light" : "dark";
 }
 
 function saveThemeCookie(theme: Theme) {

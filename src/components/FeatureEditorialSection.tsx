@@ -55,7 +55,7 @@ function EditorialBlock({
         display: "flex",
         flexDirection: reverse ? "row-reverse" : "row",
         width: "100%",
-        minHeight: 280,
+        alignItems: "stretch",
         borderBottom: `1px solid ${dividerColor}`,
         opacity: revealed ? 1 : 0,
         transform: revealed ? "translateY(0)" : "translateY(32px)",
@@ -66,9 +66,7 @@ function EditorialBlock({
       <div
         style={{
           flex: "0 0 50%",
-          overflow: "hidden",
           background: isDark ? "#1a1a1e" : "#f0ede8",
-          position: "relative",
         }}
       >
         <video
@@ -78,8 +76,7 @@ function EditorialBlock({
           playsInline
           style={{
             width: "100%",
-            height: "100%",
-            objectFit: "cover",
+            height: "auto",
             display: "block",
           }}
         >
