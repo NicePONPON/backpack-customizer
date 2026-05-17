@@ -236,10 +236,21 @@ export default function SiteFooter({ companyName, invert }: Props) {
       {/* Divider */}
       <div style={{ width: 40, height: 1, background: dividerColor }} />
 
-      {/* Copyright */}
-      <div style={{ color: textColor }}>
-        <div>{t("copyright", { company })}</div>
-        <div>{t("tagline")}</div>
+      {/* Logo + Copyright */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+        <img
+          src="/logo/%E5%AE%89%E5%BD%ADLogo%EF%BC%88%E6%B7%BA%EF%BC%89.png"
+          alt="安彭"
+          style={{
+            height: 36,
+            opacity: isLight ? 0.55 : 0.45,
+            filter: isLight ? "none" : "invert(1)",
+          }}
+        />
+        <div style={{ color: textColor, textAlign: "center" }}>
+          <div>{t("copyright", { company })}</div>
+          <div>{t("tagline")}</div>
+        </div>
       </div>
     </footer>
   );
