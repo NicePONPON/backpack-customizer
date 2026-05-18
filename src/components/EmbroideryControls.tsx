@@ -356,10 +356,10 @@ export default function EmbroideryControls({
         {/* Thread color */}
         <div style={cardStyle}>
           <div style={labelStyle}>{t("threadColor")}</div>
-          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
 
             {/* 10 preset swatches — 5×2 grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 32px)", gap: 8, flexShrink: 0 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10, flex: 1 }}>
               {THREAD_COLOR_PRESETS.map((preset) => {
                 const active = color.toUpperCase() === preset.value.toUpperCase();
                 return (
@@ -368,26 +368,48 @@ export default function EmbroideryControls({
                     title={preset.name}
                     onClick={() => onColorChange(preset.value)}
                     style={{
-                      width: 32, height: 32, borderRadius: 8,
+                      aspectRatio: "1",
+                      width: "100%",
+                      borderRadius: 10,
                       background: preset.value,
                       border: active
                         ? (isDark ? "2.5px solid #fff" : "2.5px solid #222")
-                        : (isDark ? "1.5px solid rgba(255,255,255,0.2)" : "1.5px solid rgba(0,0,0,0.12)"),
-                      boxShadow: active ? "0 0 0 2px rgba(0,0,0,0.18)" : "none",
+                        : (isDark ? "1.5px solid rgba(255,255,255,0.15)" : "1.5px solid rgba(0,0,0,0.1)"),
+                      outline: active ? (isDark ? "3px solid rgba(255,255,255,0.25)" : "3px solid rgba(0,0,0,0.15)") : "none",
+                      outlineOffset: 1,
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.14)",
                       cursor: "pointer",
                       padding: 0,
-                      transition: "border 0.15s, box-shadow 0.15s",
+                      transition: "border 0.15s, outline 0.15s, transform 0.15s",
+                      transform: active ? "scale(1.12)" : "scale(1)",
                     }}
                   />
                 );
               })}
             </div>
 
-            {/* Custom color picker + hex input */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, flex: 1 }}>
+            {/* Divider */}
+            <div style={{
+              width: 1,
+              alignSelf: "stretch",
+              background: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)",
+              flexShrink: 0,
+            }} />
+
+            {/* Custom color picker + slogan + hex */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, minWidth: 96 }}>
+              <span style={{
+                fontSize: 10, fontWeight: 600, letterSpacing: 0.8,
+                textTransform: "uppercase",
+                color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)",
+                textAlign: "center",
+                lineHeight: 1.4,
+              }}>
+                Your exact shade?
+              </span>
               <label style={{ position: "relative", cursor: "pointer" }}>
                 <div style={{
-                  width: 48, height: 48, borderRadius: 10, background: color,
+                  width: 44, height: 44, borderRadius: 10, background: color,
                   border: isDark ? "2px solid rgba(255,255,255,0.25)" : "2px solid rgba(0,0,0,0.15)",
                   boxShadow: "0 2px 10px rgba(0,0,0,0.16)",
                   transition: "background 0.15s ease",
@@ -399,14 +421,14 @@ export default function EmbroideryControls({
                   style={{ position: "absolute", inset: 0, opacity: 0, width: "100%", height: "100%", cursor: "pointer", border: "none", padding: 0 }}
                 />
               </label>
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)" }}>#</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)" }}>#</span>
                 <input
                   type="text"
                   maxLength={7}
                   value={color.replace(/^#/, "").toUpperCase()}
                   onChange={(e) => handleHexInput(e.target.value)}
-                  style={{ ...inputStyle, flex: "none", width: 80, textAlign: "center", fontFamily: "monospace", fontSize: 12, fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase", padding: "6px 8px" }}
+                  style={{ ...inputStyle, flex: "none", width: 72, textAlign: "center", fontFamily: "monospace", fontSize: 11, fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase", padding: "5px 6px" }}
                 />
               </div>
             </div>
