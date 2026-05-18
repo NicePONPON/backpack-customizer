@@ -89,6 +89,7 @@ type Props = {
   position: EmbroideryPosition;
   font: EmbroideryFont;
   lineSizes: [EmbroideryLineSize, EmbroideryLineSize];
+  maxChars?: [number, number];
   onLinesChange: (next: [string, string]) => void;
   onLineCountChange: (next: 1 | 2) => void;
   onColorChange: (next: EmbroideryColor) => void;
@@ -104,6 +105,7 @@ export default function EmbroideryControls({
   position,
   font,
   lineSizes,
+  maxChars,
   onLinesChange,
   onLineCountChange,
   onColorChange,
@@ -179,45 +181,56 @@ export default function EmbroideryControls({
     if (/^#[0-9A-Fa-f]{6}$/.test(val)) onColorChange(val);
   };
 
-  const renderLineRow = (index: 0 | 1) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <input
-        style={inputStyle}
-        value={lines[index]}
-        onChange={(e) => setLine(index, e.target.value)}
-        placeholder={t("linePlaceholder", { n: index + 1 })}
-      />
-      <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-        {SIZE_KEYS_ARR.map((s) => {
-          const active = lineSizes[index] === s;
-          return (
-            <button
-              key={s}
-              onClick={() => setLineSize(index, s)}
-              title={t(SIZE_TKEY[s])}
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: active ? (isDark ? "#fff" : "#222222") : "transparent",
-                color: active ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
-                fontWeight: 700,
-                border: isDark ? "1px solid rgba(255,255,255,0.4)" : "1px solid rgba(0,0,0,0.25)",
-                cursor: "pointer",
-                fontSize: SIZE_FONT[s],
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "background 0.2s, color 0.2s",
-              }}
-            >
-              {t(SIZE_TKEY[s])}
-            </button>
-          );
-        })}
+  const renderLineRow = (index: 0 | 1) => {
+    const limit = maxChars?.[index];
+    return (
+      <div key={index} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input
+            style={inputStyle}
+            value={lines[index]}
+            maxLength={limit}
+            onChange={(e) => setLine(index, e.target.value)}
+            placeholder={t("linePlaceholder", { n: index + 1 })}
+          />
+          <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+            {SIZE_KEYS_ARR.map((s) => {
+              const active = lineSizes[index] === s;
+              return (
+                <button
+                  key={s}
+                  onClick={() => setLineSize(index, s)}
+                  title={t(SIZE_TKEY[s])}
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: active ? (isDark ? "#fff" : "#222222") : "transparent",
+                    color: active ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
+                    fontWeight: 700,
+                    border: isDark ? "1px solid rgba(255,255,255,0.4)" : "1px solid rgba(0,0,0,0.25)",
+                    cursor: "pointer",
+                    fontSize: SIZE_FONT[s],
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "background 0.2s, color 0.2s",
+                  }}
+                >
+                  {t(SIZE_TKEY[s])}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        {limit !== undefined && (
+          <div style={{ textAlign: "right", fontSize: 11, color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
+            {lines[index].length} / {limit}
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   const latinFonts = FONTS.filter((f) => f.lang === "latin");
   const chineseFonts = FONTS.filter((f) => f.lang === "chinese");

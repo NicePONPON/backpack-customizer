@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ZipperCalibration } from "@/lib/overlayCalibration";
-import { fontFamilyFor } from "@/components/EmbroideryControls";
+import { fontFamilyFor, FONTS } from "@/components/EmbroideryControls";
 
 const GROUP_PREFIXES: Array<[string, string]> = [
   ["Front_Side", "FRONT_BACK_SIDE"],
@@ -59,6 +59,7 @@ type Props = {
   zipperCalibration: ZipperCalibration;
   flashGroup?: string | null;
   flashNonce?: number;
+  onMaxCharsChange?: (maxChars: [number, number]) => void;
 };
 
 const SIZE_PX: Record<LineSize, number> = {
@@ -86,6 +87,7 @@ export default function FrontSVG({
   zipperCalibration,
   flashGroup,
   flashNonce,
+  onMaxCharsChange,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const pathsRef = useRef<NodeListOf<SVGPathElement> | null>(null);
@@ -184,6 +186,18 @@ export default function FrontSVG({
     });
   }, [flashGroup, flashNonce]);
 
+  // Report per-line character limits to parent whenever relevant props change.
+  useEffect(() => {
+    if (!onMaxCharsChange) return;
+    const activeBox = embroideryPosition === "top" ? topBox : bottomBox;
+    if (!activeBox) return;
+    const maxW = activeBox.width / 2;
+    const isChinese = FONTS.find((f) => f.key === embroideryFont)?.lang === "chinese";
+    const charRatio = isChinese ? 0.95 : 0.6;
+    const calc = (size: LineSize) => Math.max(1, Math.floor(maxW / (SIZE_PX[size] * charRatio)));
+    onMaxCharsChange([calc(embroideryLineSizes[0]), calc(embroideryLineSizes[1])]);
+  }, [topBox, bottomBox, embroideryPosition, embroideryFont, embroideryLineSizes, onMaxCharsChange]);
+
   const box = embroideryPosition === "top" ? topBox : bottomBox;
   const visibleLines =
     embroideryLineCount === 1
@@ -194,7 +208,6 @@ export default function FrontSVG({
   let rendered: React.ReactNode = null;
   if (box && hasText) {
     const centerX = box.x + box.width / 2;
-    const maxTextWidth = box.width / 2;
     const anchorY =
       embroideryPosition === "top"
         ? box.y + box.height / 2
@@ -213,9 +226,6 @@ export default function FrontSVG({
 
       if (!line.trim()) return null;
 
-      const estimatedWidth = line.length * fs * 0.55;
-      const needsFit = estimatedWidth > maxTextWidth;
-
       return (
         <text
           key={i}
@@ -227,8 +237,6 @@ export default function FrontSVG({
           fontSize={fs}
           fontWeight={700}
           fontFamily={fontFamilyFor(embroideryFont)}
-          textLength={needsFit ? maxTextWidth : undefined}
-          lengthAdjust={needsFit ? "spacingAndGlyphs" : undefined}
         >
           {line}
         </text>

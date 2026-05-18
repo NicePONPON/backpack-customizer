@@ -103,6 +103,8 @@ export default function CustomizePage() {
     [EmbroideryLineSize, EmbroideryLineSize]
   >(["medium", "medium"]);
 
+  const [embroideryMaxChars, setEmbroideryMaxChars] = useState<[number, number]>([100, 100]);
+
   const [zipperUpgrade, setZipperUpgrade] = useState<boolean>(false);
   const [zipperColor, setZipperColor] = useState<string>(
     ZIPPER_COLORS[0].value
@@ -374,6 +376,7 @@ export default function CustomizePage() {
               zipperCalibration={zipperCalibration}
               flashGroup={flashGroup}
               flashNonce={flashNonce}
+              onMaxCharsChange={setEmbroideryMaxChars}
             />
             <PngOverlayLayer
               viewBoxW={FRONT_VIEWBOX.w}
@@ -556,6 +559,7 @@ export default function CustomizePage() {
         position={embroideryPosition}
         font={embroideryFont}
         lineSizes={embroideryLineSizes}
+        maxChars={embroideryMaxChars}
         onLinesChange={setEmbroideryLines}
         onLineCountChange={setEmbroideryLineCount}
         onColorChange={setEmbroideryColor}
