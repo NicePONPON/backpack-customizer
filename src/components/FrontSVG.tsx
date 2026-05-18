@@ -43,7 +43,7 @@ const resolveGroup = (el: Element): string | null => {
 
 type Box = { x: number; y: number; width: number; height: number };
 
-type LineSize = "small" | "medium" | "large";
+type LineSize = "small" | "medium" | "large" | "xl";
 
 type Props = {
   colors: Record<string, string>;
@@ -63,9 +63,10 @@ type Props = {
 };
 
 const SIZE_PX: Record<LineSize, number> = {
-  small: 32,
-  medium: 48,
-  large: 72,
+  small: 16,
+  medium: 24,
+  large: 36,
+  xl: 72,
 };
 
 

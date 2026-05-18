@@ -13,6 +13,7 @@ export const EMBROIDERY_PRICES_SZL: Record<EmbroideryLineSize, number> = {
   small: 20,
   medium: 30,
   large: 40,
+  xl: 50,
 };
 
 export const MOQ = 200;

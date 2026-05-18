@@ -7,18 +7,20 @@ import { useTheme } from "@/lib/ThemeContext";
 export type EmbroideryPosition = "top" | "bottom";
 export type EmbroideryColor = string;
 export type EmbroideryFont = string;
-export type EmbroideryLineSize = "small" | "medium" | "large";
+export type EmbroideryLineSize = "small" | "medium" | "large" | "xl";
 
-const SIZE_KEYS: EmbroideryLineSize[] = ["small", "medium", "large"];
+const SIZE_KEYS: EmbroideryLineSize[] = ["small", "medium", "large", "xl"];
 const SIZE_TKEY: Record<EmbroideryLineSize, string> = {
   small: "sizeSmall",
   medium: "sizeMedium",
   large: "sizeLarge",
+  xl: "sizeXL",
 };
 const SIZE_FONT: Record<EmbroideryLineSize, number> = {
   small: 10,
   medium: 13,
   large: 17,
+  xl: 21,
 };
 
 type FontDef = {
@@ -80,7 +82,7 @@ function useFonts() {
   }, []);
 }
 
-const SIZE_KEYS_ARR: EmbroideryLineSize[] = ["small", "medium", "large"];
+const SIZE_KEYS_ARR: EmbroideryLineSize[] = ["small", "medium", "large", "xl"];
 
 type Props = {
   lines: [string, string];
