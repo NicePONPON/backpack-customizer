@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const ICON_COLOR = "#444444";
+const ICON_COLOR = "#666666";
 
 function CaretIcon({ direction }: { direction: "up" | "down" }) {
   // Pure ^ or ∨ — no tail, just two diagonal strokes meeting at a point.
@@ -19,9 +19,8 @@ function CaretIcon({ direction }: { direction: "up" | "down" }) {
 const btnStyle = (visible: boolean): React.CSSProperties => ({
   width: 36,
   height: 36,
-  borderRadius: 999,
   background: "transparent",
-  border: `1.5px solid ${ICON_COLOR}`,
+  border: "none",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
