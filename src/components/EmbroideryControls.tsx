@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "@/lib/ThemeContext";
 
 export type EmbroideryPosition = "top" | "bottom";
 export type EmbroideryColor = string;
-export type EmbroideryFont = "serif" | "sans-serif";
+export type EmbroideryFont = string;
 export type EmbroideryLineSize = "small" | "medium" | "large";
 
 const SIZE_KEYS: EmbroideryLineSize[] = ["small", "medium", "large"];
@@ -19,6 +20,67 @@ const SIZE_FONT: Record<EmbroideryLineSize, number> = {
   medium: 13,
   large: 17,
 };
+
+type FontDef = {
+  key: string;
+  label: string;
+  family: string;
+  lang: "latin" | "chinese";
+};
+
+export const FONTS: FontDef[] = [
+  { key: "Arial",      label: "Arial",       family: "Arial, Helvetica, sans-serif",                    lang: "latin" },
+  { key: "Helvetica",  label: "Helvetica",   family: '"Helvetica Neue", Helvetica, Arial, sans-serif',  lang: "latin" },
+  { key: "Montserrat", label: "Montserrat",  family: '"Montserrat", sans-serif',                        lang: "latin" },
+  { key: "Noto Sans",  label: "Noto Sans",   family: '"Noto Sans", sans-serif',                         lang: "latin" },
+  { key: "Georgia",    label: "Georgia",     family: "Georgia, serif",                                   lang: "latin" },
+  { key: "Taipei Sans TC Beta", label: "台北黑體 Beta",  family: '"Taipei Sans TC Beta", sans-serif',   lang: "chinese" },
+  { key: "Swei Spring SC",      label: "獅尾四季春SC",   family: '"Swei Spring CJK SC", serif',         lang: "chinese" },
+];
+
+export function fontFamilyFor(key: string): string {
+  return FONTS.find((f) => f.key === key)?.family ?? key;
+}
+
+const GOOGLE_FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans:wght@400;700&display=swap";
+
+const CUSTOM_FONT_CSS = `
+@font-face {
+  font-family: 'Taipei Sans TC Beta';
+  src: url('https://cdn.jsdelivr.net/gh/minglai/TaipeiSansTCBeta@main/TaipeiSansTCBeta-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Swei Spring CJK SC';
+  src: url('https://cdn.jsdelivr.net/gh/max32002/swei-spring@master/font/SweiSpringCJKsc-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+`;
+
+function useFonts() {
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    // Google Fonts
+    if (!document.querySelector(`link[href="${GOOGLE_FONTS_URL}"]`)) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = GOOGLE_FONTS_URL;
+      document.head.appendChild(link);
+    }
+    // Custom @font-face
+    if (!document.querySelector("#embroidery-custom-fonts")) {
+      const style = document.createElement("style");
+      style.id = "embroidery-custom-fonts";
+      style.textContent = CUSTOM_FONT_CSS;
+      document.head.appendChild(style);
+    }
+  }, []);
+}
+
+const SIZE_KEYS_ARR: EmbroideryLineSize[] = ["small", "medium", "large"];
 
 type Props = {
   lines: [string, string];
@@ -52,6 +114,7 @@ export default function EmbroideryControls({
   const t = useTranslations("embroidery");
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  useFonts();
 
   const pillStyle = (active: boolean): React.CSSProperties => ({
     padding: "6px 18px",
@@ -125,7 +188,7 @@ export default function EmbroideryControls({
         placeholder={t("linePlaceholder", { n: index + 1 })}
       />
       <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-        {SIZE_KEYS.map((s) => {
+        {SIZE_KEYS_ARR.map((s) => {
           const active = lineSizes[index] === s;
           return (
             <button
@@ -156,6 +219,38 @@ export default function EmbroideryControls({
     </div>
   );
 
+  const latinFonts = FONTS.filter((f) => f.lang === "latin");
+  const chineseFonts = FONTS.filter((f) => f.lang === "chinese");
+
+  const fontBtn = (f: FontDef) => {
+    const active = font === f.key;
+    return (
+      <button
+        key={f.key}
+        onClick={() => onFontChange(f.key)}
+        style={{
+          padding: "10px 12px",
+          borderRadius: 10,
+          background: active ? (isDark ? "#fff" : "#222222") : "transparent",
+          color: active ? (isDark ? "#222222" : "#fff") : (isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.7)"),
+          border: active
+            ? (isDark ? "1.5px solid #fff" : "1.5px solid #222222")
+            : (isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.15)"),
+          cursor: "pointer",
+          fontFamily: f.family,
+          fontSize: 13,
+          fontWeight: 600,
+          letterSpacing: 0.3,
+          textAlign: "center",
+          transition: "background 0.2s, color 0.2s, border-color 0.2s",
+          width: "100%",
+        }}
+      >
+        {f.label}
+      </button>
+    );
+  };
+
   return (
     <div style={{ width: "100%", maxWidth: 720, color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
       <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: 22, fontWeight: 700, letterSpacing: 2, margin: "8px 0 20px", transition: "color 0.5s ease" }}>
@@ -180,19 +275,27 @@ export default function EmbroideryControls({
           </div>
         </div>
 
-        {/* Font style */}
+        {/* Font style — two columns */}
         <div style={cardStyle}>
           <div style={labelStyle}>{t("fontStyle")}</div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
-            {(["serif", "sans-serif"] as const).map((f) => (
-              <button
-                key={f}
-                onClick={() => onFontChange(f)}
-                style={{ ...pillStyle(font === f), fontFamily: f === "serif" ? "Georgia, Times, serif" : "Arial, Helvetica, sans-serif" }}
-              >
-                {f === "serif" ? t("fontSerif") : t("fontSans")}
-              </button>
-            ))}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+
+            {/* Latin */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", marginBottom: 4, textAlign: "center" }}>
+                Latin
+              </div>
+              {latinFonts.map(fontBtn)}
+            </div>
+
+            {/* Chinese */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", marginBottom: 4, textAlign: "center" }}>
+                中文
+              </div>
+              {chineseFonts.map(fontBtn)}
+            </div>
+
           </div>
         </div>
 
@@ -205,42 +308,24 @@ export default function EmbroideryControls({
           </div>
         </div>
 
-        {/* Thread color — color picker + hex input */}
+        {/* Thread color */}
         <div style={cardStyle}>
           <div style={labelStyle}>{t("threadColor")}</div>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-
-            {/* Native color picker swatch */}
             <label style={{ position: "relative", cursor: "pointer" }}>
-              <div
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 12,
-                  background: color,
-                  border: isDark ? "2px solid rgba(255,255,255,0.25)" : "2px solid rgba(0,0,0,0.15)",
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
-                  transition: "background 0.15s ease",
-                }}
-              />
+              <div style={{
+                width: 56, height: 56, borderRadius: 12, background: color,
+                border: isDark ? "2px solid rgba(255,255,255,0.25)" : "2px solid rgba(0,0,0,0.15)",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
+                transition: "background 0.15s ease",
+              }} />
               <input
                 type="color"
                 value={color}
                 onChange={(e) => onColorChange(e.target.value)}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  opacity: 0,
-                  width: "100%",
-                  height: "100%",
-                  cursor: "pointer",
-                  border: "none",
-                  padding: 0,
-                }}
+                style={{ position: "absolute", inset: 0, opacity: 0, width: "100%", height: "100%", cursor: "pointer", border: "none", padding: 0 }}
               />
             </label>
-
-            {/* Hex code input */}
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 13, fontWeight: 700, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)", letterSpacing: 0.5 }}>#</span>
               <input
@@ -248,20 +333,9 @@ export default function EmbroideryControls({
                 maxLength={7}
                 value={color.replace(/^#/, "").toUpperCase()}
                 onChange={(e) => handleHexInput(e.target.value)}
-                style={{
-                  ...inputStyle,
-                  flex: "none",
-                  width: 96,
-                  textAlign: "center",
-                  fontFamily: "monospace",
-                  fontSize: 13,
-                  fontWeight: 700,
-                  letterSpacing: 1.5,
-                  textTransform: "uppercase",
-                }}
+                style={{ ...inputStyle, flex: "none", width: 96, textAlign: "center", fontFamily: "monospace", fontSize: 13, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase" }}
               />
             </div>
-
           </div>
         </div>
 

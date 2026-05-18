@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ZipperCalibration } from "@/lib/overlayCalibration";
+import { fontFamilyFor } from "@/components/EmbroideryControls";
 
 const GROUP_PREFIXES: Array<[string, string]> = [
   ["Front_Side", "FRONT_BACK_SIDE"],
@@ -51,7 +52,7 @@ type Props = {
   embroideryLineCount: 1 | 2;
   embroideryColor: string;
   embroideryPosition: "top" | "bottom";
-  embroideryFont: "serif" | "sans-serif";
+  embroideryFont: string;
   embroideryLineSizes: [LineSize, LineSize];
   zipperUpgrade: boolean;
   zipperColor: string;
@@ -66,10 +67,6 @@ const SIZE_PX: Record<LineSize, number> = {
   large: 72,
 };
 
-const FONT_FAMILY: Record<"serif" | "sans-serif", string> = {
-  serif: "Georgia, 'Times New Roman', serif",
-  "sans-serif": "Arial, Helvetica, sans-serif",
-};
 
 const ZIPPER_PNG_SRC = "/texture/Zipper-Overlay.png";
 const ZIPPER_PULL_WIDTH = 208;
@@ -229,7 +226,7 @@ export default function FrontSVG({
           dominantBaseline="middle"
           fontSize={fs}
           fontWeight={700}
-          fontFamily={FONT_FAMILY[embroideryFont]}
+          fontFamily={fontFamilyFor(embroideryFont)}
           textLength={needsFit ? maxTextWidth : undefined}
           lengthAdjust={needsFit ? "spacingAndGlyphs" : undefined}
         >
