@@ -363,27 +363,28 @@ export default function EmbroideryControls({
               {THREAD_COLOR_PRESETS.map((preset) => {
                 const active = color.toUpperCase() === preset.value.toUpperCase();
                 return (
-                  <button
-                    key={preset.value}
-                    title={preset.name}
-                    onClick={() => onColorChange(preset.value)}
-                    style={{
-                      aspectRatio: "1",
-                      width: "100%",
-                      borderRadius: 10,
-                      background: preset.value,
-                      border: active
-                        ? (isDark ? "2.5px solid #fff" : "2.5px solid #222")
-                        : (isDark ? "1.5px solid rgba(255,255,255,0.15)" : "1.5px solid rgba(0,0,0,0.1)"),
-                      outline: active ? (isDark ? "3px solid rgba(255,255,255,0.25)" : "3px solid rgba(0,0,0,0.15)") : "none",
-                      outlineOffset: 1,
-                      boxShadow: "0 1px 4px rgba(0,0,0,0.14)",
-                      cursor: "pointer",
-                      padding: 0,
-                      transition: "border 0.15s, outline 0.15s, transform 0.15s",
-                      transform: active ? "scale(1.12)" : "scale(1)",
-                    }}
-                  />
+                  <div key={preset.value} style={{ aspectRatio: "1", width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <button
+                      title={preset.name}
+                      onClick={() => onColorChange(preset.value)}
+                      style={{
+                        width: "60%",
+                        aspectRatio: "1",
+                        borderRadius: 8,
+                        background: preset.value,
+                        border: active
+                          ? (isDark ? "2.5px solid #fff" : "2.5px solid #222")
+                          : (isDark ? "1.5px solid rgba(255,255,255,0.15)" : "1.5px solid rgba(0,0,0,0.1)"),
+                        outline: active ? (isDark ? "3px solid rgba(255,255,255,0.25)" : "3px solid rgba(0,0,0,0.15)") : "none",
+                        outlineOffset: 1,
+                        boxShadow: "0 1px 4px rgba(0,0,0,0.14)",
+                        cursor: "pointer",
+                        padding: 0,
+                        transition: "border 0.15s, outline 0.15s, transform 0.15s",
+                        transform: active ? "scale(1.12)" : "scale(1)",
+                      }}
+                    />
+                  </div>
                 );
               })}
             </div>
