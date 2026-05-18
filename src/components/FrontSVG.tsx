@@ -60,6 +60,7 @@ type Props = {
   flashGroup?: string | null;
   flashNonce?: number;
   onMaxCharsChange?: (maxChars: [number, number]) => void;
+  size?: "14" | "16";
 };
 
 const SIZE_PX: Record<LineSize, number> = {
@@ -89,6 +90,7 @@ export default function FrontSVG({
   flashGroup,
   flashNonce,
   onMaxCharsChange,
+  size = "14",
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const pathsRef = useRef<NodeListOf<SVGPathElement> | null>(null);
@@ -195,9 +197,10 @@ export default function FrontSVG({
     const maxW = activeBox.width * 0.6;
     const isChinese = FONTS.find((f) => f.key === embroideryFont)?.lang === "chinese";
     const charRatio = isChinese ? 0.95 : 0.6;
-    const calc = (size: LineSize) => Math.max(1, Math.floor(maxW / (SIZE_PX[size] * charRatio)));
+    const sizeMult = size === "16" ? 1.2 : 1;
+    const calc = (lineSize: LineSize) => Math.max(1, Math.floor((maxW / (SIZE_PX[lineSize] * charRatio)) * sizeMult));
     onMaxCharsChange([calc(embroideryLineSizes[0]), calc(embroideryLineSizes[1])]);
-  }, [topBox, bottomBox, embroideryPosition, embroideryFont, embroideryLineSizes, onMaxCharsChange]);
+  }, [topBox, bottomBox, embroideryPosition, embroideryFont, embroideryLineSizes, onMaxCharsChange, size]);
 
   const box = embroideryPosition === "top" ? topBox : bottomBox;
   const visibleLines =

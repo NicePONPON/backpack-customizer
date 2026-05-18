@@ -378,6 +378,7 @@ export default function CustomizePage() {
               flashGroup={flashGroup}
               flashNonce={flashNonce}
               onMaxCharsChange={setEmbroideryMaxChars}
+              size={size}
             />
             <PngOverlayLayer
               viewBoxW={FRONT_VIEWBOX.w}
