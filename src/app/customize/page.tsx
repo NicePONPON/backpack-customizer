@@ -756,7 +756,7 @@ export default function CustomizePage() {
         </div>
       )}
 
-      <ScrollNav bottomOffset={24} />
+      <ScrollNav />
     </main>
   );
 }

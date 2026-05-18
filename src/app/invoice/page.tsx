@@ -397,7 +397,7 @@ function InvoicePageInner() {
           {sharing ? "Generating PDF…" : "Share / Download PDF"}
         </button>
       </div>
-      <ScrollNav bottomOffset={80} />
+      <ScrollNav />
     </main>
   );
 }
