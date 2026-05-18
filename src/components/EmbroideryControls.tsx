@@ -31,13 +31,17 @@ type FontDef = {
 };
 
 export const FONTS: FontDef[] = [
-  { key: "Arial",      label: "Arial",       family: "Arial, Helvetica, sans-serif",                    lang: "latin" },
-  { key: "Helvetica",  label: "Helvetica",   family: '"Helvetica Neue", Helvetica, Arial, sans-serif',  lang: "latin" },
-  { key: "Montserrat", label: "Montserrat",  family: '"Montserrat", sans-serif',                        lang: "latin" },
-  { key: "Noto Sans",  label: "Noto Sans",   family: '"Noto Sans", sans-serif',                         lang: "latin" },
-  { key: "Georgia",    label: "Georgia",     family: "Georgia, serif",                                   lang: "latin" },
-  { key: "Taipei Sans TC Beta", label: "台北黑體 Beta",  family: '"Taipei Sans TC Beta", sans-serif',   lang: "chinese" },
-  { key: "Swei Spring SC",      label: "獅尾四季春SC",   family: '"Swei Spring CJK SC", serif',         lang: "chinese" },
+  { key: "Arial",           label: "Arial",           family: "Arial, Helvetica, sans-serif",                    lang: "latin" },
+  { key: "Helvetica",       label: "Helvetica",       family: '"Helvetica Neue", Helvetica, Arial, sans-serif',  lang: "latin" },
+  { key: "Montserrat",      label: "Montserrat",      family: '"Montserrat", sans-serif',                        lang: "latin" },
+  { key: "Noto Sans",       label: "Noto Sans",       family: '"Noto Sans", sans-serif',                         lang: "latin" },
+  { key: "Georgia",         label: "Georgia",         family: "Georgia, serif",                                   lang: "latin" },
+  { key: "Pacifico",        label: "Pacifico",        family: '"Pacifico", cursive',                             lang: "latin" },
+  { key: "Taipei Sans TC Beta", label: "台北黑體 Beta",  family: '"Taipei Sans TC Beta", sans-serif',            lang: "chinese" },
+  { key: "Swei Spring SC",      label: "獅尾四季春SC",   family: '"Swei Spring CJK SC", serif',                  lang: "chinese" },
+  { key: "Apple LiSung",    label: "蘋果儷宋",          family: '"Apple LiSung", "LiSung Light", serif',         lang: "chinese" },
+  { key: "Apple Braille",   label: "Apple Braille",   family: '"Apple Braille"',                                 lang: "chinese" },
+  { key: "Apple Chancery",  label: "Apple Chancery",  family: '"Apple Chancery", cursive',                       lang: "chinese" },
 ];
 
 export function fontFamilyFor(key: string): string {
@@ -65,7 +69,7 @@ export function threadColorName(hex: string): string {
 }
 
 const GOOGLE_FONTS_URL =
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans:wght@400;700&display=swap";
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans:wght@400;700&family=Pacifico&display=swap";
 
 const CUSTOM_FONT_CSS = `
 @font-face {
