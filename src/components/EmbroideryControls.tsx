@@ -4,34 +4,20 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "@/lib/ThemeContext";
 
 export type EmbroideryPosition = "top" | "bottom";
-export type EmbroideryColor =
-  | "#000000"
-  | "#FFFFFF"
-  | "#808080"
-  | "#D32F2F"
-  | "#1976D2"
-  | "#FBC02D";
+export type EmbroideryColor = string;
 export type EmbroideryFont = "serif" | "sans-serif";
 export type EmbroideryLineSize = "small" | "medium" | "large";
-
-export const EMBROIDERY_COLORS: Array<{
-  value: EmbroideryColor;
-  name: string;
-  nameKey: string;
-}> = [
-  { value: "#000000", name: "Black", nameKey: "colorBlack" },
-  { value: "#FFFFFF", name: "White", nameKey: "colorWhite" },
-  { value: "#808080", name: "Gray", nameKey: "colorGray" },
-  { value: "#D32F2F", name: "Red", nameKey: "colorRed" },
-  { value: "#1976D2", name: "Blue", nameKey: "colorBlue" },
-  { value: "#FBC02D", name: "Yellow", nameKey: "colorYellow" },
-];
 
 const SIZE_KEYS: EmbroideryLineSize[] = ["small", "medium", "large"];
 const SIZE_TKEY: Record<EmbroideryLineSize, string> = {
   small: "sizeSmall",
   medium: "sizeMedium",
   large: "sizeLarge",
+};
+const SIZE_FONT: Record<EmbroideryLineSize, number> = {
+  small: 10,
+  medium: 13,
+  large: 17,
 };
 
 type Props = {
@@ -48,7 +34,6 @@ type Props = {
   onFontChange: (next: EmbroideryFont) => void;
   onLineSizesChange: (next: [EmbroideryLineSize, EmbroideryLineSize]) => void;
 };
-
 
 export default function EmbroideryControls({
   lines,
@@ -79,18 +64,6 @@ export default function EmbroideryControls({
     transition: "background 0.3s ease, color 0.3s ease",
   });
 
-  const miniPillStyle = (active: boolean): React.CSSProperties => ({
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    background: active ? (isDark ? "#fff" : "#222222") : "transparent",
-    color: active ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
-    fontWeight: 700,
-    border: isDark ? "1px solid rgba(255,255,255,0.4)" : "1px solid rgba(0,0,0,0.25)",
-    cursor: "pointer",
-    fontSize: 12,
-  });
-
   const inputStyle: React.CSSProperties = {
     flex: 1,
     minWidth: 0,
@@ -117,6 +90,15 @@ export default function EmbroideryControls({
     transition: "background 0.5s ease, border-color 0.5s ease",
   };
 
+  const labelStyle: React.CSSProperties = {
+    color: isDark ? "#fff" : "#222222",
+    textAlign: "center",
+    marginBottom: 12,
+    fontWeight: 600,
+    letterSpacing: 0.5,
+    transition: "color 0.5s ease",
+  };
+
   const setLine = (index: 0 | 1, value: string) => {
     const next: [string, string] = [lines[0], lines[1]];
     next[index] = value;
@@ -124,12 +106,14 @@ export default function EmbroideryControls({
   };
 
   const setLineSize = (index: 0 | 1, value: EmbroideryLineSize) => {
-    const next: [EmbroideryLineSize, EmbroideryLineSize] = [
-      lineSizes[0],
-      lineSizes[1],
-    ];
+    const next: [EmbroideryLineSize, EmbroideryLineSize] = [lineSizes[0], lineSizes[1]];
     next[index] = value;
     onLineSizesChange(next);
+  };
+
+  const handleHexInput = (raw: string) => {
+    const val = raw.startsWith("#") ? raw : `#${raw}`;
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) onColorChange(val);
   };
 
   const renderLineRow = (index: 0 | 1) => (
@@ -142,15 +126,29 @@ export default function EmbroideryControls({
       />
       <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
         {SIZE_KEYS.map((s) => {
-          const label = t(SIZE_TKEY[s]);
+          const active = lineSizes[index] === s;
           return (
             <button
               key={s}
               onClick={() => setLineSize(index, s)}
-              style={miniPillStyle(lineSizes[index] === s)}
-              title={label}
+              title={t(SIZE_TKEY[s])}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                background: active ? (isDark ? "#fff" : "#222222") : "transparent",
+                color: active ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
+                fontWeight: 700,
+                border: isDark ? "1px solid rgba(255,255,255,0.4)" : "1px solid rgba(0,0,0,0.25)",
+                cursor: "pointer",
+                fontSize: SIZE_FONT[s],
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "background 0.2s, color 0.2s",
+              }}
             >
-              {label}
+              {t(SIZE_TKEY[s])}
             </button>
           );
         })}
@@ -160,63 +158,37 @@ export default function EmbroideryControls({
 
   return (
     <div style={{ width: "100%", maxWidth: 720, color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
-      <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: 22, fontWeight: 700, letterSpacing: 2, margin: "8px 0 20px", transition: "color 0.5s ease" }}>{t("sectionHeader")}</h2>
+      <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: 22, fontWeight: 700, letterSpacing: 2, margin: "8px 0 20px", transition: "color 0.5s ease" }}>
+        {t("sectionHeader")}
+      </h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={cardStyle}>
-          <div style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", marginBottom: 12, fontWeight: 600, letterSpacing: 0.5, transition: "color 0.5s ease" }}>{t("lines")}</div>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 10,
-              marginBottom: 14,
-            }}
-          >
+        {/* Lines */}
+        <div style={cardStyle}>
+          <div style={labelStyle}>{t("lines")}</div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 14 }}>
             {([1, 2] as const).map((n) => (
-              <button
-                key={n}
-                onClick={() => onLineCountChange(n)}
-                style={pillStyle(lineCount === n)}
-              >
+              <button key={n} onClick={() => onLineCountChange(n)} style={pillStyle(lineCount === n)}>
                 {n === 1 ? t("lineCount1") : t("lineCount2")}
               </button>
             ))}
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {renderLineRow(0)}
             {lineCount === 2 && renderLineRow(1)}
           </div>
         </div>
 
+        {/* Font style */}
         <div style={cardStyle}>
-          <div style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", marginBottom: 12, fontWeight: 600, letterSpacing: 0.5, transition: "color 0.5s ease" }}>{t("fontStyle")}</div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 10,
-            }}
-          >
+          <div style={labelStyle}>{t("fontStyle")}</div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
             {(["serif", "sans-serif"] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => onFontChange(f)}
-                style={{
-                  ...pillStyle(font === f),
-                  fontFamily:
-                    f === "serif"
-                      ? "Georgia, Times, serif"
-                      : "Arial, Helvetica, sans-serif",
-                }}
+                style={{ ...pillStyle(font === f), fontFamily: f === "serif" ? "Georgia, Times, serif" : "Arial, Helvetica, sans-serif" }}
               >
                 {f === "serif" ? t("fontSerif") : t("fontSans")}
               </button>
@@ -224,65 +196,75 @@ export default function EmbroideryControls({
           </div>
         </div>
 
+        {/* Position */}
         <div style={cardStyle}>
-          <div style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", marginBottom: 12, fontWeight: 600, letterSpacing: 0.5, transition: "color 0.5s ease" }}>{t("position")}</div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 10,
-            }}
-          >
-            <button
-              onClick={() => onPositionChange("top")}
-              style={pillStyle(position === "top")}
-            >
-              {t("positionTop")}
-            </button>
-            <button
-              onClick={() => onPositionChange("bottom")}
-              style={pillStyle(position === "bottom")}
-            >
-              {t("positionBottom")}
-            </button>
+          <div style={labelStyle}>{t("position")}</div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
+            <button onClick={() => onPositionChange("top")} style={pillStyle(position === "top")}>{t("positionTop")}</button>
+            <button onClick={() => onPositionChange("bottom")} style={pillStyle(position === "bottom")}>{t("positionBottom")}</button>
           </div>
         </div>
 
+        {/* Thread color — color picker + hex input */}
         <div style={cardStyle}>
-          <div style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", marginBottom: 12, fontWeight: 600, letterSpacing: 0.5, transition: "color 0.5s ease" }}>{t("threadColor")}</div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 16,
-              flexWrap: "wrap",
-            }}
-          >
-            {EMBROIDERY_COLORS.map((c) => (
+          <div style={labelStyle}>{t("threadColor")}</div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+
+            {/* Native color picker swatch */}
+            <label style={{ position: "relative", cursor: "pointer" }}>
               <div
-                key={c.value}
-                onClick={() => onColorChange(c.value)}
-                style={{ textAlign: "center", cursor: "pointer" }}
-              >
-                <div
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: "50%",
-                    background: c.value,
-                    margin: "0 auto",
-                    border:
-                      color === c.value ? "3px solid #4aa3ff" : "1px solid #444",
-                    boxSizing: "border-box",
-                  }}
-                />
-                <div style={{ fontSize: 12, color: isDark ? "#e4e4e4" : "rgba(0,0,0,0.55)", marginTop: 6, transition: "color 0.5s ease" }}>
-                  {t(c.nameKey)}
-                </div>
-              </div>
-            ))}
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 12,
+                  background: color,
+                  border: isDark ? "2px solid rgba(255,255,255,0.25)" : "2px solid rgba(0,0,0,0.15)",
+                  boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
+                  transition: "background 0.15s ease",
+                }}
+              />
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => onColorChange(e.target.value)}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  opacity: 0,
+                  width: "100%",
+                  height: "100%",
+                  cursor: "pointer",
+                  border: "none",
+                  padding: 0,
+                }}
+              />
+            </label>
+
+            {/* Hex code input */}
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)", letterSpacing: 0.5 }}>#</span>
+              <input
+                type="text"
+                maxLength={7}
+                value={color.replace(/^#/, "").toUpperCase()}
+                onChange={(e) => handleHexInput(e.target.value)}
+                style={{
+                  ...inputStyle,
+                  flex: "none",
+                  width: 96,
+                  textAlign: "center",
+                  fontFamily: "monospace",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: 1.5,
+                  textTransform: "uppercase",
+                }}
+              />
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
   );

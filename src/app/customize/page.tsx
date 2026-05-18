@@ -10,7 +10,6 @@ import BagDimensionGuides from "@/components/BagDimensionGuides";
 import CalibrationPanel from "@/components/CalibrationPanel";
 import ZipperCalibrationPanel from "@/components/ZipperCalibrationPanel";
 import EmbroideryControls, {
-  type EmbroideryColor,
   type EmbroideryFont,
   type EmbroideryPosition,
   type EmbroideryLineSize,
@@ -97,8 +96,7 @@ export default function CustomizePage() {
     "",
   ]);
   const [embroideryLineCount, setEmbroideryLineCount] = useState<1 | 2>(1);
-  const [embroideryColor, setEmbroideryColor] =
-    useState<EmbroideryColor>("#000000");
+  const [embroideryColor, setEmbroideryColor] = useState<string>("#000000");
   const [embroideryPosition, setEmbroideryPosition] =
     useState<EmbroideryPosition>("top");
   const [embroideryFont, setEmbroideryFont] =
