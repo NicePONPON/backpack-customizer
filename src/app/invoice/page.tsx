@@ -15,6 +15,7 @@ import {
 } from "@/lib/pricing";
 import { getColorName, getDisplayName } from "@/lib/bagReference";
 import { ZIPPER_COLORS } from "@/components/ZipperPullControls";
+import { threadColorName } from "@/components/EmbroideryControls";
 
 function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -154,7 +155,7 @@ function InvoicePageInner() {
     );
   }
 
-  const embroideryColorName = design.embroideryColor;
+  const embroideryColorName = threadColorName(design.embroideryColor);
   const zipperColorName =
     ZIPPER_COLORS.find((c) => c.value === design.zipperColor)?.name ??
     design.zipperColor;
