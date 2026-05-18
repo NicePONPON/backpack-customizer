@@ -192,7 +192,7 @@ export default function FrontSVG({
     if (!onMaxCharsChange) return;
     const activeBox = embroideryPosition === "top" ? topBox : bottomBox;
     if (!activeBox) return;
-    const maxW = activeBox.width / 2;
+    const maxW = activeBox.width * 0.6;
     const isChinese = FONTS.find((f) => f.key === embroideryFont)?.lang === "chinese";
     const charRatio = isChinese ? 0.95 : 0.6;
     const calc = (size: LineSize) => Math.max(1, Math.floor(maxW / (SIZE_PX[size] * charRatio)));
