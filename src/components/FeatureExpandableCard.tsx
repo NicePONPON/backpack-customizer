@@ -201,7 +201,7 @@ function FeatureRow({
           objectFit: "cover",
           borderRadius: 12,
           boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
-          background: "#000",
+          background: "#444444",
           display: "block",
         }}
       />

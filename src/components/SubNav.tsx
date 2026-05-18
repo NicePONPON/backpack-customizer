@@ -32,7 +32,7 @@ export default function SubNav({ invert = false }: Props) {
   const inactiveColor = invert
     ? "rgba(0,0,0,0.55)"
     : "rgba(255,255,255,0.6)";
-  const activeColor = invert ? "#000" : "#fff";
+  const activeColor = invert ? "#444444" : "#fff";
   const activeUnderline = invert
     ? "rgba(0,0,0,0.85)"
     : "rgba(255,255,255,0.85)";

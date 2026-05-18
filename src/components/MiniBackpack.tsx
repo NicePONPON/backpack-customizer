@@ -30,7 +30,7 @@ export default function MiniBackpack({
         setSelectedPart={() => {}}
         embroideryLines={["", ""]}
         embroideryLineCount={1}
-        embroideryColor="#000000"
+        embroideryColor="#444444"
         embroideryPosition="top"
         embroideryFont="sans-serif"
         embroideryLineSizes={["medium", "medium"]}

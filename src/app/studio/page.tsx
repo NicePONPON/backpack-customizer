@@ -69,7 +69,7 @@ export default function StudioPage() {
   // Embroidery state kept minimal for studio (no UI controls exposed)
   const embroideryLines: [string, string] = ["", ""];
   const embroideryLineCount: 1 | 2 = 1;
-  const embroideryColor: EmbroideryColor = "#000000";
+  const embroideryColor: EmbroideryColor = "#444444";
   const embroideryPosition: EmbroideryPosition = "top";
   const embroideryFont: EmbroideryFont = "sans-serif";
   const embroideryLineSizes: [EmbroideryLineSize, EmbroideryLineSize] = ["medium", "medium"];

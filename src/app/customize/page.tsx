@@ -96,7 +96,7 @@ export default function CustomizePage() {
     "",
   ]);
   const [embroideryLineCount, setEmbroideryLineCount] = useState<1 | 2>(1);
-  const [embroideryColor, setEmbroideryColor] = useState<string>("#000000");
+  const [embroideryColor, setEmbroideryColor] = useState<string>("#444444");
   const [embroideryPosition, setEmbroideryPosition] =
     useState<EmbroideryPosition>("top");
   const [embroideryFont, setEmbroideryFont] = useState<string>("Arial");
