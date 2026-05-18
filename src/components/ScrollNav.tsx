@@ -10,7 +10,7 @@ function CaretIcon({ direction }: { direction: "up" | "down" }) {
     ? "M4 11 L8 5 L12 11"
     : "M4 5 L8 11 L12 5";
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+    <svg width={24} height={24} viewBox="0 0 16 16" fill="none" aria-hidden style={{ flexShrink: 0 }}>
       <path d={d} stroke={ICON_COLOR} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
