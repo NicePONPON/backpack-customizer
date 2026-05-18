@@ -25,6 +25,7 @@ import type { User } from "@supabase/supabase-js";
 import { designFingerprint } from "@/lib/designFingerprint";
 import { useTheme } from "@/lib/ThemeContext";
 import ArrowIcon from "@/components/ArrowIcon";
+import ScrollNav from "@/components/ScrollNav";
 
 const FRONT_VIEWBOX = { w: 992.13, h: 992.13 };
 const BACK_VIEWBOX = { w: 622.13, h: 881.02 };
@@ -590,6 +591,7 @@ export default function StudioPage() {
           {t("savedToast")}
         </div>
       )}
+      <ScrollNav />
     </main>
   );
 }

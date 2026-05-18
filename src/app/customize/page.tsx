@@ -33,6 +33,7 @@ import { encodeDesign, decodeDesign } from "@/lib/invoiceSerialization";
 import SaveDesignModal from "@/components/SaveDesignModal";
 import { useTheme } from "@/lib/ThemeContext";
 import ArrowIcon from "@/components/ArrowIcon";
+import ScrollNav from "@/components/ScrollNav";
 
 const FRONT_TEXTURE_SRC = "/texture/Front-Overlay.png";
 const BACK_TEXTURE_SRC = "/texture/Back-Overlay.png";
@@ -89,7 +90,6 @@ export default function CustomizePage() {
   const [flashNonce, setFlashNonce] = useState(0);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [savedToast, setSavedToast] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const [embroideryLines, setEmbroideryLines] = useState<[string, string]>([
     "",
@@ -127,16 +127,6 @@ export default function CustomizePage() {
 
   const [sharingToInstagram, setSharingToInstagram] = useState(false);
   const bagPreviewRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const ref = bagPreviewRef.current;
-      if (!ref) return;
-      setShowScrollTop(window.scrollY > ref.getBoundingClientRect().height + 80);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -766,37 +756,7 @@ export default function CustomizePage() {
         </div>
       )}
 
-      {/* Scroll-to-preview button */}
-      <button
-        onClick={() => bagPreviewRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-        aria-label="Back to bag preview"
-        style={{
-          position: "fixed",
-          right: 16,
-          bottom: 80,
-          width: 44,
-          height: 44,
-          borderRadius: 999,
-          background: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)",
-          border: isDark ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.12)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          zIndex: 200,
-          opacity: showScrollTop ? 1 : 0,
-          pointerEvents: showScrollTop ? "auto" : "none",
-          transform: showScrollTop ? "translateY(0)" : "translateY(12px)",
-          transition: "opacity 0.25s ease, transform 0.25s ease",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
-        }}
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M9 14V4M9 4L4 9M9 4L14 9" stroke={isDark ? "#fff" : "#222"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
+      <ScrollNav bottomOffset={24} />
     </main>
   );
 }

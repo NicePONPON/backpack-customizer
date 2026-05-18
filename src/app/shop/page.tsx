@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { COUNTRIES, flagSrc } from "@/lib/countries";
 import { useTheme } from "@/lib/ThemeContext";
+import ScrollNav from "@/components/ScrollNav";
 
 // TODO: replace with real distributor / regional e-commerce URLs once supplied.
 const DISTRIBUTOR_URLS: Record<string, string> = {
@@ -170,6 +171,7 @@ export default function ShopPage() {
       </section>
 
       <SiteFooter />
+      <ScrollNav />
     </main>
   );
 }

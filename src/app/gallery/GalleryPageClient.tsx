@@ -8,6 +8,7 @@ import type { AdImage } from "@/lib/loadAdvertisements";
 import CommunityGallery from "@/components/CommunityGallery";
 import { useTheme } from "@/lib/ThemeContext";
 import ArrowIcon from "@/components/ArrowIcon";
+import ScrollNav from "@/components/ScrollNav";
 
 const sectionStyle: React.CSSProperties = {
   width: "100%",
@@ -300,6 +301,7 @@ function AppleAdSection({
           </div>
         )}
       </div>
+      <ScrollNav />
     </div>
   );
 }

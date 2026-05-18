@@ -16,6 +16,7 @@ import {
 import { getColorName, getDisplayName } from "@/lib/bagReference";
 import { ZIPPER_COLORS } from "@/components/ZipperPullControls";
 import { threadColorName } from "@/components/EmbroideryControls";
+import ScrollNav from "@/components/ScrollNav";
 
 function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -396,6 +397,7 @@ function InvoicePageInner() {
           {sharing ? "Generating PDF…" : "Share / Download PDF"}
         </button>
       </div>
+      <ScrollNav bottomOffset={80} />
     </main>
   );
 }
