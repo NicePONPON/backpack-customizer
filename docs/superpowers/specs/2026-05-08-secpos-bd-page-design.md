@@ -1,14 +1,15 @@
-# SECPOS BD Landing Page — Design Spec
+# SOFONE BD Landing Page — Design Spec
 
-**Date:** 2026-05-08
-**Owner:** Chris Chen (chris.chen@sofone.ai)
-**Purpose:** A standalone static website (separate GitHub repo) serving as a business development landing page for SECPOS sales conversations. The page presents the product portfolio mapped to chain store scale tiers, then reveals Chris's contact info on scroll.
+**Date:** 2026-05-08  
+**Updated:** 2026-05-21  
+**Owner:** Chris Chen (chris.chen@sofone.ai)  
+**Purpose:** A standalone static website (separate GitHub repo) serving as a business development landing page for SOFONE sales conversations. The page presents the product portfolio mapped to chain store scale tiers, then reveals Chris's contact info on scroll.
 
 ---
 
 ## Overview
 
-Single-page static site: `index.html` + `style.css` + logo assets. No framework, no build step. Hosted on Vercel via a new GitHub repo. Bold gradient visual style (deep indigo → vivid violet).
+Single-page static site: `index.html` + `style.css` + logo assets. No framework, no build step. Hosted on Vercel via the `sofone-bd` GitHub repo. Bold gradient visual style (deep indigo → vivid violet).
 
 ---
 
@@ -19,7 +20,7 @@ Single-page static site: `index.html` + `style.css` + logo assets. No framework,
 - Full-viewport height (`100vh`)
 - Background gradient: `#1a1a4e` → `#7c3aed` (top to bottom)
 - Centered content:
-  - SECPOS logo (user-supplied image)
+  - SOFONE logo (user-supplied image)
   - Headline: *"AI-Powered Solutions for F&B Chains"*
   - Sub-headline: *"Software · Hardware · Scale"*
   - Animated down-arrow (CSS keyframe, no bounce) nudging scroll
@@ -33,12 +34,12 @@ Inspired by the backpack-customizer `BrandStory.tsx` component. Each paragraph's
 
 | # | Weight | Text |
 |---|--------|------|
-| 1 | Regular | SECPOS 碩豐數位科技 是一家專注於 智慧商用設備、SaaS 應用與 AI 數據營運 的科技企業，致力於打造可跨國部署的智慧商業技術平台。 |
+| 1 | Regular | SOFONE 碩豐數位科技 是一家專注於 智慧商用設備、SaaS 應用與 AI 數據營運 的科技企業，致力於打造可跨國部署的智慧商業技術平台。 |
 | 2 | Regular | 公司以 軟硬整合能力 為核心，服務涵蓋 IoT 設備管理、餐飲零售中台、商用系統整合與 POS 終端應用，協助企業加速營運數位化與智慧化。 |
 | 3 | **Bold** | 碩豐提供的不僅是產品，而是一套從設備、系統到數據的全生命週期整合能力（End-to-End Value Chain）服務商。 |
 | 4 | Regular | 透過自研平台與模組化架構，我們為餐飲、零售與商用設備製造商提供可快速複製、可規模化擴展、可全球化運行的數位解決方案。 |
 | 5 | Medium · spaced | IoT 設備管理  ·  餐飲零售中台  ·  商用系統整合 |
-| 6 | Small caps label | SECPOS 碩豐數位科技 — END-TO-END VALUE CHAIN |
+| 6 | Small caps label | SOFONE 碩豐數位科技 — END-TO-END VALUE CHAIN |
 
 - Section background: dark (`#0d0d2e`) — matches hero gradient end, flows naturally
 - Gradient headline above the beats: white→grey vertical gradient text (matches backpack headline style)
@@ -71,7 +72,7 @@ Vertical skyscraper cross-section layout. Each floor = one chain scale tier. Flo
 - Contents:
   - Name: **Chris Chen 陳泓宇**
   - Title: Sales Manager
-  - Company: **SECPOS 碩豐科技**
+  - Company: **SOFONE 碩豐數位科技**
   - Mobile: 0933-857-545 (tappable `tel:+886933857545`)
   - Email: chris.chen@sofone.ai (tappable `mailto:`)
   - Address: 221 新北市汐止區文化里新台五路一段75號11樓之4
@@ -87,14 +88,14 @@ Vertical skyscraper cross-section layout. Each floor = one chain scale tier. Flo
 
 ---
 
-## File Structure (new repo)
+## File Structure (repo: `sofone-bd`)
 
 ```
-secpos-bd/
+sofone-bd/
 ├── index.html        # all markup
 ├── style.css         # all styles + animations
 └── assets/
-    ├── secpos-logo.png       # placeholder — user supplies
+    ├── sofone-logo.png       # placeholder — user supplies
     ├── autopos-logo.png
     ├── vivipos-logo.png
     ├── nubis-logo.png
@@ -107,10 +108,11 @@ secpos-bd/
 
 ## Deployment
 
-1. Create new GitHub repo: `secpos-bd`
-2. Push `index.html` + `style.css` + `assets/`
-3. Import repo into Vercel → auto-deploy (static, no build command needed)
-4. Optional: set custom domain in Vercel project settings
+1. Rename GitHub repo: `secpos-bd` → `sofone-bd`
+2. Rename Vercel project: `secpos-bd` → `sofone-bd`
+3. New live URL: `sofone-bd.vercel.app`
+4. Push updated `index.html` + `style.css` + `assets/`
+5. Optional: set custom domain in Vercel project settings
 
 ---
 
