@@ -115,8 +115,7 @@ function EditorialBlock({
         <p
           style={{
             fontSize: "var(--fs-sm)",
-            fontWeight: 700,
-            letterSpacing: 3,
+            letterSpacing: "var(--ls-caps)",
             textTransform: "uppercase",
             color: eyebrowColor,
             margin: 0,
@@ -129,7 +128,7 @@ function EditorialBlock({
           style={{
             fontSize: isMobile ? 20 : 26,
             fontWeight: 800,
-            letterSpacing: -0.8,
+            letterSpacing: "var(--ls-normal)",
             color: textColor,
             margin: 0,
             lineHeight: 1.15,

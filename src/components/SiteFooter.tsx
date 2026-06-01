@@ -154,7 +154,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
         color: textColor,
         fontSize: "var(--fs-sm)",
         lineHeight: 1.6,
-        letterSpacing: 0.3,
+        letterSpacing: "var(--ls-normal)",
         transition: "color 0.5s ease",
         display: "flex",
         flexDirection: "column",
@@ -165,7 +165,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
       {/* Share your design row — only visible after user has customized */}
       {designShareUrl && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-          <p style={{ fontSize: "var(--fs-sm)", letterSpacing: 2, textTransform: "uppercase", color: textColor, margin: 0 }}>
+          <p style={{ fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: textColor, margin: 0 }}>
             Share your design
           </p>
           <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
@@ -211,7 +211,7 @@ export default function SiteFooter({ companyName, invert }: Props) {
 
       {/* Follow us row */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-        <p style={{ fontSize: "var(--fs-sm)", letterSpacing: 2, textTransform: "uppercase", color: textColor, margin: 0 }}>
+        <p style={{ fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: textColor, margin: 0 }}>
           Follow us
         </p>
         <a

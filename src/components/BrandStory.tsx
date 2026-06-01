@@ -90,8 +90,7 @@ export default function BrandStory() {
       {/* ── Beat 1: Headline — always fully visible ───────────────────── */}
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <p style={{
-          margin: 0, fontSize: "var(--fs-sm)", fontWeight: 600,
-          letterSpacing: 3, textTransform: "uppercase",
+          letterSpacing: "var(--ls-caps)", textTransform: "uppercase",
           color: toRgba(isDark, 0.38),
           transition: "color 0.5s ease",
         }}>
@@ -101,7 +100,7 @@ export default function BrandStory() {
         <h2 style={{
           margin: 0,
           fontSize: wide ? TITLE_SIZE_WIDE : TITLE_SIZE_NARROW,
-          fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.5,
+          fontWeight: 700, lineHeight: 1.2, letterSpacing: "var(--ls-normal)",
           paddingBottom: "0.1em",
           ...(isDark
             ? {
@@ -117,7 +116,7 @@ export default function BrandStory() {
 
         <p style={{
           margin: 0, fontSize: BODY_SIZE,
-          color: toRgba(isDark, 0.55), letterSpacing: 0.3,
+          color: toRgba(isDark, 0.55), letterSpacing: "var(--ls-normal)",
           transition: "color 0.5s ease",
         }}>
           {t("act1.sub")}
@@ -130,7 +129,7 @@ export default function BrandStory() {
           {t("act2.problem")}
         </p>
 
-        <p ref={setRef(1)} style={bodyStyle(1, { fontWeight: 700, letterSpacing: -0.2 })}>
+        <p ref={setRef(1)} style={bodyStyle(1)}>
           {t("act2.bridge")}
         </p>
 
@@ -138,7 +137,7 @@ export default function BrandStory() {
           {t("act2.resolution")}
         </p>
 
-        <p ref={setRef(3)} style={bodyStyle(3, { fontWeight: 500, letterSpacing: 0.3 })}>
+        <p ref={setRef(3)} style={bodyStyle(3)}>
           {t("pillars.one")}{"  ·  "}{t("pillars.two")}{"  ·  "}{t("pillars.three")}
         </p>
 
@@ -157,8 +156,7 @@ export default function BrandStory() {
         <p
           ref={setRef(7)}
           style={{
-            margin: "8px 0 0", fontSize: "var(--fs-sm)", fontWeight: 600,
-            letterSpacing: 3.5, textTransform: "uppercase",
+            letterSpacing: "var(--ls-caps)", textTransform: "uppercase",
             color: toRgba(isDark, (opacities[7] ?? OPACITY_MIN) * 0.55),
             transition: "color 0.4s ease",
           }}

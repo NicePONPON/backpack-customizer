@@ -55,7 +55,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
         {step === "input" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
+              <div style={{ fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
                 Preorder
               </div>
               <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: "#fff" }}>
@@ -94,9 +94,8 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
                   background: "rgba(255,215,100,0.9)",
                   color: "#222222",
                   fontSize: "var(--fs-md)",
-                  fontWeight: 700,
                   cursor: "pointer",
-                  letterSpacing: 0.3,
+                  letterSpacing: "var(--ls-normal)",
                 }}
               >
                 Send my discount code →
@@ -138,7 +137,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
             </div>
             <button
               onClick={() => setStep("input")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#222222", fontSize: "var(--fs-md)", fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#222222", fontSize: "var(--fs-md)", cursor: "pointer" }}
             >
               Try again
             </button>

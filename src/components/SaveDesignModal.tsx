@@ -67,9 +67,8 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
     padding: "13px 20px",
     borderRadius: 12,
     fontSize: "var(--fs-md)",
-    fontWeight: 600,
     cursor: "pointer",
-    letterSpacing: 0.2,
+    letterSpacing: "var(--ls-normal)",
     border: "none",
   };
 
@@ -126,7 +125,6 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
             </div>
             <button
               onClick={() => setStep("idle")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "#fff", color: "#222222", fontSize: "var(--fs-md)", fontWeight: 700, cursor: "pointer" }}
             >
               Try again
             </button>

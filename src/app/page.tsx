@@ -38,8 +38,7 @@ export default function HomePage() {
   const sectionHeaderStyle: React.CSSProperties = {
     textAlign: "center",
     fontSize: "var(--fs-md)",
-    fontWeight: 700,
-    letterSpacing: 2,
+    letterSpacing: "var(--ls-caps)",
     margin: "0 0 24px",
     color: isDark ? "#fff" : "#333",
     transition: "color 0.5s ease",
@@ -158,8 +157,7 @@ export default function HomePage() {
           <p
             style={{
               fontSize: "var(--fs-sm)",
-              fontWeight: 700,
-              letterSpacing: 3,
+              letterSpacing: "var(--ls-caps)",
               color: eyebrowColor,
               textTransform: "uppercase",
               marginBottom: 18,
@@ -174,7 +172,7 @@ export default function HomePage() {
               fontWeight: 800,
               lineHeight: 1.06,
               color: titleColor,
-              letterSpacing: -1.5,
+              letterSpacing: "var(--ls-normal)",
               margin: "0 0 16px",
               transition: "color 0.5s ease",
             }}
@@ -204,8 +202,7 @@ export default function HomePage() {
                 background: "#fff",
                 color: "#333",
                 fontSize: "var(--fs-sm)",
-                fontWeight: 700,
-                letterSpacing: 1.5,
+                letterSpacing: "var(--ls-caps)",
                 textTransform: "uppercase",
                 border: "none",
                 borderRadius: 6,
@@ -228,8 +225,7 @@ export default function HomePage() {
                 background: "transparent",
                 color: "rgba(255,255,255,0.9)",
                 fontSize: "var(--fs-sm)",
-                fontWeight: 700,
-                letterSpacing: 1.5,
+                letterSpacing: "var(--ls-caps)",
                 textTransform: "uppercase",
                 border: "1.5px solid rgba(255,255,255,0.5)",
                 borderRadius: 6,

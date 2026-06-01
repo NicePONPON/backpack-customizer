@@ -156,7 +156,7 @@ export default function StudioPage() {
 
       {/* HERO */}
       <div style={{ width: "100%", maxWidth: 680, textAlign: "center", marginTop: -8 }}>
-        <p style={{ margin: "0 0 10px", fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
+        <p style={{ margin: "0 0 10px", fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
           {t("label")}
         </p>
         <h1
@@ -164,7 +164,7 @@ export default function StudioPage() {
             margin: 0,
             fontSize: "var(--fs-lg)",
             fontWeight: 700,
-            letterSpacing: 0.5,
+            letterSpacing: "var(--ls-normal)",
             lineHeight: 1.15,
             ...(isDark
               ? {
@@ -253,7 +253,7 @@ export default function StudioPage() {
           </div>
         </div>
 
-        <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: isDark ? "#fff" : "#222222", letterSpacing: -0.2, lineHeight: 1.25, transition: "color 0.5s ease" }}>
+        <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: isDark ? "#fff" : "#222222", letterSpacing: "var(--ls-normal)", lineHeight: 1.25, transition: "color 0.5s ease" }}>
           {t("prizeHeading")}
         </h2>
         <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: isDark ? "rgba(255,255,255,0.48)" : "rgba(0,0,0,0.5)", lineHeight: 1.75, maxWidth: 360, transition: "color 0.5s ease" }}>
@@ -278,8 +278,7 @@ export default function StudioPage() {
             WebkitBackdropFilter: "blur(8px)",
             color: isDark ? "#fff" : "#222222",
             fontSize: "var(--fs-sm)",
-            fontWeight: 600,
-            letterSpacing: 0.1,
+            letterSpacing: "var(--ls-normal)",
             textDecoration: "none",
             transition: "color 0.5s ease, background 0.5s ease",
           }}
@@ -308,10 +307,10 @@ export default function StudioPage() {
       {/* THIS SEASON'S TOP STYLES */}
       <div style={{ width: "100%", maxWidth: 960 }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <p style={{ margin: "0 0 6px", fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
+          <p style={{ margin: "0 0 6px", fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
             {t("standingsLabel")}
           </p>
-          <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 1, color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
+          <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: "var(--ls-caps)", color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
             {t("topStylesHeading")}
           </h2>
           <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)", transition: "color 0.5s ease" }}>
@@ -324,7 +323,7 @@ export default function StudioPage() {
       {/* DIVIDER */}
       <div style={{ width: "100%", maxWidth: 680, display: "flex", alignItems: "center", gap: 16 }}>
         <div style={{ flex: 1, height: 1, background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)", transition: "background 0.5s ease" }} />
-        <span style={{ fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 2, color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)", textTransform: "uppercase", whiteSpace: "nowrap", transition: "color 0.5s ease" }}>
+        <span style={{ fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)", textTransform: "uppercase", whiteSpace: "nowrap", transition: "color 0.5s ease" }}>
           {t("divider")}
         </span>
         <div style={{ flex: 1, height: 1, background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)", transition: "background 0.5s ease" }} />
@@ -341,7 +340,6 @@ export default function StudioPage() {
               borderRadius: 999,
               background: size === s ? (isDark ? "#fff" : "#222222") : "transparent",
               color: size === s ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
-              fontWeight: 600,
               border: isDark ? "1px solid #fff" : "1px solid #111",
               cursor: "pointer",
               fontSize: "var(--fs-md)",
@@ -437,13 +435,13 @@ export default function StudioPage() {
         </div>
       </div>
 
-      <p style={{ margin: "-28px 0 0", fontSize: "var(--fs-sm)", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", letterSpacing: 0.3, textAlign: "center", transition: "color 0.5s ease" }}>
+      <p style={{ margin: "-28px 0 0", fontSize: "var(--fs-sm)", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", letterSpacing: "var(--ls-normal)", textAlign: "center", transition: "color 0.5s ease" }}>
         {t("tapHint")}
       </p>
 
       {/* COLOR PALETTE */}
       <div style={{ width: "100%", maxWidth: 680 }}>
-        <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 2, margin: "0 0 16px", transition: "color 0.5s ease" }}>
+        <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: "var(--ls-caps)", margin: "0 0 16px", transition: "color 0.5s ease" }}>
           {t("colorsHeading")}
         </h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -462,7 +460,7 @@ export default function StudioPage() {
                 transition: "background 0.5s ease, border-color 0.5s ease",
               }}
             >
-              <div style={{ color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", textAlign: "center", marginBottom: 10, fontWeight: 600, fontSize: "var(--fs-sm)", letterSpacing: 1, transition: "color 0.5s ease" }}>
+              <div style={{ color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", textAlign: "center", marginBottom: 10, fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-normal)", transition: "color 0.5s ease" }}>
                 {tColors(`groups.${group.titleKey}`)}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(4, 1fr)" : "repeat(6, 1fr)", gap: isMobile ? 8 : 10 }}>
@@ -520,9 +518,8 @@ export default function StudioPage() {
             borderRadius: 999,
             background: isDark ? "#fff" : "#222222",
             color: isDark ? "#222222" : "#fff",
-            fontWeight: 700,
             fontSize: "var(--fs-md)",
-            letterSpacing: 0.5,
+            letterSpacing: "var(--ls-normal)",
             border: "none",
             cursor: "pointer",
             boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
@@ -582,7 +579,6 @@ export default function StudioPage() {
             padding: "12px 24px",
             color: "#a8e6a3",
             fontSize: "var(--fs-md)",
-            fontWeight: 600,
             zIndex: 400,
             whiteSpace: "nowrap",
             boxShadow: "0 8px 32px rgba(0,0,0,0.5)",

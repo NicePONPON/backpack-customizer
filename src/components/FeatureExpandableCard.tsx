@@ -63,8 +63,7 @@ export default function FeatureExpandableCard({ data }: { data: FeatureCardData 
           <div
             style={{
               fontSize: "var(--fs-md)",
-              fontWeight: 700,
-              letterSpacing: 1.5,
+              letterSpacing: "var(--ls-caps)",
               color: isDark ? "#fff" : "#222222",
               textTransform: "uppercase",
               marginBottom: 8,
@@ -209,9 +208,8 @@ function FeatureRow({
         <div
           style={{
             fontSize: "var(--fs-sm)",
-            fontWeight: 700,
             color: isDark ? "#fff" : "#222222",
-            letterSpacing: 0.2,
+            letterSpacing: "var(--ls-normal)",
             marginBottom: 6,
             transition: "color 0.5s ease",
           }}

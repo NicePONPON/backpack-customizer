@@ -207,8 +207,7 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
                         background: "rgba(0,0,0,0.5)",
                         color: "rgba(255,255,255,0.92)",
                         fontSize: "var(--fs-sm)",
-                        fontWeight: 600,
-                        letterSpacing: 1.4,
+                        letterSpacing: "var(--ls-caps)",
                         textTransform: "uppercase",
                         padding: "5px 10px",
                         borderRadius: 999,
@@ -345,8 +344,7 @@ function ComingSoonCardContent({
           style={{
             color: "rgba(255,255,255,0.95)",
             fontSize: "var(--fs-md)",
-            fontWeight: 700,
-            letterSpacing: 2.2,
+            letterSpacing: "var(--ls-caps)",
             textTransform: "uppercase",
             textShadow: "0 2px 12px rgba(0,0,0,0.6)",
           }}
@@ -357,8 +355,7 @@ function ComingSoonCardContent({
           style={{
             color: "rgba(255,255,255,0.65)",
             fontSize: "var(--fs-sm)",
-            fontWeight: 500,
-            letterSpacing: 1.6,
+            letterSpacing: "var(--ls-caps)",
             textTransform: "uppercase",
             textShadow: "0 2px 10px rgba(0,0,0,0.6)",
             marginBottom: 4,
@@ -381,8 +378,7 @@ function ComingSoonCardContent({
               style={{
                 color: "rgba(255,255,255,0.92)",
                 fontSize: "var(--fs-sm)",
-                fontWeight: 600,
-                letterSpacing: 0.4,
+                letterSpacing: "var(--ls-normal)",
                 lineHeight: 1.4,
                 textShadow: "0 2px 10px rgba(0,0,0,0.6)",
                 padding: "8px 6px",
@@ -421,7 +417,7 @@ function ComingSoonCardContent({
                   fontSize: "var(--fs-sm)",
                   outline: "none",
                   textAlign: "center",
-                  letterSpacing: 0.2,
+                  letterSpacing: "var(--ls-normal)",
                 }}
               />
               <button
@@ -439,8 +435,7 @@ function ComingSoonCardContent({
                       : "#fff",
                   color: "#222222",
                   fontSize: "var(--fs-sm)",
-                  fontWeight: 700,
-                  letterSpacing: 1.2,
+                  letterSpacing: "var(--ls-caps)",
                   textTransform: "uppercase",
                   cursor: status === "submitting" ? "wait" : "pointer",
                 }}

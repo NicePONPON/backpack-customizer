@@ -78,8 +78,7 @@ const cardStyle: React.CSSProperties = {
 
 const sectionTitleStyle: React.CSSProperties = {
   fontSize: "var(--fs-sm)",
-  fontWeight: 700,
-  letterSpacing: 2,
+  letterSpacing: "var(--ls-caps)",
   textTransform: "uppercase",
   color: "rgba(255,255,255,0.7)",
   marginBottom: 12,
@@ -101,7 +100,7 @@ const labelStyle: React.CSSProperties = {
   gap: 4,
   color: "#fff",
   fontSize: "var(--fs-sm)",
-  letterSpacing: 0.3,
+  letterSpacing: "var(--ls-normal)",
 };
 
 function InvoicePageInner() {
@@ -145,7 +144,6 @@ function InvoicePageInner() {
                 border: "1px solid #fff",
                 color: "#fff",
                 textDecoration: "none",
-                fontWeight: 600,
               }}
             >
               Go to designer
@@ -261,7 +259,7 @@ function InvoicePageInner() {
               color: "rgba(255,255,255,0.8)",
               textDecoration: "none",
               fontSize: "var(--fs-md)",
-              letterSpacing: 0.3,
+              letterSpacing: "var(--ls-normal)",
             }}
           >
             ← Back to editor
@@ -352,7 +350,7 @@ function InvoicePageInner() {
             color: "rgba(255,255,255,0.45)",
             fontSize: "var(--fs-sm)",
             lineHeight: 1.6,
-            letterSpacing: 0.3,
+            letterSpacing: "var(--ls-normal)",
           }}
         >
           <div>© 2026 {company.name}. All rights reserved.</div>
@@ -387,9 +385,8 @@ function InvoicePageInner() {
             background: sharing ? "rgba(255,255,255,0.5)" : "#fff",
             color: "#111",
             border: "none",
-            fontWeight: 700,
             fontSize: "var(--fs-md)",
-            letterSpacing: 0.5,
+            letterSpacing: "var(--ls-normal)",
             cursor: sharing ? "wait" : "pointer",
             boxShadow: "0 6px 20px rgba(0,0,0,0.3)",
           }}

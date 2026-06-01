@@ -74,8 +74,7 @@ export default function SubNav({ invert = false }: Props) {
               href={link.href}
               style={{
                 fontSize: "var(--fs-sm)",
-                fontWeight: 600,
-                letterSpacing: 1.4,
+                letterSpacing: "var(--ls-caps)",
                 textTransform: "uppercase",
                 textDecoration: "none",
                 color: active ? activeColor : inactiveColor,

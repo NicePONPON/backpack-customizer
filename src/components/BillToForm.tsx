@@ -43,7 +43,7 @@ const labelStyle: React.CSSProperties = {
   gap: 4,
   color: "#fff",
   fontSize: "var(--fs-sm)",
-  letterSpacing: 0.3,
+  letterSpacing: "var(--ls-normal)",
 };
 
 export default function BillToForm({ value, onChange }: Props) {

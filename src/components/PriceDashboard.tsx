@@ -76,7 +76,6 @@ export default function PriceDashboard({
         style={{
           color: isDark ? "#fff" : "#222222",
           textAlign: "center",
-          fontWeight: 700,
           fontSize: "var(--fs-md)",
           letterSpacing: "clamp(0.5px, 0.5vw, 2px)",
           textTransform: "uppercase",
@@ -114,7 +113,6 @@ export default function PriceDashboard({
               style={{
                 color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.45)",
                 fontSize: "var(--fs-sm)",
-                fontWeight: 600,
                 letterSpacing: "clamp(0px, 0.3vw, 1.2px)",
                 textTransform: "uppercase",
                 whiteSpace: "nowrap",
@@ -128,8 +126,7 @@ export default function PriceDashboard({
               style={{
                 color: isDark ? "#fff" : "#222222",
                 fontSize: "var(--fs-md)",
-                fontWeight: 700,
-                letterSpacing: -0.5,
+                letterSpacing: "var(--ls-normal)",
                 lineHeight: 1.15,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -142,7 +139,6 @@ export default function PriceDashboard({
               style={{
                 color: isDark ? "#a8e6a3" : "#2d7a2d",
                 fontSize: "var(--fs-sm)",
-                fontWeight: 600,
                 letterSpacing: "clamp(0px, 0.2vw, 0.5px)",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -163,7 +159,7 @@ export default function PriceDashboard({
           fontSize: "var(--fs-sm)",
           textAlign: "center",
           marginTop: 10,
-          letterSpacing: 0.3,
+          letterSpacing: "var(--ls-normal)",
         }}
       >
         {t("taxNote")}

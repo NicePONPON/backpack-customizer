@@ -124,7 +124,7 @@ export default function ShopPage() {
           style={{
             fontSize: "var(--fs-lg)",
             fontWeight: 700,
-            letterSpacing: 0.5,
+            letterSpacing: "var(--ls-normal)",
             lineHeight: 1.15,
             margin: 0,
             ...(isDark
@@ -144,7 +144,7 @@ export default function ShopPage() {
             color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
             fontSize: "var(--fs-md)",
             margin: "10px 0 0",
-            letterSpacing: 0.3,
+            letterSpacing: "var(--ls-normal)",
             transition: "color 0.5s ease",
           }}
         >
@@ -187,9 +187,8 @@ export default function ShopPage() {
                 <div
                   style={{
                     fontSize: "var(--fs-md)",
-                    fontWeight: 700,
                     color: isDark ? "#fff" : "#222222",
-                    letterSpacing: 0.3,
+                    letterSpacing: "var(--ls-normal)",
                     transition: "color 0.5s ease",
                   }}
                 >
@@ -210,8 +209,7 @@ export default function ShopPage() {
                   style={{
                     marginTop: 4,
                     fontSize: "var(--fs-sm)",
-                    fontWeight: 700,
-                    letterSpacing: 0.5,
+                    letterSpacing: "var(--ls-normal)",
                     color: isDark ? "#fff" : "#222222",
                     transition: "color 0.5s ease",
                   }}
@@ -235,9 +233,8 @@ export default function ShopPage() {
               <div
                 style={{
                   fontSize: "var(--fs-md)",
-                  fontWeight: 700,
                   color: isDark ? "#fff" : "#222222",
-                  letterSpacing: 0.3,
+                  letterSpacing: "var(--ls-normal)",
                   transition: "color 0.5s ease",
                 }}
               >
@@ -258,8 +255,7 @@ export default function ShopPage() {
                 style={{
                   marginTop: 4,
                   fontSize: "var(--fs-sm)",
-                  fontWeight: 700,
-                  letterSpacing: 0.5,
+                  letterSpacing: "var(--ls-normal)",
                   color: isDark ? "#fff" : "#222222",
                   transition: "color 0.5s ease",
                 }}
@@ -341,9 +337,8 @@ function TaiwanShopModal({
               <div
                 style={{
                   fontSize: "var(--fs-md)",
-                  fontWeight: 700,
                   color: isDark ? "#fff" : "#111",
-                  letterSpacing: 0.3,
+                  letterSpacing: "var(--ls-normal)",
                 }}
               >
                 台灣購買通路
@@ -442,9 +437,8 @@ function TaiwanShopModal({
                   <div
                     style={{
                       fontSize: "var(--fs-sm)",
-                      fontWeight: 700,
                       color: isDark ? "#fff" : "#111",
-                      letterSpacing: 0.2,
+                      letterSpacing: "var(--ls-normal)",
                       lineHeight: 1.3,
                     }}
                   >
@@ -454,7 +448,7 @@ function TaiwanShopModal({
                     style={{
                       fontSize: "var(--fs-sm)",
                       color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.38)",
-                      letterSpacing: 0.3,
+                      letterSpacing: "var(--ls-normal)",
                     }}
                   >
                     {shop.nameEn}
@@ -469,8 +463,7 @@ function TaiwanShopModal({
                       top: 10,
                       right: 10,
                       fontSize: "var(--fs-sm)",
-                      fontWeight: 700,
-                      letterSpacing: 0.4,
+                      letterSpacing: "var(--ls-normal)",
                       padding: "2px 7px",
                       borderRadius: 20,
                       background: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)",

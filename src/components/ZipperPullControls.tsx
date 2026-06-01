@@ -33,7 +33,6 @@ export default function ZipperPullControls({
     borderRadius: 999,
     background: active ? (isDark ? "#fff" : "#222222") : "transparent",
     color: active ? (isDark ? "#222222" : "#fff") : (isDark ? "#fff" : "#222222"),
-    fontWeight: 600,
     border: isDark ? "1px solid #fff" : "1px solid #222222",
     cursor: "pointer",
     transition: "background 0.3s ease, color 0.3s ease",
@@ -58,8 +57,7 @@ export default function ZipperPullControls({
     color: isDark ? "#fff" : "#222222",
     textAlign: "center",
     marginBottom: 12,
-    fontWeight: 600,
-    letterSpacing: 0.5,
+    letterSpacing: "var(--ls-normal)",
     transition: "color 0.5s ease",
   };
 
@@ -83,7 +81,7 @@ export default function ZipperPullControls({
 
   return (
     <div style={{ width: "100%", maxWidth: 720, color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
-      <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 2, margin: "8px 0 20px", transition: "color 0.5s ease" }}>
+      <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: "var(--ls-caps)", margin: "8px 0 20px", transition: "color 0.5s ease" }}>
         {t("sectionHeader")}
       </h2>
 
@@ -147,7 +145,6 @@ export default function ZipperPullControls({
               {/* Custom color picker */}
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, flex: 1 }}>
                 <span style={{
-                  fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 0.8,
                   textTransform: "uppercase",
                   color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)",
                   textAlign: "center",
@@ -173,13 +170,11 @@ export default function ZipperPullControls({
                   />
                 </label>
                 <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                  <span style={{ fontSize: "var(--fs-sm)", fontWeight: 700, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)" }}>#</span>
                   <input
                     type="text"
                     maxLength={7}
                     value={color.replace(/^#/, "").toUpperCase()}
                     onChange={(e) => handleHexInput(e.target.value)}
-                    style={{ ...inputStyle, flex: "none", width: 72, textAlign: "center", fontFamily: "monospace", fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase" }}
                   />
                 </div>
               </div>

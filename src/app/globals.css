@@ -16,6 +16,10 @@
   --fs-lg: 32px;   /* page titles, section headings        */
   --fs-md: 15px;   /* body text, descriptions, nav labels  */
   --fs-sm: 12px;   /* captions, badges, meta text          */
+
+  /* Letter-spacing tokens */
+  --ls-normal: 0.04em;   /* headings + body text             */
+  --ls-caps:   0.15em;   /* ALL CAPS labels / eyebrows       */
 }
 
 @theme inline {
@@ -35,6 +39,14 @@ body {
   color: var(--foreground);
   /* Helvetica for Latin; Swei Spring CJK SC for Chinese glyphs */
   font-family: Helvetica, "Swei Spring CJK SC", Arial, sans-serif;
+  letter-spacing: var(--ls-normal);
+  font-weight: 400;
+}
+
+/* More breathing room for Chinese characters */
+html[lang="zh-TW"] {
+  --ls-normal: 0.08em;
+  --ls-caps:   0.2em;
 }
 
 @keyframes paint-flash {

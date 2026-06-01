@@ -87,8 +87,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
           cursor: "pointer",
           color: textColor,
           fontSize: "var(--fs-sm)",
-          fontWeight: 700,
-          letterSpacing: 0.6,
+          letterSpacing: "var(--ls-normal)",
           userSelect: "none",
         }}
       >
@@ -144,7 +143,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
                       color: "#fff",
                       fontSize: "var(--fs-sm)",
                       fontWeight: active ? 700 : 500,
-                      letterSpacing: 0.3,
+                      letterSpacing: "var(--ls-normal)",
                     }}
                   >
                     {c.name}
@@ -153,7 +152,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
                     style={{
                       color: "rgba(255,255,255,0.45)",
                       fontSize: "var(--fs-sm)",
-                      letterSpacing: 0.4,
+                      letterSpacing: "var(--ls-normal)",
                     }}
                   >
                     {meta.label}

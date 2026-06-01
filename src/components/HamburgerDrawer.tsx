@@ -135,13 +135,12 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
                   justifyContent: "space-between",
                   padding: "18px 20px",
                   fontSize: "var(--fs-md)",
-                  fontWeight: 700,
                   color: active
                     ? (isLight ? "#333" : "#fff")
                     : (isLight ? "rgba(51,51,51,0.5)" : "rgba(255,255,255,0.5)"),
                   borderBottom: divider,
                   textDecoration: "none",
-                  letterSpacing: 0.2,
+                  letterSpacing: "var(--ls-normal)",
                   transition: "color 160ms ease",
                 }}
               >

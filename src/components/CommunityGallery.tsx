@@ -61,8 +61,7 @@ function DesignCard({
           <div
             style={{
               fontSize: "var(--fs-sm)",
-              fontWeight: 700,
-              letterSpacing: 2.5,
+              letterSpacing: "var(--ls-caps)",
               textTransform: "uppercase",
               color: "rgba(255,215,100,0.9)",
               padding: "3px 10px",
@@ -78,8 +77,7 @@ function DesignCard({
           <div
             style={{
               fontSize: "var(--fs-sm)",
-              fontWeight: 600,
-              letterSpacing: 1.5,
+              letterSpacing: "var(--ls-caps)",
               color: "rgba(255,255,255,0.38)",
               textTransform: "uppercase",
             }}
@@ -114,8 +112,7 @@ function DesignCard({
               background: "rgba(255,215,100,0.12)",
               color: "rgba(255,215,100,0.95)",
               fontSize: "var(--fs-sm)",
-              fontWeight: 700,
-              letterSpacing: 0.5,
+              letterSpacing: "var(--ls-normal)",
               cursor: "pointer",
             }}
           >
@@ -137,8 +134,7 @@ function DesignCard({
               background: "rgba(255,255,255,0.07)",
               color: "#fff",
               fontSize: "var(--fs-sm)",
-              fontWeight: 700,
-              letterSpacing: 0.5,
+              letterSpacing: "var(--ls-normal)",
               cursor: "pointer",
             }}
           >
@@ -213,10 +209,10 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
       {!topStylesOnly && launched && (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ textAlign: "center" }}>
-            <p style={{ margin: "0 0 4px", fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
+            <p style={{ margin: "0 0 4px", fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
               {launched.season_name}
             </p>
-            <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
+            <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: "var(--ls-caps)", color: "#fff" }}>
               {t("launchedHeading")}
             </h2>
           </div>
@@ -229,10 +225,10 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
       {topDesigns.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ textAlign: "center" }}>
-            <p style={{ margin: "0 0 4px", fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
+            <p style={{ margin: "0 0 4px", fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
               {seasonName}
             </p>
-            <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
+            <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: "var(--ls-caps)", color: "#fff" }}>
               {t("topStylesHeading")}
             </h2>
             <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.4)" }}>

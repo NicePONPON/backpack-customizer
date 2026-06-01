@@ -28,8 +28,7 @@ export default function GalleryPageClient({ ads }: Props) {
   const sectionHeaderStyle: React.CSSProperties = {
     textAlign: "center",
     fontSize: "var(--fs-md)",
-    fontWeight: 700,
-    letterSpacing: 2,
+    letterSpacing: "var(--ls-caps)",
     margin: "0 0 24px",
     color: isDark ? "#fff" : "#222222",
     transition: "color 0.5s ease",
@@ -87,10 +86,10 @@ export default function GalleryPageClient({ ads }: Props) {
           transition: "background 0.5s ease, border-color 0.5s ease",
         }}
       >
-        <p style={{ margin: 0, fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
+        <p style={{ margin: 0, fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", transition: "color 0.5s ease" }}>
           {t("galleryCta.label")}
         </p>
-        <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 0.5, color: isDark ? "#fff" : "#222222", lineHeight: 1.2, transition: "color 0.5s ease" }}>
+        <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: "var(--ls-normal)", color: isDark ? "#fff" : "#222222", lineHeight: 1.2, transition: "color 0.5s ease" }}>
           {t("galleryCta.heading")}
         </h2>
         <p style={{ margin: 0, fontSize: "var(--fs-md)", color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", lineHeight: 1.7, maxWidth: 440, transition: "color 0.5s ease" }}>
@@ -107,9 +106,8 @@ export default function GalleryPageClient({ ads }: Props) {
             borderRadius: 999,
             background: isDark ? "#fff" : "#222222",
             color: isDark ? "#222222" : "#fff",
-            fontWeight: 700,
             fontSize: "var(--fs-md)",
-            letterSpacing: 0.5,
+            letterSpacing: "var(--ls-normal)",
             textDecoration: "none",
             boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
             transition: "background 0.5s ease, color 0.5s ease",
@@ -270,8 +268,7 @@ function AppleAdSection({
             style={{
               margin: 0,
               fontSize: "var(--fs-sm)",
-              fontWeight: 600,
-              letterSpacing: 3,
+              letterSpacing: "var(--ls-caps)",
               textTransform: "uppercase",
               color: "rgba(255,255,255,0.6)",
             }}
@@ -295,7 +292,7 @@ function AppleAdSection({
               pointerEvents: "none",
             }}
           >
-            <p style={{ margin: 0, fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
+            <p style={{ margin: 0, fontSize: "var(--fs-sm)", letterSpacing: "var(--ls-caps)", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
               Lookbook
             </p>
           </div>
