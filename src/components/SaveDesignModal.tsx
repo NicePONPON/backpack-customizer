@@ -66,7 +66,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
     width: "100%",
     padding: "13px 20px",
     borderRadius: 12,
-    fontSize: 15,
+    fontSize: "var(--fs-md)",
     fontWeight: 600,
     cursor: "pointer",
     letterSpacing: 0.2,
@@ -79,10 +79,10 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
         {step === "idle" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>
+              <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: "#fff" }}>
                 Sign in to save your vote
               </h2>
-              <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>
                 One vote per email per season. You can update it anytime.
               </p>
             </div>
@@ -111,7 +111,7 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
 
             <button
               onClick={onClose}
-              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 12, cursor: "pointer", alignSelf: "center" }}
+              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: "var(--fs-sm)", cursor: "pointer", alignSelf: "center" }}
             >
               Cancel
             </button>
@@ -121,12 +121,12 @@ export default function SaveDesignModal({ design, onClose, nextPath = "/customiz
         {step === "error" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>Something went wrong</h2>
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,200,200,0.8)", lineHeight: 1.6 }}>{errorMsg}</p>
+              <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: "#fff" }}>Something went wrong</h2>
+              <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,200,200,0.8)", lineHeight: 1.6 }}>{errorMsg}</p>
             </div>
             <button
               onClick={() => setStep("idle")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "#fff", color: "#222222", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "none", background: "#fff", color: "#222222", fontSize: "var(--fs-md)", fontWeight: 700, cursor: "pointer" }}
             >
               Try again
             </button>

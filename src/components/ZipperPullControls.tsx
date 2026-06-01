@@ -71,7 +71,7 @@ export default function ZipperPullControls({
     border: isDark ? "1px solid rgba(255,255,255,0.25)" : "1px solid rgba(0,0,0,0.18)",
     background: isDark ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.8)",
     color: isDark ? "#fff" : "#222222",
-    fontSize: 13,
+    fontSize: "var(--fs-sm)",
   };
 
   const handleHexInput = (raw: string) => {
@@ -83,7 +83,7 @@ export default function ZipperPullControls({
 
   return (
     <div style={{ width: "100%", maxWidth: 720, color: isDark ? "#fff" : "#222222", transition: "color 0.5s ease" }}>
-      <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: 22, fontWeight: 700, letterSpacing: 2, margin: "8px 0 20px", transition: "color 0.5s ease" }}>
+      <h2 style={{ color: isDark ? "#fff" : "#222222", textAlign: "center", fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 2, margin: "8px 0 20px", transition: "color 0.5s ease" }}>
         {t("sectionHeader")}
       </h2>
 
@@ -128,7 +128,7 @@ export default function ZipperPullControls({
                         transition: "border 0.15s, outline 0.15s, transform 0.15s",
                         flexShrink: 0,
                       }} />
-                      <span style={{ fontSize: 13, color: isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.6)", fontWeight: active ? 700 : 400 }}>
+                      <span style={{ fontSize: "var(--fs-sm)", color: isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.6)", fontWeight: active ? 700 : 400 }}>
                         {tColors(`swatches.${c.key}`)}
                       </span>
                     </div>
@@ -147,7 +147,7 @@ export default function ZipperPullControls({
               {/* Custom color picker */}
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, flex: 1 }}>
                 <span style={{
-                  fontSize: 10, fontWeight: 600, letterSpacing: 0.8,
+                  fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 0.8,
                   textTransform: "uppercase",
                   color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)",
                   textAlign: "center",
@@ -173,13 +173,13 @@ export default function ZipperPullControls({
                   />
                 </label>
                 <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)" }}>#</span>
+                  <span style={{ fontSize: "var(--fs-sm)", fontWeight: 700, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)" }}>#</span>
                   <input
                     type="text"
                     maxLength={7}
                     value={color.replace(/^#/, "").toUpperCase()}
                     onChange={(e) => handleHexInput(e.target.value)}
-                    style={{ ...inputStyle, flex: "none", width: 72, textAlign: "center", fontFamily: "monospace", fontSize: 11, fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase" }}
+                    style={{ ...inputStyle, flex: "none", width: 72, textAlign: "center", fontFamily: "monospace", fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase" }}
                   />
                 </div>
               </div>

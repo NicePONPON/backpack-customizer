@@ -77,7 +77,7 @@ export default function PriceDashboard({
           color: isDark ? "#fff" : "#222222",
           textAlign: "center",
           fontWeight: 700,
-          fontSize: "clamp(10px, 2.5vw, 14px)",
+          fontSize: "var(--fs-md)",
           letterSpacing: "clamp(0.5px, 0.5vw, 2px)",
           textTransform: "uppercase",
           marginBottom: 12,
@@ -113,7 +113,7 @@ export default function PriceDashboard({
             <div
               style={{
                 color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.45)",
-                fontSize: "clamp(9px, 2vw, 11px)",
+                fontSize: "var(--fs-sm)",
                 fontWeight: 600,
                 letterSpacing: "clamp(0px, 0.3vw, 1.2px)",
                 textTransform: "uppercase",
@@ -127,7 +127,7 @@ export default function PriceDashboard({
             <div
               style={{
                 color: isDark ? "#fff" : "#222222",
-                fontSize: "clamp(13px, 3.8vw, 22px)",
+                fontSize: "var(--fs-md)",
                 fontWeight: 700,
                 letterSpacing: -0.5,
                 lineHeight: 1.15,
@@ -141,7 +141,7 @@ export default function PriceDashboard({
             <div
               style={{
                 color: isDark ? "#a8e6a3" : "#2d7a2d",
-                fontSize: "clamp(9px, 2vw, 11px)",
+                fontSize: "var(--fs-sm)",
                 fontWeight: 600,
                 letterSpacing: "clamp(0px, 0.2vw, 0.5px)",
                 whiteSpace: "nowrap",
@@ -160,7 +160,7 @@ export default function PriceDashboard({
       <div
         style={{
           color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)",
-          fontSize: "clamp(9px, 2vw, 11px)",
+          fontSize: "var(--fs-sm)",
           textAlign: "center",
           marginTop: 10,
           letterSpacing: 0.3,

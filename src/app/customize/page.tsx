@@ -280,7 +280,7 @@ export default function CustomizePage() {
         <h1
           style={{
             color: "#fff",
-            fontSize: 34,
+            fontSize: "var(--fs-lg)",
             fontWeight: 700,
             letterSpacing: 0.5,
             lineHeight: 1.15,
@@ -300,7 +300,7 @@ export default function CustomizePage() {
         <p
           style={{
             color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.5)",
-            fontSize: 15,
+            fontSize: "var(--fs-md)",
             fontWeight: 400,
             letterSpacing: 0.3,
             margin: "10px 0 0",
@@ -437,7 +437,7 @@ export default function CustomizePage() {
         <p
           style={{
             color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)",
-            fontSize: 13,
+            fontSize: "var(--fs-sm)",
             fontWeight: 400,
             letterSpacing: 0.4,
             margin: 0,
@@ -464,7 +464,7 @@ export default function CustomizePage() {
           style={{
             color: isDark ? "#fff" : "#222222",
             textAlign: "center",
-            fontSize: 22,
+            fontSize: "var(--fs-md)",
             fontWeight: 700,
             letterSpacing: 2,
             margin: "8px 0 20px",
@@ -630,7 +630,7 @@ export default function CustomizePage() {
             background: isDark ? "#fff" : "#222222",
             color: isDark ? "#222222" : "#fff",
             fontWeight: 700,
-            fontSize: 16,
+            fontSize: "var(--fs-md)",
             letterSpacing: 0.5,
             textDecoration: "none",
             boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
@@ -652,7 +652,7 @@ export default function CustomizePage() {
             background: "transparent",
             color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.45)",
             fontWeight: 600,
-            fontSize: 16,
+            fontSize: "var(--fs-md)",
             letterSpacing: 0.5,
             border: isDark ? "1px solid rgba(255,255,255,0.3)" : "1px solid rgba(0,0,0,0.2)",
             cursor: "pointer",
@@ -674,7 +674,7 @@ export default function CustomizePage() {
               : "linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
             color: "#fff",
             fontWeight: 700,
-            fontSize: 16,
+            fontSize: "var(--fs-md)",
             letterSpacing: 0.5,
             border: "none",
             cursor: sharingToInstagram ? "default" : "pointer",
@@ -746,7 +746,7 @@ export default function CustomizePage() {
             borderRadius: 999,
             padding: "12px 24px",
             color: "#a8e6a3",
-            fontSize: 14,
+            fontSize: "var(--fs-md)",
             fontWeight: 600,
             zIndex: 400,
             whiteSpace: "nowrap",

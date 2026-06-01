@@ -114,7 +114,7 @@ function EditorialBlock({
       >
         <p
           style={{
-            fontSize: 9,
+            fontSize: "var(--fs-sm)",
             fontWeight: 700,
             letterSpacing: 3,
             textTransform: "uppercase",

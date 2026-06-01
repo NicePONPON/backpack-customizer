@@ -86,7 +86,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
           padding: "0 10px 0 6px",
           cursor: "pointer",
           color: textColor,
-          fontSize: 11,
+          fontSize: "var(--fs-sm)",
           fontWeight: 700,
           letterSpacing: 0.6,
           userSelect: "none",
@@ -142,7 +142,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
                   <span
                     style={{
                       color: "#fff",
-                      fontSize: 12,
+                      fontSize: "var(--fs-sm)",
                       fontWeight: active ? 700 : 500,
                       letterSpacing: 0.3,
                     }}
@@ -152,7 +152,7 @@ export default function CurrencySelector({ invert = false }: { invert?: boolean 
                   <span
                     style={{
                       color: "rgba(255,255,255,0.45)",
-                      fontSize: 10,
+                      fontSize: "var(--fs-sm)",
                       letterSpacing: 0.4,
                     }}
                   >

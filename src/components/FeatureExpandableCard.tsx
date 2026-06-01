@@ -62,7 +62,7 @@ export default function FeatureExpandableCard({ data }: { data: FeatureCardData 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
-              fontSize: 14,
+              fontSize: "var(--fs-md)",
               fontWeight: 700,
               letterSpacing: 1.5,
               color: isDark ? "#fff" : "#222222",
@@ -76,7 +76,7 @@ export default function FeatureExpandableCard({ data }: { data: FeatureCardData 
           <div
             style={{
               color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
-              fontSize: 14,
+              fontSize: "var(--fs-md)",
               lineHeight: 1.55,
               transition: "color 0.5s ease",
             }}
@@ -208,7 +208,7 @@ function FeatureRow({
       <div style={{ minWidth: 0 }}>
         <div
           style={{
-            fontSize: 13,
+            fontSize: "var(--fs-sm)",
             fontWeight: 700,
             color: isDark ? "#fff" : "#222222",
             letterSpacing: 0.2,
@@ -220,7 +220,7 @@ function FeatureRow({
         </div>
         <div
           style={{
-            fontSize: 13,
+            fontSize: "var(--fs-sm)",
             lineHeight: 1.55,
             color: isDark ? "rgba(255,255,255,0.72)" : "rgba(0,0,0,0.6)",
             transition: "color 0.5s ease",

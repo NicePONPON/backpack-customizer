@@ -206,7 +206,7 @@ export default function Gallery({ onActiveChange }: GalleryProps = {}) {
                         display: "inline-block",
                         background: "rgba(0,0,0,0.5)",
                         color: "rgba(255,255,255,0.92)",
-                        fontSize: 10,
+                        fontSize: "var(--fs-sm)",
                         fontWeight: 600,
                         letterSpacing: 1.4,
                         textTransform: "uppercase",
@@ -344,7 +344,7 @@ function ComingSoonCardContent({
         <div
           style={{
             color: "rgba(255,255,255,0.95)",
-            fontSize: 15,
+            fontSize: "var(--fs-md)",
             fontWeight: 700,
             letterSpacing: 2.2,
             textTransform: "uppercase",
@@ -356,7 +356,7 @@ function ComingSoonCardContent({
         <div
           style={{
             color: "rgba(255,255,255,0.65)",
-            fontSize: 10,
+            fontSize: "var(--fs-sm)",
             fontWeight: 500,
             letterSpacing: 1.6,
             textTransform: "uppercase",
@@ -380,7 +380,7 @@ function ComingSoonCardContent({
             <div
               style={{
                 color: "rgba(255,255,255,0.92)",
-                fontSize: 11,
+                fontSize: "var(--fs-sm)",
                 fontWeight: 600,
                 letterSpacing: 0.4,
                 lineHeight: 1.4,
@@ -418,7 +418,7 @@ function ComingSoonCardContent({
                   border: "1px solid rgba(255,255,255,0.3)",
                   background: "rgba(0,0,0,0.35)",
                   color: "#fff",
-                  fontSize: 12,
+                  fontSize: "var(--fs-sm)",
                   outline: "none",
                   textAlign: "center",
                   letterSpacing: 0.2,
@@ -438,7 +438,7 @@ function ComingSoonCardContent({
                       ? "rgba(255,255,255,0.5)"
                       : "#fff",
                   color: "#222222",
-                  fontSize: 11,
+                  fontSize: "var(--fs-sm)",
                   fontWeight: 700,
                   letterSpacing: 1.2,
                   textTransform: "uppercase",
@@ -451,7 +451,7 @@ function ComingSoonCardContent({
                 <div
                   style={{
                     color: "#FFB4B4",
-                    fontSize: 10,
+                    fontSize: "var(--fs-sm)",
                     lineHeight: 1.3,
                     textShadow: "0 2px 8px rgba(0,0,0,0.6)",
                     marginTop: 2,

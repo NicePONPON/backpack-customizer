@@ -86,7 +86,7 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
     >
       <div
         style={{
-          fontSize: 11,
+          fontSize: "var(--fs-sm)",
           fontWeight: 600,
           letterSpacing: 1.6,
           textTransform: "uppercase",
@@ -176,7 +176,7 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
               transform: "translateX(-50%)",
               textAlign: "center",
               color: isDark ? "rgba(255,255,255,0.78)" : "rgba(0,0,0,0.6)",
-              fontSize: 12,
+              fontSize: "var(--fs-sm)",
               fontWeight: 600,
               letterSpacing: 0.6,
               whiteSpace: "nowrap",
@@ -186,7 +186,7 @@ export default function SizeVisualizer({ sizeClass, bagSlot }: Props) {
             <div>{h.cm} cm</div>
             <div
               style={{
-                fontSize: 10,
+                fontSize: "var(--fs-sm)",
                 fontWeight: 500,
                 color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.38)",
                 marginTop: 1,
@@ -257,7 +257,7 @@ function TunePanel({
         border: "1px solid rgba(255,255,255,0.18)",
         borderRadius: 14,
         color: "#fff",
-        fontSize: 12,
+        fontSize: "var(--fs-sm)",
         display: "flex",
         flexDirection: "column",
         gap: 12,
@@ -275,7 +275,7 @@ function TunePanel({
             fontWeight: 700,
             letterSpacing: 1.4,
             textTransform: "uppercase",
-            fontSize: 11,
+            fontSize: "var(--fs-sm)",
             color: "rgba(255,255,255,0.85)",
           }}
         >
@@ -284,7 +284,7 @@ function TunePanel({
           <span
             style={{
               marginLeft: 8,
-              fontSize: 10,
+              fontSize: "var(--fs-sm)",
               color: "rgba(255,255,255,0.5)",
               letterSpacing: 1.2,
             }}
@@ -337,7 +337,7 @@ function TunePanel({
                   fontWeight: 700,
                   letterSpacing: 1.2,
                   textTransform: "uppercase",
-                  fontSize: 10,
+                  fontSize: "var(--fs-sm)",
                   color: "rgba(255,255,255,0.7)",
                 }}
               >
@@ -396,7 +396,7 @@ function Slider({
         display: "flex",
         flexDirection: "column",
         gap: 4,
-        fontSize: 11,
+        fontSize: "var(--fs-sm)",
         color: "rgba(255,255,255,0.75)",
       }}
     >
@@ -428,7 +428,7 @@ function btnStyle(bg: string, color = "#fff"): React.CSSProperties {
     border: "1px solid rgba(255,255,255,0.2)",
     background: bg,
     color,
-    fontSize: 11,
+    fontSize: "var(--fs-sm)",
     fontWeight: 700,
     letterSpacing: 1,
     textTransform: "uppercase",

@@ -33,7 +33,7 @@ const inputStyle: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.25)",
   background: "rgba(255,255,255,0.06)",
   color: "#fff",
-  fontSize: 14,
+  fontSize: "var(--fs-md)",
   outline: "none",
 };
 
@@ -42,7 +42,7 @@ const labelStyle: React.CSSProperties = {
   flexDirection: "column",
   gap: 4,
   color: "#fff",
-  fontSize: 12,
+  fontSize: "var(--fs-sm)",
   letterSpacing: 0.3,
 };
 

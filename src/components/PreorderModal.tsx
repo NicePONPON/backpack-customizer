@@ -55,13 +55,13 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
         {step === "input" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
+              <div style={{ fontSize: "var(--fs-sm)", fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
                 Preorder
               </div>
-              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>
+              <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: "#fff" }}>
                 Lock in 10% off
               </h2>
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
+              <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
                 Enter your email and we'll send your exclusive discount code. Use it when this style goes live.
               </p>
             </div>
@@ -79,7 +79,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
                   border: "1px solid rgba(255,215,100,0.3)",
                   background: "rgba(255,255,255,0.06)",
                   color: "#fff",
-                  fontSize: 14,
+                  fontSize: "var(--fs-md)",
                   outline: "none",
                   width: "100%",
                   boxSizing: "border-box",
@@ -93,7 +93,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
                   border: "none",
                   background: "rgba(255,215,100,0.9)",
                   color: "#222222",
-                  fontSize: 14,
+                  fontSize: "var(--fs-md)",
                   fontWeight: 700,
                   cursor: "pointer",
                   letterSpacing: 0.3,
@@ -105,7 +105,7 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
 
             <button
               onClick={onClose}
-              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 12, cursor: "pointer", alignSelf: "center" }}
+              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: "var(--fs-sm)", cursor: "pointer", alignSelf: "center" }}
             >
               Cancel
             </button>
@@ -115,15 +115,15 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
         {step === "sent" && (
           <>
             <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontSize: 36 }}>✉️</div>
-              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>Check your inbox</h2>
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
+              <div style={{ fontSize: "var(--fs-lg)" }}>✉️</div>
+              <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: "#fff" }}>Check your inbox</h2>
+              <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
                 Your 10% preorder discount code is on its way to <strong style={{ color: "rgba(255,255,255,0.85)" }}>{email}</strong>.
               </p>
             </div>
             <button
               onClick={onClose}
-              style={{ padding: "11px", borderRadius: 10, border: "1px solid rgba(255,215,100,0.3)", background: "transparent", color: "#fff", fontSize: 14, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "1px solid rgba(255,215,100,0.3)", background: "transparent", color: "#fff", fontSize: "var(--fs-md)", cursor: "pointer" }}
             >
               Close
             </button>
@@ -133,12 +133,12 @@ export default function PreorderModal({ onClose }: { onClose: () => void }) {
         {step === "error" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#fff" }}>Something went wrong</h2>
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,200,200,0.8)", lineHeight: 1.6 }}>{errorMsg}</p>
+              <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, color: "#fff" }}>Something went wrong</h2>
+              <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,200,200,0.8)", lineHeight: 1.6 }}>{errorMsg}</p>
             </div>
             <button
               onClick={() => setStep("input")}
-              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#222222", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "11px", borderRadius: 10, border: "none", background: "rgba(255,215,100,0.9)", color: "#222222", fontSize: "var(--fs-md)", fontWeight: 700, cursor: "pointer" }}
             >
               Try again
             </button>

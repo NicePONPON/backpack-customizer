@@ -72,7 +72,7 @@ function Pill({
         border: "none",
         background: active ? "rgba(255,255,255,0.95)" : "transparent",
         color: active ? "#222222" : "rgba(255,255,255,0.78)",
-        fontSize: 11,
+        fontSize: "var(--fs-sm)",
         fontWeight: 700,
         letterSpacing: 0.6,
         cursor: active ? "default" : "pointer",

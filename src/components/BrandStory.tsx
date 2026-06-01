@@ -90,7 +90,7 @@ export default function BrandStory() {
       {/* ── Beat 1: Headline — always fully visible ───────────────────── */}
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <p style={{
-          margin: 0, fontSize: 11, fontWeight: 600,
+          margin: 0, fontSize: "var(--fs-sm)", fontWeight: 600,
           letterSpacing: 3, textTransform: "uppercase",
           color: toRgba(isDark, 0.38),
           transition: "color 0.5s ease",
@@ -157,7 +157,7 @@ export default function BrandStory() {
         <p
           ref={setRef(7)}
           style={{
-            margin: "8px 0 0", fontSize: 10, fontWeight: 600,
+            margin: "8px 0 0", fontSize: "var(--fs-sm)", fontWeight: 600,
             letterSpacing: 3.5, textTransform: "uppercase",
             color: toRgba(isDark, (opacities[7] ?? OPACITY_MIN) * 0.55),
             transition: "color 0.4s ease",

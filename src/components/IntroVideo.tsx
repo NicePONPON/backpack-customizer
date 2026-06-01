@@ -160,7 +160,7 @@ export default function IntroVideo() {
                 display: "inline-block",
                 background: "rgba(0,0,0,0.55)",
                 color: "rgba(255,255,255,0.92)",
-                fontSize: 11,
+                fontSize: "var(--fs-sm)",
                 fontWeight: 600,
                 letterSpacing: 1.6,
                 textTransform: "uppercase",

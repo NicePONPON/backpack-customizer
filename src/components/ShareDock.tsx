@@ -293,7 +293,7 @@ export default function ShareDock() {
               right: TRIGGER_SIZE + 12,
               bottom: 6,
               whiteSpace: "nowrap",
-              fontSize: 12,
+              fontSize: "var(--fs-sm)",
               fontWeight: 600,
               letterSpacing: 0.4,
               color: "#fff",

@@ -77,7 +77,7 @@ const cardStyle: React.CSSProperties = {
 };
 
 const sectionTitleStyle: React.CSSProperties = {
-  fontSize: 12,
+  fontSize: "var(--fs-sm)",
   fontWeight: 700,
   letterSpacing: 2,
   textTransform: "uppercase",
@@ -91,7 +91,7 @@ const inputStyle: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.25)",
   background: "rgba(255,255,255,0.06)",
   color: "#fff",
-  fontSize: 14,
+  fontSize: "var(--fs-md)",
   outline: "none",
 };
 
@@ -100,7 +100,7 @@ const labelStyle: React.CSSProperties = {
   flexDirection: "column",
   gap: 4,
   color: "#fff",
-  fontSize: 12,
+  fontSize: "var(--fs-sm)",
   letterSpacing: 0.3,
 };
 
@@ -130,7 +130,7 @@ function InvoicePageInner() {
         <SiteHeader />
         <div style={containerStyle}>
           <div style={{ ...cardStyle, textAlign: "center" }}>
-            <h1 style={{ fontSize: 24, margin: "8px 0 16px" }}>
+            <h1 style={{ fontSize: "var(--fs-md)", margin: "8px 0 16px" }}>
               No design to quote
             </h1>
             <p style={{ color: "rgba(255,255,255,0.7)", marginBottom: 20 }}>
@@ -260,7 +260,7 @@ function InvoicePageInner() {
             style={{
               color: "rgba(255,255,255,0.8)",
               textDecoration: "none",
-              fontSize: 14,
+              fontSize: "var(--fs-md)",
               letterSpacing: 0.3,
             }}
           >
@@ -350,7 +350,7 @@ function InvoicePageInner() {
             textAlign: "center",
             marginTop: 16,
             color: "rgba(255,255,255,0.45)",
-            fontSize: 12,
+            fontSize: "var(--fs-sm)",
             lineHeight: 1.6,
             letterSpacing: 0.3,
           }}
@@ -388,7 +388,7 @@ function InvoicePageInner() {
             color: "#111",
             border: "none",
             fontWeight: 700,
-            fontSize: 15,
+            fontSize: "var(--fs-md)",
             letterSpacing: 0.5,
             cursor: sharing ? "wait" : "pointer",
             boxShadow: "0 6px 20px rgba(0,0,0,0.3)",

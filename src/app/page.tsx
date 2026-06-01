@@ -37,7 +37,7 @@ export default function HomePage() {
 
   const sectionHeaderStyle: React.CSSProperties = {
     textAlign: "center",
-    fontSize: 22,
+    fontSize: "var(--fs-md)",
     fontWeight: 700,
     letterSpacing: 2,
     margin: "0 0 24px",
@@ -157,7 +157,7 @@ export default function HomePage() {
         >
           <p
             style={{
-              fontSize: 9,
+              fontSize: "var(--fs-sm)",
               fontWeight: 700,
               letterSpacing: 3,
               color: eyebrowColor,
@@ -170,7 +170,7 @@ export default function HomePage() {
           </p>
           <h1
             style={{
-              fontSize: 38,
+              fontSize: "var(--fs-lg)",
               fontWeight: 800,
               lineHeight: 1.06,
               color: titleColor,
@@ -183,7 +183,7 @@ export default function HomePage() {
           </h1>
           <p
             style={{
-              fontSize: 13,
+              fontSize: "var(--fs-sm)",
               color: subColor,
               lineHeight: 1.65,
               maxWidth: 260,
@@ -203,7 +203,7 @@ export default function HomePage() {
                 padding: "14px 28px",
                 background: "#fff",
                 color: "#333",
-                fontSize: 11,
+                fontSize: "var(--fs-sm)",
                 fontWeight: 700,
                 letterSpacing: 1.5,
                 textTransform: "uppercase",
@@ -227,7 +227,7 @@ export default function HomePage() {
                 padding: "14px 28px",
                 background: "transparent",
                 color: "rgba(255,255,255,0.9)",
-                fontSize: 11,
+                fontSize: "var(--fs-sm)",
                 fontWeight: 700,
                 letterSpacing: 1.5,
                 textTransform: "uppercase",

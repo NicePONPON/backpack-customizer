@@ -38,7 +38,7 @@ export default function CountryCodePicker({ value, onChange }: Props) {
           border: "1px solid rgba(255,255,255,0.25)",
           background: "rgba(255,255,255,0.06)",
           color: "#fff",
-          fontSize: 14,
+          fontSize: "var(--fs-md)",
           cursor: "pointer",
           height: 38,
           boxSizing: "border-box",
@@ -46,7 +46,7 @@ export default function CountryCodePicker({ value, onChange }: Props) {
       >
         <FlagDot code={selected.code} size={20} />
         <span>{selected.dialCode}</span>
-        <span style={{ opacity: 0.7, fontSize: 11 }}>▾</span>
+        <span style={{ opacity: 0.7, fontSize: "var(--fs-sm)" }}>▾</span>
       </button>
 
       {open && (
@@ -84,7 +84,7 @@ export default function CountryCodePicker({ value, onChange }: Props) {
                     : "transparent",
                 border: "none",
                 color: "#fff",
-                fontSize: 14,
+                fontSize: "var(--fs-md)",
                 cursor: "pointer",
                 textAlign: "left",
               }}

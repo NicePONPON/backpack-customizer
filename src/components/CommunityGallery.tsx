@@ -60,7 +60,7 @@ function DesignCard({
         {launched && (
           <div
             style={{
-              fontSize: 10,
+              fontSize: "var(--fs-sm)",
               fontWeight: 700,
               letterSpacing: 2.5,
               textTransform: "uppercase",
@@ -77,7 +77,7 @@ function DesignCard({
         {!launched && (
           <div
             style={{
-              fontSize: 11,
+              fontSize: "var(--fs-sm)",
               fontWeight: 600,
               letterSpacing: 1.5,
               color: "rgba(255,255,255,0.38)",
@@ -91,10 +91,10 @@ function DesignCard({
         <MiniBackpack design={design} size={140} />
 
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.55)", letterSpacing: 0.2 }}>
+          <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.55)", letterSpacing: 0.2 }}>
             {design.size}" · {design.zipperUpgrade ? t("paracordZipper") : t("standardZipper")}
           </p>
-          <p style={{ margin: 0, fontSize: 12, color: "rgba(255,255,255,0.35)", letterSpacing: 0.2 }}>
+          <p style={{ margin: 0, fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.35)", letterSpacing: 0.2 }}>
             {t("voteCount", { count })}
           </p>
         </div>
@@ -113,7 +113,7 @@ function DesignCard({
               border: "1px solid rgba(255,215,100,0.5)",
               background: "rgba(255,215,100,0.12)",
               color: "rgba(255,215,100,0.95)",
-              fontSize: 12,
+              fontSize: "var(--fs-sm)",
               fontWeight: 700,
               letterSpacing: 0.5,
               cursor: "pointer",
@@ -136,7 +136,7 @@ function DesignCard({
               border: "1px solid rgba(255,255,255,0.28)",
               background: "rgba(255,255,255,0.07)",
               color: "#fff",
-              fontSize: 12,
+              fontSize: "var(--fs-sm)",
               fontWeight: 700,
               letterSpacing: 0.5,
               cursor: "pointer",
@@ -198,7 +198,7 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: 13, padding: "32px 0" }}>
+      <div style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "var(--fs-sm)", padding: "32px 0" }}>
         {t("loading")}
       </div>
     );
@@ -213,10 +213,10 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
       {!topStylesOnly && launched && (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ textAlign: "center" }}>
-            <p style={{ margin: "0 0 4px", fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
+            <p style={{ margin: "0 0 4px", fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,215,100,0.7)" }}>
               {launched.season_name}
             </p>
-            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
+            <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
               {t("launchedHeading")}
             </h2>
           </div>
@@ -229,13 +229,13 @@ export default function CommunityGallery({ topStylesOnly = false }: { topStylesO
       {topDesigns.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ textAlign: "center" }}>
-            <p style={{ margin: "0 0 4px", fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
+            <p style={{ margin: "0 0 4px", fontSize: "var(--fs-sm)", fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
               {seasonName}
             </p>
-            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
+            <h2 style={{ margin: 0, fontSize: "var(--fs-md)", fontWeight: 700, letterSpacing: 1, color: "#fff" }}>
               {t("topStylesHeading")}
             </h2>
-            <p style={{ margin: "8px 0 0", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
+            <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", color: "rgba(255,255,255,0.4)" }}>
               {t("topStylesDesc")}
             </p>
           </div>

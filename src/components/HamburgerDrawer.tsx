@@ -109,7 +109,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
               background: "none",
               border: "none",
               cursor: "pointer",
-              fontSize: 24,
+              fontSize: "var(--fs-md)",
               lineHeight: 1,
               color: isLight ? "#333" : "rgba(255,255,255,0.7)",
               padding: "4px 8px",
@@ -134,7 +134,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: "18px 20px",
-                  fontSize: 15,
+                  fontSize: "var(--fs-md)",
                   fontWeight: 700,
                   color: active
                     ? (isLight ? "#333" : "#fff")
@@ -146,7 +146,7 @@ export default function HamburgerDrawer({ isOpen, onClose }: Props) {
                 }}
               >
                 {link.label}
-                <span style={{ color: isLight ? "#ccc" : "rgba(255,255,255,0.2)", fontSize: 16 }}>›</span>
+                <span style={{ color: isLight ? "#ccc" : "rgba(255,255,255,0.2)", fontSize: "var(--fs-md)" }}>›</span>
               </Link>
             );
           })}

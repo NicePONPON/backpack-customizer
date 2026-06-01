@@ -1,15 +1,26 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Swei Spring CJK SC';
+  src: url('https://cdn.jsdelivr.net/gh/max32002/swei-spring@master/font/SweiSpringCJKsc-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Site-wide font sizes — only these 3 are used */
+  --fs-lg: 32px;   /* page titles, section headings        */
+  --fs-md: 15px;   /* body text, descriptions, nav labels  */
+  --fs-sm: 12px;   /* captions, badges, meta text          */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +33,8 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Helvetica for Latin; Swei Spring CJK SC for Chinese glyphs */
+  font-family: Helvetica, "Swei Spring CJK SC", Arial, sans-serif;
 }
 
 @keyframes paint-flash {
