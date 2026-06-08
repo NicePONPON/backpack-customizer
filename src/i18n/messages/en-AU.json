@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "locale": "en-AU",
+    "note": "Australian English — only overrides that differ from en.json."
+  },
+  "footer": {
+    "tagline": "Designed in Taiwan. Carried worldwide."
+  },
+  "nav": {
+    "customize": "Customise"
+  },
+  "customize": {
+    "intro": {
+      "title": "Design your everyday carry",
+      "subtitle": "Customise size, colour, and attachment in real time"
+    },
+    "sections": {
+      "color": "FABRIC COLOUR SELECTION"
+    },
+    "actions": {
+      "reviewDesign": "Review your design"
+    }
+  },
+  "embroidery": {
+    "threadColor": "Thread colour",
+    "paracordColor": "Paracord colour"
+  },
+  "zipper": {
+    "paracordColor": "Paracord colour"
+  },
+  "home": {
+    "brandStory": {
+      "closing": {
+        "origin": "Designed in Taiwan."
+      }
+    }
+  }
+}

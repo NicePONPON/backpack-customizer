@@ -6,8 +6,11 @@ import type { Locale } from "@/i18n/getLocale";
 export type AdImage = { src: string; alt: string };
 
 const ALT_TEXT: Record<Locale, (slot: string) => string> = {
-  en: (slot) => `Computex ${slot.replace(/[-_]/g, " ").trim()}`,
+  en:      (slot) => `Computex ${slot.replace(/[-_]/g, " ").trim()}`,
   "zh-TW": (slot) => `Computex ${slot.replace(/[-_]/g, " ").trim()} 廣告`,
+  ja:      (slot) => `Computex ${slot.replace(/[-_]/g, " ").trim()}`,
+  vi:      (slot) => `Computex ${slot.replace(/[-_]/g, " ").trim()}`,
+  "en-AU": (slot) => `Computex ${slot.replace(/[-_]/g, " ").trim()}`,
 };
 
 export function loadAdvertisements(locale: Locale): AdImage[] {

@@ -1,0 +1,282 @@
+{
+  "_meta": {
+    "locale": "vi",
+    "note": "Vietnamese translations. Missing keys fall back to en.json."
+  },
+  "header": {
+    "languageToggleLabel": "Chuyển ngôn ngữ",
+    "homeAriaLabel": "Trang chủ"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "lookbook": "Lookbook",
+    "customize": "Tuỳ chỉnh",
+    "studio": "Studio",
+    "shop": "Mua sắm"
+  },
+  "footer": {
+    "copyright": "© 2026 {company}. Bảo lưu mọi quyền.",
+    "tagline": "Thiết kế tại Đài Loan. Đồng hành khắp thế giới.",
+    "defaultCompany": "安彭國際貿易有限公司 ANPENG International Trading Co., Ltd.",
+    "africaCompany": "Châu Phi: Computex Systems Investments (PTY) LTD, Eswatini"
+  },
+  "intro": {
+    "skipHint": "Nhấp đúp để bỏ qua"
+  },
+  "share": {
+    "triggerOpen": "Chia sẻ trang này",
+    "triggerClose": "Đóng menu chia sẻ",
+    "platformWhatsapp": "Chia sẻ qua WhatsApp",
+    "platformFacebook": "Chia sẻ qua Facebook",
+    "platformX": "Chia sẻ qua X",
+    "platformReddit": "Chia sẻ qua Reddit",
+    "platformInstagram": "Sao chép liên kết cho Instagram",
+    "platformTiktok": "Sao chép liên kết cho TikTok",
+    "toastCopiedTo": "Đã sao chép liên kết — dán vào {platform}.",
+    "toastCopyFailed": "Không thể sao chép tự động. Nhấn giữ thanh URL.",
+    "platformInstagramName": "Instagram",
+    "platformTiktokName": "TikTok",
+    "shareTagline": "Được tạo ra cho cách bạn mang đồ. — Computex Systems"
+  },
+  "gallery": {
+    "sectionHeading": "BỘ SƯU TẬP",
+    "comingSoonLabel": "Sắp ra mắt",
+    "comingSoonSubLabel": "Hè 2026",
+    "notifyEmailPlaceholder": "email@cua.ban",
+    "notifyButtonIdle": "Thông báo cho tôi",
+    "notifyButtonSubmitting": "Đang gửi…",
+    "notifySuccess": "Cảm ơn — chúng tôi sẽ thông báo khi có hàng.",
+    "notifyErrorGeneric": "Có lỗi xảy ra.",
+    "galleryCta": {
+      "label": "Studio cộng đồng",
+      "heading": "Bạn muốn thiết kế riêng cho mình?",
+      "desc": "Ghé Studio để chọn màu sắc, bỏ phiếu và xem những mẫu được yêu thích nhất mùa này. Mẫu phổ biến nhất cuối mùa sẽ được sản xuất — người bỏ phiếu được ưu tiên mua trước.",
+      "cta": "Đến Studio"
+    },
+    "community": {
+      "launchedBadge": "Đã ra mắt",
+      "paracordZipper": "Khoá kéo paracord",
+      "standardZipper": "Khoá kéo tiêu chuẩn",
+      "voteCount": "{count, plural, one {# người đã chọn} other {# người đã chọn}}",
+      "preorderCta": "Đặt trước — giảm 10%",
+      "voteCta": "Bỏ phiếu cho mẫu này",
+      "loading": "Đang tải mẫu cộng đồng…",
+      "launchedHeading": "MẪU ĐÃ RA MẮT MÙA NÀY",
+      "topStylesHeading": "MẪU NỔI BẬT MÙA NÀY",
+      "topStylesDesc": "Mẫu đứng đầu cuối mùa sẽ là sản phẩm ra mắt tiếp theo."
+    }
+  },
+  "size": {
+    "howItWears": "Cảm giác đeo"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Được tạo ra cho cách bạn mang đồ.",
+      "subline": "Balo hàng ngày hiện đại, bền bỉ và không thoả hiệp về thiết kế.",
+      "shopNow": "Mua ngay",
+      "learnMore": "Tìm hiểu thêm"
+    },
+    "brandStory": {
+      "act1": {
+        "label": "Thiết kế bởi chuyên gia.",
+        "headline": "Tinh chỉnh cho cuộc sống thực.",
+        "sub": "Được tạo ra cho cuộc sống hàng ngày."
+      },
+      "act2": {
+        "problem": "Hầu hết sản phẩm hiện nay đều bị thiết kế quá mức.\nQuá nhiều tính năng. Quá phức tạp.\nQuá ít bền vững.",
+        "bridge": "Chúng tôi chọn cách tiếp cận đơn giản hơn.",
+        "resolution": "Loại bỏ những gì không cần thiết — để những gì còn lại hoạt động đúng nghĩa."
+      },
+      "pillars": {
+        "one": "Đường nét gọn gàng.",
+        "two": "Chức năng thiết yếu.",
+        "three": "Không có gì thừa."
+      },
+      "closing": {
+        "p1": "Nhẹ, bền và dễ mang theo.",
+        "p2": "Được tạo ra để hoà vào ngày của bạn — dù đi làm, di chuyển trong thành phố, hay chỉ đơn giản là hoàn thành công việc.",
+        "p3": "Những thứ bạn dùng mà không cần suy nghĩ, nhưng luôn tin tưởng mỗi khi cần.",
+        "origin": "Thiết kế tại Đài Loan."
+      }
+    },
+    "whyThisBag": {
+      "heading": "TẠI SAO CHỌN CHIẾC TÚI NÀY",
+      "durability": {
+        "title": "Độ bền",
+        "summary": "Đường may được gia cố và vải chống thời tiết, đủ bền để vượt qua mọi chuyến đi.",
+        "reinforcedStitching": {
+          "title": "Đường May Gia Cố",
+          "description": "Các điểm chịu lực được bar-tack và double-row lockstitch cố định chắc chắn mọi quai và đường may vào thân túi, giữ nguyên cấu trúc qua nhiều năm tải nặng và kéo mạnh."
+        },
+        "machineWashable": {
+          "title": "Có Thể Giặt Máy",
+          "description": "Cứ thả vào máy giặt. Thuốc nhuộm không phai, phần cứng chống gỉ và viền được gia cố giữ nguyên hình dạng và màu sắc qua hàng chục lần giặt."
+        }
+      },
+      "design": {
+        "title": "Thiết kế",
+        "summary": "Chi tiết được cân nhắc kỹ lưỡng, đường silhouette gọn gàng — chiếc túi xứng đáng có mặt mỗi ngày.",
+        "laptopCompartment": {
+          "title": "Ngăn Laptop Được Gia Cố",
+          "description": "Lớp đệm treo chuyên dụng bằng foam dày bảo vệ laptop, nâng cao khỏi đáy túi để phân tán va đập từ mặt đất trước khi chạm đến thiết bị."
+        },
+        "breathableStraps": {
+          "title": "Quai & Đệm Lưng Siêu Thoáng Khí",
+          "description": "Quai vai có đường cong ôm sát và đệm lưng lưới thoáng khí phân tán đều trọng lượng và tản nhiệt cơ thể, giúp mang vác lâu dài vẫn mát mẻ, cân bằng và nhẹ nhàng."
+        }
+      },
+      "quality": {
+        "title": "Chất lượng",
+        "summary": "Vật liệu được kiểm tra và lắp ráp cẩn thận. Mỗi tấm vải đều đạt cùng một tiêu chuẩn.",
+        "shockproofFoam": {
+          "title": "Lớp Giáp Foam Chống Sốc",
+          "description": "Lớp giáp foam tế bào kín lót toàn bộ khung túi, hấp thụ năng lượng va đập trước khi đến đồ đạc bên trong — va chạm, rơi và những chuyến đi xóc xáo không ảnh hưởng đến đồ."
+        },
+        "waterResistant": {
+          "title": "Vật Liệu Chống Nước",
+          "description": "Lớp vỏ dệt mật độ cao với lớp phủ kỵ nước bẻ nước khi tiếp xúc, ngăn mưa và nước bắn bất ngờ để những vật dụng thiết yếu bên trong luôn khô ráo hoàn toàn."
+        }
+      }
+    }
+  },
+  "customize": {
+    "intro": {
+      "title": "Thiết kế đồ dùng hàng ngày của bạn",
+      "subtitle": "Tuỳ chỉnh kích thước, màu sắc và phụ kiện theo thời gian thực"
+    },
+    "sections": {
+      "color": "CHỌN MÀU VẢI"
+    },
+    "size": {
+      "fourteenInch": "14 inch",
+      "sixteenInch": "16 inch"
+    },
+    "actions": {
+      "reviewDesign": "Xem thiết kế của bạn"
+    }
+  },
+  "embroidery": {
+    "lines": "Số dòng",
+    "fontStyle": "Kiểu chữ",
+    "position": "Vị trí",
+    "threadColor": "Màu chỉ thêu",
+    "lineCount1": "1 dòng",
+    "lineCount2": "2 dòng",
+    "linePlaceholder": "Dòng {n}",
+    "sectionHeader": "THÊU",
+    "sizeSmall": "S",
+    "sizeMedium": "M",
+    "sizeLarge": "L",
+    "sizeXL": "XL",
+    "fontSerif": "Serif",
+    "fontSans": "Sans-Serif",
+    "positionTop": "Mặt trước - Trên",
+    "positionBottom": "Mặt trước - Dưới",
+    "colorBlack": "Đen",
+    "colorWhite": "Trắng",
+    "colorGray": "Xám",
+    "colorRed": "Đỏ",
+    "colorBlue": "Xanh dương",
+    "colorYellow": "Vàng"
+  },
+  "colors": {
+    "groups": {
+      "coreDark": "Tối cơ bản",
+      "natureGreens": "Xanh thiên nhiên",
+      "lightGreensYellow": "Xanh nhạt & Vàng",
+      "earthBrown": "Đất & Nâu",
+      "warmRed": "Ấm / Đỏ",
+      "softNeutral": "Nhẹ / Trung tính",
+      "grayScale": "Thang xám"
+    },
+    "swatches": {
+      "charcoalAbyss": "Than Vực Thẳm",
+      "midnightNavy": "Xanh Đêm Khuya",
+      "eclipseBlue": "Xanh Nhật Thực",
+      "nocturneBlue": "Xanh Dạ Khúc",
+      "regalTide": "Thủy Triều Vương Giả",
+      "icedHorizon": "Chân Trời Băng Giá",
+      "pineSmoke": "Khói Thông",
+      "mossDusk": "Rêu Hoàng Hôn",
+      "tideglassBlues": "Xanh Thủy Tinh Sóng",
+      "aquaGrove": "Rừng Nước Ngọc",
+      "mintDust": "Bụi Bạc Hà",
+      "glacialMint": "Bạc Hà Băng Sơn",
+      "oliveCream": "Kem Ô Liu",
+      "lemonFern": "Dương Xỉ Chanh",
+      "butterGlow": "Ánh Bơ",
+      "limeDew": "Sương Chanh",
+      "vanillaFlare": "Ánh Vani",
+      "ivoryDune": "Đồi Cát Ngà",
+      "cocoaDrift": "Trôi Dạt Ca Cao",
+      "rustEmber": "Than Rỉ Sét",
+      "honeyClay": "Đất Sét Mật Ong",
+      "fadedAlmond": "Hạnh Nhân Phai",
+      "goldenWheat": "Lúa Mì Vàng",
+      "stoneOat": "Yến Mạch Đá",
+      "cinnamonClay": "Đất Sét Quế",
+      "wineEmber": "Than Rượu",
+      "chiliFlame": "Lửa Ớt",
+      "apricotDust": "Bụi Mơ",
+      "desertBlush": "Hồng Sa Mạc",
+      "barePetal": "Cánh Hoa Trần",
+      "lavenderMist": "Sương Oải Hương",
+      "winterAzure": "Xanh Ngọc Mùa Đông",
+      "roseBlush": "Hồng Hoa Hồng",
+      "featherRose": "Lông Hồng",
+      "biscuitBeige": "Be Bánh Quy",
+      "sunlitCotton": "Bông Nắng",
+      "ashSteel": "Thép Tro",
+      "frostGray": "Xám Sương Giá",
+      "blushedSnow": "Tuyết Hồng"
+    }
+  },
+  "zipper": {
+    "sectionHeader": "NÂNG CẤP ĐẦU KHOÁ KÉO",
+    "style": "Kiểu dáng",
+    "stock": "Tiêu chuẩn",
+    "paracord": "Paracord",
+    "paracordColor": "Màu paracord"
+  },
+  "priceDashboard": {
+    "title": "GIÁ ƯỚC TÍNH MỖI ĐƠN VỊ",
+    "qty": "{qty} cái",
+    "discount": "Giảm {pct}%",
+    "noDiscount": "Giá gốc",
+    "taxNote": "Giá đã bao gồm thuế. Giảm giá số lượng áp dụng từ 200 / 500 / 1.000 cái."
+  },
+  "bagGuide": {
+    "hint": "Chạm vào bất kỳ ô nào trên túi để chọn, sau đó chọn màu bên dưới."
+  },
+  "shop": {
+    "heading": "Chọn khu vực của bạn",
+    "subheading": "Chúng tôi sẽ hướng bạn đến nhà phân phối hoặc nền tảng bán lẻ địa phương vận chuyển đến khu vực của bạn.",
+    "visitCta": "Đến cửa hàng địa phương",
+    "regionTagline": {
+      "TW": "Có bán trên FamilyMart Online (全家便利商店) — mạng lưới bán lẻ tiện lợi lớn nhất Đài Loan.",
+      "SZ": "Nhận hàng tại chỗ và giao hàng toàn Eswatini.",
+      "ZA": "Giao hàng toàn quốc qua nhà phân phối Nam Phi.",
+      "US": "Có bán tại đối tác thương mại điện tử Hoa Kỳ."
+    }
+  },
+  "studio": {
+    "label": "Studio cộng đồng",
+    "heading": "Tạo ra điều bạn muốn",
+    "subheading": "Chọn màu sắc. Bỏ phiếu. Mẫu phổ biến nhất sẽ được sản xuất mùa tới.",
+    "prizeHeading": "Nhận balo tuỳ chỉnh miễn phí",
+    "prizeDesc": "Nhà thiết kế của mẫu được bình chọn số 1 mùa này sẽ nhận một chiếc balo thủ công trong bộ màu thắng giải — hoàn toàn miễn phí.",
+    "followInstagram": "Theo dõi chúng tôi trên Instagram",
+    "standingsLabel": "Bảng xếp hạng hiện tại",
+    "topStylesHeading": "MẪU NỔI BẬT MÙA NÀY",
+    "topStylesDesc": "Nhấp \"Bỏ phiếu cho mẫu này\" để bỏ phiếu, hoặc cuộn xuống để tự thiết kế.",
+    "divider": "Hoặc tự thiết kế",
+    "sizeLaptop": "Laptop {size}\"",
+    "tapHint": "Chạm vào ô để chọn, sau đó chọn màu bên dưới",
+    "colorsHeading": "MÀU SẮC",
+    "submitVote": "Gửi phiếu bầu",
+    "voteHelpText": "Một phiếu cho mỗi email mỗi mùa. Bạn có thể cập nhật bất cứ lúc nào trước khi mùa kết thúc.",
+    "signInHint": "Đăng nhập bằng Google để gửi phiếu bầu",
+    "signOut": "Đăng xuất",
+    "savedToast": "✓ Phiếu bầu của bạn đã được lưu cho mùa này"
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "_meta": {
+    "locale": "ja",
+    "note": "Japanese translations. Missing keys fall back to en.json."
+  },
+  "header": {
+    "languageToggleLabel": "言語を切り替える",
+    "homeAriaLabel": "ホーム"
+  },
+  "nav": {
+    "home": "ホーム",
+    "lookbook": "ルックブック",
+    "customize": "カスタマイズ",
+    "studio": "スタジオ",
+    "shop": "ショップ"
+  },
+  "footer": {
+    "copyright": "© 2026 {company}. All rights reserved.",
+    "tagline": "台湾でデザイン。世界中で愛用。",
+    "defaultCompany": "安彭國際貿易有限公司 ANPENG International Trading Co., Ltd.",
+    "africaCompany": "アフリカ：Computex Systems Investments (PTY) LTD、エスワティニ"
+  },
+  "intro": {
+    "skipHint": "ダブルタップでスキップ"
+  },
+  "share": {
+    "triggerOpen": "このページをシェア",
+    "triggerClose": "シェアメニューを閉じる",
+    "platformWhatsapp": "WhatsAppでシェア",
+    "platformFacebook": "Facebookでシェア",
+    "platformX": "Xでシェア",
+    "platformReddit": "Redditでシェア",
+    "platformInstagram": "Instagramにリンクをコピー",
+    "platformTiktok": "TikTokにリンクをコピー",
+    "toastCopiedTo": "リンクをコピーしました — {platform}に貼り付けてください。",
+    "toastCopyFailed": "自動コピーできませんでした。URLバーを長押ししてください。",
+    "platformInstagramName": "Instagram",
+    "platformTiktokName": "TikTok",
+    "shareTagline": "あなたの運び方のために設計。 — Computex Systems"
+  },
+  "gallery": {
+    "sectionHeading": "ギャラリー",
+    "comingSoonLabel": "近日公開",
+    "comingSoonSubLabel": "2026年 夏",
+    "notifyEmailPlaceholder": "your@email.com",
+    "notifyButtonIdle": "通知を受け取る",
+    "notifyButtonSubmitting": "送信中…",
+    "notifySuccess": "ありがとうございます — 発売時にお知らせします。",
+    "notifyErrorGeneric": "エラーが発生しました。",
+    "galleryCta": {
+      "label": "コミュニティスタジオ",
+      "heading": "自分だけのデザインを作りたいですか？",
+      "desc": "スタジオでカラーを選び、投票して、今シーズンのトップスタイルをご確認ください。シーズン終了時に最も人気のデザインが製品化され、投票者は優先購入の権利を得られます。",
+      "cta": "スタジオへ"
+    },
+    "community": {
+      "launchedBadge": "発売済み",
+      "paracordZipper": "パラコードジッパー",
+      "standardZipper": "標準ジッパー",
+      "voteCount": "{count, plural, one {# 人が選択} other {# 人が選択}}",
+      "preorderCta": "予約注文 — 10%オフ",
+      "voteCta": "このスタイルに投票",
+      "loading": "コミュニティスタイルを読み込み中…",
+      "launchedHeading": "今シーズンの発売スタイル",
+      "topStylesHeading": "今シーズンのトップスタイル",
+      "topStylesDesc": "シーズン終了時に1位のスタイルが次回の発売となります。"
+    }
+  },
+  "size": {
+    "howItWears": "着用イメージ"
+  },
+  "home": {
+    "hero": {
+      "tagline": "あなたの運び方のために。",
+      "subline": "耐久性と機能性を両立した、現代のエブリデイバックパック。",
+      "shopNow": "今すぐ購入",
+      "learnMore": "詳しく見る"
+    },
+    "brandStory": {
+      "act1": {
+        "label": "プロフェッショナルによるデザイン。",
+        "headline": "日常のために磨き上げた一品",
+        "sub": "毎日の生活のために作られた"
+      },
+      "act2": {
+        "problem": "現代の多くの製品は、過剰に設計されています。\n機能が多すぎる。複雑すぎる。\n耐久性が足りない。",
+        "bridge": "私たちはよりシンプルなアプローチを選びました。",
+        "resolution": "必要のないものを取り除く — そうして残ったものだけが、本当に機能します。"
+      },
+      "pillars": {
+        "one": "クリーンなライン。",
+        "two": "本質的な機能。",
+        "three": "余分なものは何もない。"
+      },
+      "closing": {
+        "p1": "軽量で耐久性があり、持ち運びやすい。",
+        "p2": "あなたの一日に自然になじむバッグ — 通勤でも、街を歩く時でも、何かを成し遂げる時でも。",
+        "p3": "いつも当たり前のように使えて、いつでも信頼できるもの。",
+        "origin": "台湾でデザイン。"
+      }
+    },
+    "whyThisBag": {
+      "heading": "このバッグを選ぶ理由",
+      "durability": {
+        "title": "耐久性",
+        "summary": "補強されたシームと耐候性素材で、毎日の通勤を支えます。",
+        "reinforcedStitching": {
+          "title": "補強ステッチ",
+          "description": "バータック補強とダブルロックステッチが、すべてのストラップとシームをバッグ本体にしっかり固定。何年もの重い荷物や激しい使用にも耐えます。"
+        },
+        "machineWashable": {
+          "title": "洗濯機洗い可能",
+          "description": "そのまま洗濯機に入れるだけ。褪色しない染料、防錆ハードウェア、補強エッジが何十回洗っても形と色を保ちます。"
+        }
+      },
+      "design": {
+        "title": "デザイン",
+        "summary": "細部へのこだわり、すっきりしたシルエット — 毎日その存在価値を証明するバッグ。",
+        "laptopCompartment": {
+          "title": "補強ラップトップコンパートメント",
+          "description": "専用のサスペンデッドスリーブが高密度フォームでラップトップを保護。バッグの底面から浮かせることで、地面の衝撃がデバイスに届く前に分散されます。"
+        },
+        "breathableStraps": {
+          "title": "超通気性ストラップ＆パッディング",
+          "description": "輪郭に沿ったショルダーストラップとエアチャンネルメッシュバックパッディングが均等に重量を分散し、体熱を逃がすことで、長時間の携行も涼しく快適に。"
+        }
+      },
+      "quality": {
+        "title": "品質",
+        "summary": "厳選された素材と丁寧な縫製。すべてのパネルが同じ基準で管理されています。",
+        "shockproofFoam": {
+          "title": "耐衝撃フォームアーマー",
+          "description": "独立気泡フォームアーマーがシャーシ全体を覆い、荷物に届く前に衝撃エネルギーを吸収。バンプ、ドロップ、揺れる通勤でも中身は安全です。"
+        },
+        "waterResistant": {
+          "title": "耐水素材",
+          "description": "高密度織りのシェルに撥水コーティングを施し、水滴を接触時に弾きます。雨や突然の水はねからも、中の大切な荷物を完全に守ります。"
+        }
+      }
+    }
+  },
+  "customize": {
+    "intro": {
+      "title": "毎日のカバンをデザインする",
+      "subtitle": "サイズ、カラー、アタッチメントをリアルタイムでカスタマイズ"
+    },
+    "sections": {
+      "color": "ファブリックカラー選択"
+    },
+    "size": {
+      "fourteenInch": "14インチ",
+      "sixteenInch": "16インチ"
+    },
+    "actions": {
+      "reviewDesign": "デザインを確認"
+    }
+  },
+  "embroidery": {
+    "lines": "ライン数",
+    "fontStyle": "フォントスタイル",
+    "position": "位置",
+    "threadColor": "刺繍糸の色",
+    "lineCount1": "1ライン",
+    "lineCount2": "2ライン",
+    "linePlaceholder": "ライン {n}",
+    "sectionHeader": "刺繍",
+    "sizeSmall": "S",
+    "sizeMedium": "M",
+    "sizeLarge": "L",
+    "sizeXL": "XL",
+    "fontSerif": "セリフ体",
+    "fontSans": "サンセリフ体",
+    "positionTop": "フロント上部",
+    "positionBottom": "フロント下部",
+    "colorBlack": "ブラック",
+    "colorWhite": "ホワイト",
+    "colorGray": "グレー",
+    "colorRed": "レッド",
+    "colorBlue": "ブルー",
+    "colorYellow": "イエロー"
+  },
+  "colors": {
+    "groups": {
+      "coreDark": "コアダーク",
+      "natureGreens": "ネイチャーグリーン",
+      "lightGreensYellow": "ライトグリーン＆イエロー",
+      "earthBrown": "アース＆ブラウン",
+      "warmRed": "ウォーム＆レッド",
+      "softNeutral": "ソフト＆ニュートラル",
+      "grayScale": "グレースケール"
+    },
+    "swatches": {
+      "charcoalAbyss": "チャコールアビス",
+      "midnightNavy": "ミッドナイトネイビー",
+      "eclipseBlue": "エクリプスブルー",
+      "nocturneBlue": "ノクターンブルー",
+      "regalTide": "リーガルタイド",
+      "icedHorizon": "アイスドホライズン",
+      "pineSmoke": "パインスモーク",
+      "mossDusk": "モスダスク",
+      "tideglassBlues": "タイドグラスブルー",
+      "aquaGrove": "アクアグローブ",
+      "mintDust": "ミントダスト",
+      "glacialMint": "グレイシャルミント",
+      "oliveCream": "オリーブクリーム",
+      "lemonFern": "レモンファーン",
+      "butterGlow": "バターグロー",
+      "limeDew": "ライムデュー",
+      "vanillaFlare": "バニラフレア",
+      "ivoryDune": "アイボリーデューン",
+      "cocoaDrift": "ココアドリフト",
+      "rustEmber": "ラストエンバー",
+      "honeyClay": "ハニークレイ",
+      "fadedAlmond": "フェイデッドアーモンド",
+      "goldenWheat": "ゴールデンウィート",
+      "stoneOat": "ストーンオート",
+      "cinnamonClay": "シナモンクレイ",
+      "wineEmber": "ワインエンバー",
+      "chiliFlame": "チリフレイム",
+      "apricotDust": "アプリコットダスト",
+      "desertBlush": "デザートブラッシュ",
+      "barePetal": "ベアペタル",
+      "lavenderMist": "ラベンダーミスト",
+      "winterAzure": "ウィンターアズール",
+      "roseBlush": "ローズブラッシュ",
+      "featherRose": "フェザーローズ",
+      "biscuitBeige": "ビスケットベージュ",
+      "sunlitCotton": "サンリットコットン",
+      "ashSteel": "アッシュスティール",
+      "frostGray": "フロストグレー",
+      "blushedSnow": "ブラッシュドスノー"
+    }
+  },
+  "zipper": {
+    "sectionHeader": "ジッパープルアップグレード",
+    "style": "スタイル",
+    "stock": "標準",
+    "paracord": "パラコード",
+    "paracordColor": "パラコードの色"
+  },
+  "priceDashboard": {
+    "title": "1個あたりの見積価格",
+    "qty": "{qty} 個",
+    "discount": "{pct}% オフ",
+    "noDiscount": "基本価格",
+    "taxNote": "税込価格。200 / 500 / 1,000 個以上でボリュームディスカウント適用。"
+  },
+  "bagGuide": {
+    "hint": "バッグのパネルをタップして選択し、下のカラーを選んでください。"
+  },
+  "shop": {
+    "heading": "地域を選択",
+    "subheading": "お近くの販売代理店またはお住まいの地域に配送するリテールプラットフォームにご案内します。",
+    "visitCta": "地元のストアへ",
+    "regionTagline": {
+      "TW": "台湾のファミリーマートオンラインショッピングにて販売中。",
+      "SZ": "エスワティニ国内でのローカル受け取りと配送。",
+      "ZA": "南アフリカの代理店による全国配送。",
+      "US": "米国のEコマースパートナーにて販売中。"
+    }
+  },
+  "studio": {
+    "label": "コミュニティスタジオ",
+    "heading": "あなたが望むものを作ろう",
+    "subheading": "カラーを選んで。投票して。最も人気のスタイルが来シーズン製品化されます。",
+    "prizeHeading": "オリジナルバックパックが当たる",
+    "prizeDesc": "今シーズンの投票1位に選ばれたデザイナーには、そのカラーウェイで手作りされたバックパックをプレゼント — 完全無料。",
+    "followInstagram": "Instagramでフォロー",
+    "standingsLabel": "現在の順位",
+    "topStylesHeading": "今シーズンのトップスタイル",
+    "topStylesDesc": "「このスタイルに投票」をクリックして投票するか、下にスクロールして自分のデザインを作成してください。",
+    "divider": "または自分でデザインする",
+    "sizeLaptop": "{size}インチ ラップトップ",
+    "tapHint": "パネルをタップして選択し、下のカラーを選んでください",
+    "colorsHeading": "カラー",
+    "submitVote": "投票を送信",
+    "voteHelpText": "1メールアドレスにつきシーズン1票。シーズン終了前はいつでも変更できます。",
+    "signInHint": "Googleでサインインして投票を送信",
+    "signOut": "サインアウト",
+    "savedToast": "✓ 今シーズンの投票が保存されました"
+  }
+}
