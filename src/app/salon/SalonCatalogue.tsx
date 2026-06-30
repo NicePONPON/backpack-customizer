@@ -26,6 +26,7 @@ export default function SalonCatalogue({
           return (
             <button
               key={c}
+              type="button"
               onClick={() => setActive(c)}
               style={{
                 fontSize: "var(--fs-sm)",

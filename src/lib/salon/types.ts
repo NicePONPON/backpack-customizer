@@ -23,6 +23,3 @@ export interface SalonShop {
   google_maps_url: string | null;
   sort_order: number;
 }
-
-export type SalonProductInput = Omit<SalonProduct, "id">;
-export type SalonShopInput = Omit<SalonShop, "id">;

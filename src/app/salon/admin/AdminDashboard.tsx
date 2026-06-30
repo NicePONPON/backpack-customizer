@@ -96,7 +96,8 @@ export default function AdminDashboard({
   const removeShop = async (s: SalonShop) => {
     if (!confirm(`Delete "${s.shop_name}"?`)) return;
     const { error } = await supabase.from("salon_shops").delete().eq("id", s.id);
-    if (!error) router.refresh();
+    if (error) setShopError(error.message);
+    else router.refresh();
   };
   const [draft, setDraft] = useState<Draft | null>(null);
   const [draftId, setDraftId] = useState<string>(tempId());
@@ -158,13 +159,15 @@ export default function AdminDashboard({
 
   const togglePublish = async (p: SalonProduct) => {
     const { error } = await supabase.from("salon_products").update({ is_published: !p.is_published }).eq("id", p.id);
-    if (!error) router.refresh();
+    if (error) setError(error.message);
+    else router.refresh();
   };
 
   const remove = async (p: SalonProduct) => {
     if (!confirm(`Delete "${p.name}"?`)) return;
     const { error } = await supabase.from("salon_products").delete().eq("id", p.id);
-    if (!error) router.refresh();
+    if (error) setError(error.message);
+    else router.refresh();
   };
 
   return (

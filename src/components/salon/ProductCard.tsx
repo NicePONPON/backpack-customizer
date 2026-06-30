@@ -15,6 +15,7 @@ export default function ProductCard({
   const cover = product.photos[0];
   return (
     <button
+      type="button"
       onClick={() => onOpen(product)}
       style={{
         textAlign: "left",
