@@ -1,7 +1,11 @@
-export default function SalonPage() {
-  return (
-    <div style={{ fontSize: "var(--fs-md)", letterSpacing: "var(--ls-normal)" }}>
-      Salon catalogue coming online.
-    </div>
-  );
+import SalonCatalogue from "@/app/salon/SalonCatalogue";
+import { getPublishedProducts, getAllShops } from "@/lib/salon/queries";
+import { groupShopsByCategory } from "@/lib/salon/shops";
+
+export const dynamic = "force-dynamic";
+
+export default async function SalonPage() {
+  const [products, shops] = await Promise.all([getPublishedProducts(), getAllShops()]);
+  const shopsByCategory = groupShopsByCategory(shops);
+  return <SalonCatalogue products={products} shopsByCategory={shopsByCategory} />;
 }
