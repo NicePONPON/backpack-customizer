@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ProductCard from "@/components/salon/ProductCard";
+import ProductDetailModal from "@/components/salon/ProductDetailModal";
 import SALON_COPY from "@/app/salon/copy";
 import { SALON_CATEGORIES, type SalonCategory, type SalonProduct, type SalonShop } from "@/lib/salon/types";
 
@@ -13,8 +14,7 @@ export default function SalonCatalogue({
   shopsByCategory: Record<SalonCategory, SalonShop[]>;
 }) {
   const [active, setActive] = useState<SalonCategory>("hair");
-  // shopsByCategory is consumed by the detail modal added in Task 6.
-  void shopsByCategory;
+  const [selected, setSelected] = useState<SalonProduct | null>(null);
 
   const visible = products.filter((p) => p.category === active);
 
@@ -56,10 +56,17 @@ export default function SalonCatalogue({
           }}
         >
           {visible.map((p) => (
-            <ProductCard key={p.id} product={p} onOpen={() => {}} />
+            <ProductCard key={p.id} product={p} onOpen={setSelected} />
           ))}
         </div>
       )}
+      {selected ? (
+        <ProductDetailModal
+          product={selected}
+          shops={shopsByCategory[selected.category]}
+          onClose={() => setSelected(null)}
+        />
+      ) : null}
     </div>
   );
 }
