@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Old shared invoice / customizer links lived at /?d=... before the marketing
-  // landing took over the root route. Forward those to /customize?d=... so
-  // existing links keep working. Plain visits to / are unaffected (no `d` query).
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       {
